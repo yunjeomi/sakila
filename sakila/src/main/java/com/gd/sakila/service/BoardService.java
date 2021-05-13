@@ -18,11 +18,18 @@ public class BoardService {
 	@Autowired	//BoardMapper의 객체를 생성
 	private BoardMapper boardMapper;
 	
+	//추가
+	public int addBoard(Board board) {
+		return boardMapper.insertBoard(board);
+	}
+	
+	//하나보기
 	public Map<String, Object> getBoardOne(int boardId){
 		Map<String, Object> boardOne = boardMapper.selectBoardOne(boardId);
 		return boardOne;
 	}
 	
+	//리스트 출력
 	public Map<String, Object>	getBoardList(int currentPage, int rowPerPage, String searchWord){
 		//매개변수 값 가공&처리
 		//전체 list 수(boardTotal), 마지막 페이지(lastPage) 구하기
