@@ -31,8 +31,8 @@
 					<td>${boardOne.boardContent}</td>
 				</tr>
 				<tr>
-					<td>staff_id</td>
-					<td>${boardOne.staffId}</td>
+					<td>username</td>
+					<td>${boardOne.username}</td>
 				</tr>
 				<tr>
 					<td>insert_date</td>

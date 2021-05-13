@@ -18,7 +18,7 @@ public class BoardController {
 	
 	@GetMapping("/getBoardOne")
 	public String getBoardOne(Model model, @RequestParam(value = "boardId", required = true) int boardId) {
-		Board boardOne = boardService.getBoardOne(boardId);
+		Map<String, Object> boardOne = boardService.getBoardOne(boardId);
 		System.out.println("boardOne-> "+boardOne);	//디버깅
 		model.addAttribute("boardOne", boardOne);
 		return "getBoardOne";

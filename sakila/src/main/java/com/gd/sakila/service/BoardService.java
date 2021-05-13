@@ -18,8 +18,9 @@ public class BoardService {
 	@Autowired	//BoardMapper의 객체를 생성
 	private BoardMapper boardMapper;
 	
-	public Board getBoardOne(int boardId){
-		return boardMapper.selectBoardOne(boardId);
+	public Map<String, Object> getBoardOne(int boardId){
+		Map<String, Object> boardOne = boardMapper.selectBoardOne(boardId);
+		return boardOne;
 	}
 	
 	public Map<String, Object>	getBoardList(int currentPage, int rowPerPage, String searchWord){
