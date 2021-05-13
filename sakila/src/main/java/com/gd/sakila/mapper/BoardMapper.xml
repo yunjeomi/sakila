@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.sakila.mapper.BoardMapper"><!-- 이름이 다를 경우 interface명으로 찾아간다 -->
+	
+	<select id="selectBoardList" parameterType="com.gd.sakila.vo.Page" resultType="com.gd.sakila.vo.Board">
+		SELECT
+			board_id boardId,
+			board_title boardTitle,
+			insert_date insertDate
+		FROM board
+		<where>
+			<if test="searchWord!=null">
+				board_title LIKE CONCAT('%','#{searchWord}','%')
+			</if>
+		</where>
+		ORDER BY insert_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<select id="selectBoardOne" parameterType="Integer" resultType="com.gd.sakila.vo.Board">
+		SELECT
+			board_id boardId,
+			board_title boardTitle,
+			board_content boardContent,
+			staff_id staffId,
+			insert_date insertDate
+		FROM board
+		WHERE board_id=#{boardId}
+	</select>
+	
+	<select id="selectTotal" resultType="Integer" parameterType="String"><!-- String이 null / not null에 따라 쿼리 결정 -->
+		SELECT COUNT(*) FROM board
+		<where><!-- where태그 안의 쿼리는 무조건 where로 간주한다. -->
+			<if test="searchWord!=null"><!-- 생길수도 안 생길수도 있다!. jstl과 비슷하지만 ${}를 사용하지 않는다. -->
+				board_title LIKE CONCAT('%','#{searchWord}','%')
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertBoard" parameterType="com.gd.sakila.vo.Board">
+		INSERT INTO board(
+			board_pw,
+			board_title,
+			board_content,
+			insert_date
+		)VALUES(
+			PASSWORD(#{boardPw}),
+			#{boardTitle},
+			#{boardContent},
+			NOW()
+		)
+	</insert>
+	
+	<delete id="deleteBoard" parameterType="com.gd.sakila.vo.Board">
+		DELETE FROM board
+		WHERE board_id=#{boardId} AND board_pw=PASSWORD(#{boardPw})
+	</delete>
+	
+	<update id="updateBoard" parameterType="com.gd.sakila.vo.Board">
+		UPDATE board SET 
+			board_title=#{boardTitle}, 
+			board_content=#{boardContent} 
+		WHERE board_id=#{boardId}
+	</update>
+</mapper>
