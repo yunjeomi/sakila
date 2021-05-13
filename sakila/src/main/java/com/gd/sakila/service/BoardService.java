@@ -17,6 +17,11 @@ import com.gd.sakila.vo.Page;
 public class BoardService {
 	@Autowired	//BoardMapper의 객체를 생성
 	private BoardMapper boardMapper;
+	
+	public Board getBoardOne(int boardId){
+		return boardMapper.selectBoardOne(boardId);
+	}
+	
 	public Map<String, Object>	getBoardList(int currentPage, int rowPerPage, String searchWord){
 		//매개변수 값 가공&처리
 		//전체 list 수(boardTotal), 마지막 페이지(lastPage) 구하기

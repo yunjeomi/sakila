@@ -11,7 +11,7 @@ import com.gd.sakila.vo.Page;
 public interface BoardMapper {
 	List<Board> selectBoardList(Page page);
 	int selectBoardTotal(String searchWord);
-	Board selectBoardOne();
+	Board selectBoardOne(int boardId);
 	int insertBoard(Board board);
 	int deleteBoard(Board board);
 }
