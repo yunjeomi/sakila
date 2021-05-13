@@ -10,7 +10,7 @@
 		FROM board
 		<where>
 			<if test="searchWord!=null">
-				board_title LIKE CONCAT('%','#{searchWord}','%')
+				board_title LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 		</where>
 		ORDER BY insert_date DESC
@@ -28,11 +28,11 @@
 		WHERE board_id=#{boardId}
 	</select>
 	
-	<select id="selectTotal" resultType="Integer" parameterType="String"><!-- String이 null / not null에 따라 쿼리 결정 -->
+	<select id="selectBoardTotal" resultType="Integer" parameterType="String"><!-- String이 null / not null에 따라 쿼리 결정 -->
 		SELECT COUNT(*) FROM board
 		<where><!-- where태그 안의 쿼리는 무조건 where로 간주한다. -->
 			<if test="searchWord!=null"><!-- 생길수도 안 생길수도 있다!. jstl과 비슷하지만 ${}를 사용하지 않는다. -->
-				board_title LIKE CONCAT('%','#{searchWord}','%')
+				board_title LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 		</where>
 	</select>
