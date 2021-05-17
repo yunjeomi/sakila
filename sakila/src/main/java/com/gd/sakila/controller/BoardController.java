@@ -12,14 +12,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gd.sakila.service.BoardService;
 import com.gd.sakila.vo.Board;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
+	//
+
+	
+	//리턴타입 뷰이름 문자열 c -> v
+	@GetMapping("/removeBoard")
+	public String removeBoard(Model model, @RequestParam(value = "boardId", required = true) int boardId) {
+		log.debug("*****param: "+boardId);
+		model.addAttribute("boardId", boardId);
+		return "removeBoard";
+	}
+	
+	//c -> m -> c(redirect)
+	@PostMapping("/removeBoard")
+	public String removeBoard(Board board) {
+		int cnt = boardService.removeBoard(board);
+		log.debug("▷▶▷▶▷입력성공1, 실패0-> "+cnt);
+		if(cnt == 0) {
+			return "redirect:/removeBoard?boardId="+board.getBoardId();
+		}
+		return "redirect:/getBoardList";
+	}
+	
 	@GetMapping("/addBoard")	//one에서 추가 클릭했을 때
 	public String addBoard() {
-		
 		return "addBoard";
 	}
 	
@@ -29,7 +53,8 @@ public class BoardController {
 	//Board board - 커맨드객체; form하나의 모양과 같다.
 	public String addBoard(Board board) {	//form안에 입력되는 값 전부를 vo(db의 필드)값으로 아예 받아버린다.
 		int cnt = boardService.addBoard(board);
-		System.out.println("입력성공1, 실패0-> "+cnt);
+		//System.out.println("입력성공1, 실패0-> "+cnt);
+		log.debug("▷▶▷▶▷입력성공1, 실패0-> "+cnt);
 		return "redirect:/getBoardList";	//redirect: <- request.sendRedirect((request.getContextPath+)"/주소"); '/주소'로 페이지 이동하라. 
 	}
 	
@@ -37,7 +62,7 @@ public class BoardController {
 	@GetMapping("/getBoardOne")
 	public String getBoardOne(Model model, @RequestParam(value = "boardId", required = true) int boardId) {
 		Map<String, Object> boardOne = boardService.getBoardOne(boardId);
-		System.out.println("boardOne-> "+boardOne);	//디버깅
+		//System.out.println("boardOne-> "+boardOne);	//디버깅
 		model.addAttribute("boardOne", boardOne);
 		return "getBoardOne";
 	}
@@ -49,11 +74,12 @@ public class BoardController {
 								@RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage,
 								@RequestParam(value = "searchWord", required = false) String searchWord) {
 		
-		System.out.println("searchWord-> "+searchWord);
+		//System.out.println("searchWord-> "+searchWord);
+		log.debug("▷▶▷▶▷searchWord ->"+searchWord);
 		
 		//서비스 호출 후 포워딩
 		Map<String, Object> map = boardService.getBoardList(currentPage, rowPerPage, searchWord);
-		System.out.println("map-> "+map); //디버깅
+		//System.out.println("map-> "+map); //디버깅
 		model.addAttribute("boardList", map.get("boardList"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);

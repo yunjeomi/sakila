@@ -41,8 +41,8 @@
 			</tbody>
 		</table>
 	
-	<a class="btn btn-default" href="${pageContext.request.contextPath}/modifyBoard?boardNo=${boardOne.boardId}">수정</a>
-	<a class="btn btn-default" href="${pageContext.request.contextPath}/removeBoard?boardNo=${boardOne.boardId}">삭제</a>
+	<a class="btn btn-default" href="${pageContext.request.contextPath}/modifyBoard?boardId=${boardOne.boardId}">수정</a>
+	<a class="btn btn-default" href="${pageContext.request.contextPath}/removeBoard?boardId=${boardOne.boardId}">삭제</a>
 	<a class="btn btn-default" href="${pageContext.request.contextPath}/getBoardList">글목록</a>
 </div>
 </body>

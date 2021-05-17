@@ -15,4 +15,5 @@ public interface BoardMapper {
 	Map<String, Object> selectBoardOne(int boardId);
 	int insertBoard(Board board);
 	int deleteBoard(Board board);
+	int updateBoard(Board board);
 }
