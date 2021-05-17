@@ -21,9 +21,11 @@
 $(document).ready(function(){
 	$('#btn').click(function(){
 		if ($('#boardPw').val() == '') {
-			alert('비밀번호 입력해주세요!');
+			alert('boardPw을 입력하세요!');
+			$('#boardPw').focus();
 		} else if ($('#boardPw').val().length < 4){
-			alert('비밀번호를 4자이상 입력해주세요!');
+			alert('boardPw을 4자이상 입력해주세요!');
+			$('#boardPw').focus();
 		} else{
 			//console.log("btn click!!");
 			//form 유효성 검사 코드 추가

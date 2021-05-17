@@ -25,8 +25,8 @@ public class BoardController {
 		log.debug("▷▶▷▶▷param: "+boardId);
 		
 		//기존의 적어놓은 값들을 가져오기 위해 getBoardOne메소드를 실행해서 forward한다.
-		Map<String, Object> boardOne = boardService.getBoardOne(boardId);
-		model.addAttribute("boardOne", boardOne);
+		Map<String, Object> map = boardService.getBoardOne(boardId);
+		model.addAttribute("boardOne", map.get("boardOne"));
 		return "modifyBoard";
 	}
 	

@@ -20,10 +20,18 @@
 <script>
 $(document).ready(function(){
 	$('#btn').click(function(){
-		if ($('#boardPw').val() == '') {
-			alert('비밀번호 입력해주세요!');
+		if ($('#boardTitle').val() == '') {
+			alert('boardTitle을 입력하세요!');
+			$('#boardTitle').focus();
+		} else if($('#boardContent').val() == ''){
+			alert('boardContent을 입력하세요!');
+			$('#boardContent').focus();
+		} else if($('#boardPw').val() == ''){
+			alert('boardPw을 입력하세요!');
+			$('#boardPw').focus();
 		} else if ($('#boardPw').val().length < 4){
-			alert('비밀번호를 4자이상 입력해주세요!');
+			alert('boardPw을 4자이상 입력하세요!');
+			$('#boardPw').focus();
 		} else{
 			//console.log("btn click!!");
 			$('#modifyForm').submit();
