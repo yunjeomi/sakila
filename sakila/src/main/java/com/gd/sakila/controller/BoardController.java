@@ -20,13 +20,31 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	//
+	@GetMapping("/modifyBoard")
+	public String modifyBoard(Model model, @RequestParam(value = "boardId", required = true) int boardId) {
+		log.debug("▷▶▷▶▷param: "+boardId);
+		
+		//기존의 적어놓은 값들을 가져오기 위해 getBoardOne메소드를 실행해서 forward한다.
+		Map<String, Object> boardOne = boardService.getBoardOne(boardId);
+		model.addAttribute("boardOne", boardOne);
+		return "modifyBoard";
+	}
+	
+	@PostMapping("/modifyBoard")
+	public String modifyBoard(Board board) {
+		int cnt = boardService.modifyBoard(board);
+		log.debug("▷▶▷▶▷입력성공1, 실패0-> "+cnt);
+		if(cnt == 0) {
+			return "redirect:/modifyBoard?boardId="+board.getBoardId();
+		}
+		return "redirect:/getBoardOne?boardId="+board.getBoardId();
+	}
 
 	
 	//리턴타입 뷰이름 문자열 c -> v
 	@GetMapping("/removeBoard")
 	public String removeBoard(Model model, @RequestParam(value = "boardId", required = true) int boardId) {
-		log.debug("*****param: "+boardId);
+		log.debug("▷▶▷▶▷param: "+boardId);
 		model.addAttribute("boardId", boardId);
 		return "removeBoard";
 	}
