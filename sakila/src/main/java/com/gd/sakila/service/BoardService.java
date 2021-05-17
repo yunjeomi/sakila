@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.sakila.mapper.BoardMapper;
+import com.gd.sakila.mapper.CommentMapper;
 import com.gd.sakila.vo.Board;
+import com.gd.sakila.vo.Comment;
 import com.gd.sakila.vo.Page;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service	//BoardService의 객체를 생성
 @Transactional
 public class BoardService {
-	@Autowired	//BoardMapper의 객체를 생성
-	private BoardMapper boardMapper;
+	//BoardMapper의 객체를 생성
+	@Autowired BoardMapper boardMapper;
+	@Autowired CommentMapper commentMapper;
 	
 	//수정
 	public int modifyBoard(Board board) {
@@ -39,11 +42,23 @@ public class BoardService {
 		return boardMapper.insertBoard(board);
 	}
 	
-	//하나보기
+	//하나보기 + 댓글보기!!
 	public Map<String, Object> getBoardOne(int boardId){
 		log.debug("▷▶▷▶▷getBoardOne.boardId-> "+boardId);
+		//하나보기
 		Map<String, Object> boardOne = boardMapper.selectBoardOne(boardId);
-		return boardOne;
+		log.debug("▷▶▷▶▷boardOne-> "+boardOne);
+		
+		//댓글보기
+		List<Comment> commentList = commentMapper.selectCommentListByBoard(boardId);
+		log.debug("▷▶▷▶▷commentList.size()-> "+commentList.size());
+		
+		//Map에 하나보기와 댓글보기를 넣어준다!! - 쿼리를 2개 실행하지만 트랜잭션 처리 할 필요가 없음. <-select
+		Map<String, Object> map = new HashMap<>();
+		map.put("boardOne", boardOne);
+		map.put("commentList", commentList);
+		
+		return map;
 	}
 	
 	//리스트 출력

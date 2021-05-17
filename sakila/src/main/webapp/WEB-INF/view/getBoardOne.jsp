@@ -46,7 +46,27 @@
 	
 	<a class="btn btn-default" href="${pageContext.request.contextPath}/modifyBoard?boardId=${boardOne.boardId}">수정</a>
 	<a class="btn btn-default" href="${pageContext.request.contextPath}/removeBoard?boardId=${boardOne.boardId}">삭제</a>
-	<a class="btn btn-default" href="${pageContext.request.contextPath}/getBoardList">글목록</a>
+	<a class="btn btn-default" href="${pageContext.request.contextPath}/getBoardList">글목록</a>	
+	<hr>
+	
+	<!-- 댓글 리스트 추가 -->
+	<div>
+		<a class="btn btn-default" href="${pageContext.request.contextPath}/addComment">추가</a>
+		등록된 comment ${commentList.size()}개
+	</div>
+	<br>
+	<c:forEach var="i" items="${commentList}">
+		<table class="table" border="1">
+			<tr>
+				<td>${i.username}</td>
+				<td>${i.commentContent}</td>
+				<td>${i.insertDate}</td>
+				<td>
+					<a class="btn btn-default" href="${pageContext.request.contextPath}/removeComment">삭제</a>
+				</td>
+			</tr>
+		</table>
+	</c:forEach>
 </div>
 </body>
 </html>
