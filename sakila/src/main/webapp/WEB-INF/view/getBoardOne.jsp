@@ -1,17 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta charset="UTF-8">
 <title>boardOne</title>
-<!-- bootstrapÀ» »ç¿ëÇÏ±â À§ÇÑ CDNÁÖ¼Ò -->
+
+<!-- bootstrapì„ ì‚¬ìš©í•˜ê¸° ìœ„í•œ CDNì£¼ì†Œ -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
- 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 </head>
 <body>
 <div class="container">
@@ -19,31 +22,31 @@
 		<table class="table">
 			<tbody>
 				<tr>
-					<td>board_id</td>
+					<td>boardId</td>
 					<td>${boardOne.boardId}</td>
 				</tr>
 				<tr>
-					<td>board_title</td>
+					<td>boardTitle</td>
 					<td>${boardOne.boardTitle}</td>
 				</tr>
 				<tr>
-					<td>board_content</td>
+					<td>boardContent</td>
 					<td>${boardOne.boardContent}</td>
 				</tr>
 				<tr>
-					<td>username</td>
+					<td>userName</td>
 					<td>${boardOne.username}</td>
 				</tr>
 				<tr>
-					<td>insert_date</td>
+					<td>insertDate</td>
 					<td>${boardOne.insertDate}</td>
 				</tr>
 			</tbody>
 		</table>
 	
-	<a class="btn btn-default" href="${pageContext.request.contextPath}/modifyBoard?boardId=${boardOne.boardId}">¼öÁ¤</a>
-	<a class="btn btn-default" href="${pageContext.request.contextPath}/removeBoard?boardId=${boardOne.boardId}">»èÁ¦</a>
-	<a class="btn btn-default" href="${pageContext.request.contextPath}/getBoardList">±Û¸ñ·Ï</a>
+	<a class="btn btn-default" href="${pageContext.request.contextPath}/modifyBoard?boardId=${boardOne.boardId}">ìˆ˜ì •</a>
+	<a class="btn btn-default" href="${pageContext.request.contextPath}/removeBoard?boardId=${boardOne.boardId}">ì‚­ì œ</a>
+	<a class="btn btn-default" href="${pageContext.request.contextPath}/getBoardList">ê¸€ëª©ë¡</a>
 </div>
 </body>
 </html>

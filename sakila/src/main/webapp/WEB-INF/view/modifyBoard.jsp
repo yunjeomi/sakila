@@ -5,50 +5,61 @@
 <head>
 <meta charset="UTF-8">
 <title>modifyBoard</title>
+
+<!-- bootstrap을 사용하기 위한 CDN주소 -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- jquery를 사용하기위한 CDN주소 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- bootstrap javascript소스를 사용하기 위한 CDN주소 -->
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 <script>
 $(document).ready(function(){
 	$('#btn').click(function(){
-		$('#modifyForm').submit();
+		if ($('#boardPw').val() == '') {
+			alert('비밀번호 입력해주세요!');
+		} else if ($('#boardPw').val().length < 4){
+			alert('비밀번호를 4자이상 입력해주세요!');
+		} else{
+			//console.log("btn click!!");
+			$('#modifyForm').submit();
+		}
 	});
 });
 
 </script>
 </head>
 <body>
+<div class="container">
 	<h1>modifyBoard</h1>
 	
 	<form id="modifyForm" action="${pageContext.request.contextPath}/modifyBoard" method="post">
 		<input type="hidden" name="boardId" value="${boardOne.boardId}">
-		<input type="hidden" name="staffId" value="${boardOne.staffId}">
-		<table border="1">
-			<tr>
-				<td>board_title</td>
-				<td>
-					<input type="text" id="" name="boardTitle" value="${boardOne.boardTitle}">
-				</td>
-			</tr>
-			<tr>
-				<td>board_content</td>
-				<td>
-					<textarea id="" rows="5" cols="50" name="boardContent">${boardOne.boardContent}</textarea>
-				</td>
-			</tr>
-			<tr>
-				<td>username</td>
-				<td>
-					<input type="text" value="${boardOne.username}" readonly>
-				</td>
-			</tr>
-			<tr>
-				<td>board_pw</td>
-				<td>
-					<input type="password" id="" name="boardPw">
-				</td>
-			</tr>
-		</table>
-		<button type="button" id="btn">수정</button>
-		<a href="${pageContext.request.contextPath}/getBoardOne?boardId=${boardOne.boardId}">이전</a>
+
+		<div class="form-group">
+			boardTitle
+				<input type="text" id="boardTitle" class="form-control" name="boardTitle" value="${boardOne.boardTitle}">
+		</div>
+		<div class="form-group">
+			boardContent
+				<textarea id="boardContent" rows="5" cols="50" name="boardContent" class="form-control">${boardOne.boardContent}</textarea>
+		</div>
+		<div class="form-group">	
+			userName
+				<input type="text" class="form-control" value="${boardOne.username}" readonly>
+		</div>
+		<div class="form-group">	
+			boardPw
+				<input type="password" id="boardPw" class="form-control" name="boardPw">
+		</div>
+				
+		<button type="button" id="btn" class="btn btn-default">수정</button>
+		<a class="btn btn-default" href="${pageContext.request.contextPath}/getBoardOne?boardId=${boardOne.boardId}">이전</a>
 	</form>
+</div>
 </body>
 </html>
