@@ -20,8 +20,8 @@ public class CommentService {
 	}
 	
 	//comment 한 개 삭제
-	public int removeComment(Comment comment) {
-		log.debug("▷▶▷▶▷removeComment comment-> "+comment);
-		return commentMapper.deleteCommentByCommentId(comment);
+	public int removeComment(int commentId) {
+		log.debug("▷▶▷▶▷removeComment comment-> "+commentId);
+		return commentMapper.deleteCommentByCommentId(commentId);
 	}
 }

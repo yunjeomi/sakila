@@ -21,7 +21,7 @@
 	<!-- 코멘트 하나 지울 때 -->
 	<delete id="deleteCommentByCommentId" parameterType="Integer">
 		DELETE FROM comment
-		WHERE comment_id = #{commentId} AND board_id = #{boardId}
+		WHERE comment_id = #{commentId}
 	</delete>
 	
 	<insert id="insertComment" parameterType="com.gd.sakila.vo.Comment">

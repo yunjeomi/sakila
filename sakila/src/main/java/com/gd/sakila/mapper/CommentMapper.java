@@ -10,6 +10,6 @@ import com.gd.sakila.vo.Comment;
 public interface CommentMapper {
 	List<Comment> selectCommentListByBoard(int boardId);
 	int deleteCommentByBoardId(int boardId);
-	int deleteCommentByCommentId(Comment comment);
+	int deleteCommentByCommentId(int CommentId);
 	int insertComment(Comment comment);
 }

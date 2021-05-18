@@ -18,12 +18,16 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentController {
 	@Autowired CommentService commentService;
 	
-	//form으로 삭제 -> post
+	//form으로 진행 -> post
 	@PostMapping("/addComment")
 	public String addComment(Comment comment) {
 		log.debug("▷▶▷▶▷addComment comment-> "+comment);
+		
+		//서비스 메소드 실행
 		int cnt = commentService.addComment(comment);
 		log.debug("▷▶▷▶▷입력성공1, 실패0-> "+cnt);
+		
+		//원래의 페이지로 이동위해 boardId 함께 넘겨준다.
 		return "redirect:/getBoardOne?boardId="+comment.getBoardId();
 	}
 	
@@ -33,12 +37,11 @@ public class CommentController {
 		log.debug("★★★★★받아온 commentId-> "+commentId);
 		log.debug("★★★★★받아온 boardId-> "+boardId);
 		
-		Comment comment = new Comment();
-		comment.setBoardId(boardId);
-		comment.setCommentId(commentId);
-		
-		int cnt = commentService.removeComment(comment);
+		//서비스 메소드 실행
+		int cnt = commentService.removeComment(commentId);
 		log.debug("▷▶▷▶▷삭제성공1, 실패0-> "+cnt);
-		return "redirect:/getBoardOne?boardId="+comment.getBoardId();
+		
+		//원래의 페이지로 이동위해 boardId 함께 넘겨준다.
+		return "redirect:/getBoardOne?boardId="+boardId;
 	}
 }
