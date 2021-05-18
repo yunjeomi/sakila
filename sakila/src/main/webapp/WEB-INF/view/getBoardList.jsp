@@ -33,7 +33,7 @@
             <c:forEach var="c" items="${boardList}">
                 <tr>
                     <td>${c.boardId}</td>
-                    <td><a href="${pageContext.request.contextPath}/getBoardOne?boardId=${c.boardId}">${c.boardTitle}</a></td>
+                    <td><a href="${pageContext.request.contextPath}/admin/getBoardOne?boardId=${c.boardId}">${c.boardTitle}</a></td>
                     <td>${c.insertDate}</td>
                 </tr>
             </c:forEach>
@@ -49,14 +49,14 @@
     
     <ul class="pager">
         <c:if test="${currentPage > 1}">
-            <li class="previous"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage-1}&searchWord=${searchWord}">이전</a></li>
+            <li class="previous"><a href="${pageContext.request.contextPath}/admin/getBoardList?currentPage=${currentPage-1}&searchWord=${searchWord}">이전</a></li>
         </c:if>
         <c:if test="${currentPage < lastPage}">
-            <li class="next"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage+1}&searchWord=${searchWord}">다음</a></li>
+            <li class="next"><a href="${pageContext.request.contextPath}/admin/getBoardList?currentPage=${currentPage+1}&searchWord=${searchWord}">다음</a></li>
         </c:if>
     </ul>
     <div>
-        <a class="btn btn-default" href="${pageContext.request.contextPath}/addBoard">게시글 입력</a>
+        <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/addBoard">게시글 입력</a>
     </div>
 </div>
 </body>

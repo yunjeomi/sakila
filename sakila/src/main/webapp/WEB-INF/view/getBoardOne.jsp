@@ -59,15 +59,15 @@ $(document).ready(function(){
 			</tbody>
 		</table>
 	
-	<a class="btn btn-default" href="${pageContext.request.contextPath}/modifyBoard?boardId=${boardOne.boardId}">수정</a>
-	<a class="btn btn-default" href="${pageContext.request.contextPath}/removeBoard?boardId=${boardOne.boardId}">삭제</a>
-	<a class="btn btn-default" href="${pageContext.request.contextPath}/getBoardList">글목록</a>	
+	<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/modifyBoard?boardId=${boardOne.boardId}">수정</a>
+	<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/removeBoard?boardId=${boardOne.boardId}">삭제</a>
+	<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getBoardList">글목록</a>	
 	
 	<hr>
 	
 	<!-- 댓글 리스트 추가 -->
 	<div>comment 추가</div>
-	<form id="addCommentForm" action="${pageContext.request.contextPath}/addComment" method="post">
+	<form id="addCommentForm" action="${pageContext.request.contextPath}/admin/addComment" method="post">
 		<input type="hidden" name="boardId" value="${boardOne.boardId}">
 		<div class="form-group">
 			<textarea id="commentContent" rows="5" cols="50" name="commentContent" class="form-control"></textarea>
@@ -90,7 +90,7 @@ $(document).ready(function(){
 				<td >${i.commentContent}</td>
 				<td>${i.insertDate}</td>
 				<td>
-					<a class="btn btn-default" href="${pageContext.request.contextPath}/removeComment?commentId=${i.commentId}&boardId=${boardOne.boardId}">삭제</a>
+					<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/removeComment?commentId=${i.commentId}&boardId=${boardOne.boardId}">삭제</a>
 				</td>
 			</tr>
 		</table>

@@ -45,7 +45,7 @@ $(document).ready(function(){
 <div class="container">
 	<h1>modifyBoard</h1>
 	
-	<form id="modifyForm" action="${pageContext.request.contextPath}/modifyBoard" method="post">
+	<form id="modifyForm" action="${pageContext.request.contextPath}/admin/modifyBoard" method="post">
 		<input type="hidden" name="boardId" value="${boardOne.boardId}">
 
 		<div class="form-group">
@@ -66,7 +66,7 @@ $(document).ready(function(){
 		</div>
 				
 		<button type="button" id="btn" class="btn btn-default">수정</button>
-		<a class="btn btn-default" href="${pageContext.request.contextPath}/getBoardOne?boardId=${boardOne.boardId}">이전</a>
+		<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getBoardOne?boardId=${boardOne.boardId}">이전</a>
 	</form>
 </div>
 </body>

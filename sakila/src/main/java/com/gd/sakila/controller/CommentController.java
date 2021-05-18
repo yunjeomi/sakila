@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.sakila.service.CommentService;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Mapper
 @Controller
+@RequestMapping("/admin")
 public class CommentController {
 	@Autowired CommentService commentService;
 	
@@ -28,7 +30,7 @@ public class CommentController {
 		log.debug("▷▶▷▶▷입력성공1, 실패0-> "+cnt);
 		
 		//원래의 페이지로 이동위해 boardId 함께 넘겨준다.
-		return "redirect:/getBoardOne?boardId="+comment.getBoardId();
+		return "redirect:/admin/getBoardOne?boardId="+comment.getBoardId();
 	}
 	
 	//삭제버튼 눌러서 진행 -> get
@@ -42,6 +44,6 @@ public class CommentController {
 		log.debug("▷▶▷▶▷삭제성공1, 실패0-> "+cnt);
 		
 		//원래의 페이지로 이동위해 boardId 함께 넘겨준다.
-		return "redirect:/getBoardOne?boardId="+boardId;
+		return "redirect:/admin/getBoardOne?boardId="+boardId;
 	}
 }

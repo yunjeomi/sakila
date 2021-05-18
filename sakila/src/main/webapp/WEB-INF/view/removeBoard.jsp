@@ -39,7 +39,7 @@ $(document).ready(function(){
 <div class="container">
 	<h1>removeBoard</h1>
 	
-	<form id="removeForm" action="${pageContext.request.contextPath}/removeBoard" method="post" >
+	<form id="removeForm" action="${pageContext.request.contextPath}/admin/removeBoard" method="post" >
 		<input type="hidden" name="boardId" value="${boardId}">
 		<table class="table">
 			<tr>
@@ -48,7 +48,7 @@ $(document).ready(function(){
 			</tr>
 		</table>
 		<button type="button" id="btn" class="btn btn-default">삭제</button>
-		<a class="btn btn-default" href="${pageContext.request.contextPath}/getBoardOne?boardId=${boardId}">이전</a>
+		<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getBoardOne?boardId=${boardId}">이전</a>
 	</form>
 </div>
 </body>

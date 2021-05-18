@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.sakila.service.BoardService;
@@ -16,10 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+@RequestMapping("/admin")	//얘를 쓰면 class 내의 메소드는 /admin+ get&postMappeing /~ => /admin/~ 합쳐진다.
 public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
+	//get/post mapping은 get과 post요청만 받음
 	@GetMapping("/modifyBoard")
 	public String modifyBoard(Model model, @RequestParam(value = "boardId", required = true) int boardId) {
 		log.debug("▷▶▷▶▷param: "+boardId);
@@ -37,7 +40,7 @@ public class BoardController {
 		if(cnt == 0) {
 			return "redirect:/modifyBoard?boardId="+board.getBoardId();
 		}
-		return "redirect:/getBoardOne?boardId="+board.getBoardId();
+		return "redirect:/admin/getBoardOne?boardId="+board.getBoardId();
 	}
 
 	
@@ -57,7 +60,7 @@ public class BoardController {
 		if(cnt == 0) {
 			return "redirect:/removeBoard?boardId="+board.getBoardId();
 		}
-		return "redirect:/getBoardList";
+		return "redirect:/admin/getBoardList";
 	}
 	
 	@GetMapping("/addBoard")	//one에서 추가 클릭했을 때
@@ -73,7 +76,7 @@ public class BoardController {
 		int cnt = boardService.addBoard(board);
 		//System.out.println("입력성공1, 실패0-> "+cnt);
 		log.debug("▷▶▷▶▷입력성공1, 실패0-> "+cnt);
-		return "redirect:/getBoardList";	//redirect: <- request.sendRedirect((request.getContextPath+)"/주소"); '/주소'로 페이지 이동하라. 
+		return "redirect:/admin/getBoardList";	//redirect: <- request.sendRedirect((request.getContextPath+)"/주소"); '/주소'로 페이지 이동하라. 
 	}
 	
 	

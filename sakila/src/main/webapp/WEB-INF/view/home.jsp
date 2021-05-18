@@ -9,6 +9,6 @@
 <body>
 	<h1>home</h1>
 	
-	<a href="${pageContext.request.contextPath}/getBoardList">게시판</a>
+	<a href="${pageContext.request.contextPath}/admin/getBoardList">게시판</a>
 </body>
 </html>
