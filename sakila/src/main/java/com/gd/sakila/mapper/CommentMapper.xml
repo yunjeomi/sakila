@@ -11,4 +11,30 @@
 		WHERE board_id = #{boardId}
 		ORDER BY insert_date DESC
 	</select>
+	
+	<!-- 트랜잭션용. 보드 삭제할 때 코멘트 싹 다 지워지도록 -->
+	<delete id="deleteCommentByBoardId" parameterType="Integer">
+		DELETE FROM comment
+		WHERE board_id = #{boardId}	
+	</delete>
+	
+	<!-- 코멘트 하나 지울 때 -->
+	<delete id="deleteCommentByCommentId" parameterType="Integer">
+		DELETE FROM comment
+		WHERE comment_id = #{commentId} AND board_id = #{boardId}
+	</delete>
+	
+	<insert id="insertComment" parameterType="com.gd.sakila.vo.Comment">
+		INSERT INTO comment(
+			board_id,
+			username,
+			comment_content,
+			insert_date
+		) VALUES(
+			#{boardId},
+			#{username},
+			#{commentContent},
+			NOW()
+		)
+	</insert>
 </mapper>

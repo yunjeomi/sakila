@@ -30,10 +30,23 @@ public class BoardService {
 		return boardMapper.updateBoard(board);
 	}
 	
-	//삭제
+	//삭제; 보드 삭제 전에 달려있는 댓글 전부 삭제 되도록 한다.
 	public int removeBoard(Board board) {
 		log.debug("▷▶▷▶▷removeBoard-> "+board.toString());
-		return boardMapper.deleteBoard(board);
+		//게시글 삭제 -> 게시글 삭제 후 댓글 삭제로 순서 변경. 단) 외래키 지정하지 않거나 no action일 경우
+		int boardRow = boardMapper.deleteBoard(board);
+		log.debug("▷▶▷▶▷removeBoard boardRow-> "+boardRow);
+		
+		//외래키 board_id를 no action 수정해도 에러 발생하여 외래키를 끊어버림
+		if(boardRow == 0) {
+			return 0;
+		}
+		
+		//댓글 삭제
+		int commentRow = commentMapper.deleteCommentByBoardId(board.getBoardId());
+		log.debug("▷▶▷▶▷removeBoard commentRow-> "+commentRow);
+		
+		return boardRow;
 	}
 	
 	//추가

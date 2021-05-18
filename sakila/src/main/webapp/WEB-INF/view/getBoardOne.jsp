@@ -14,7 +14,22 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	$('#addCommentBtn').click(function(){
+		if ($('#commentContent').val() == '') {
+			alert('commentContent을 입력하세요');
+			$('#commentContent').focus();
+		} else if ($('#username').val() == '') {
+			alert('userName을 입력하세요');
+			$('#username').focus();
+		} else {
+			$('#addCommentForm').submit();
+		}
+	});
+});
 
+</script>
 </head>
 <body>
 <div class="container">
@@ -47,11 +62,24 @@
 	<a class="btn btn-default" href="${pageContext.request.contextPath}/modifyBoard?boardId=${boardOne.boardId}">수정</a>
 	<a class="btn btn-default" href="${pageContext.request.contextPath}/removeBoard?boardId=${boardOne.boardId}">삭제</a>
 	<a class="btn btn-default" href="${pageContext.request.contextPath}/getBoardList">글목록</a>	
+	
 	<hr>
 	
 	<!-- 댓글 리스트 추가 -->
+	<div>comment 추가</div>
+	<form id="addCommentForm" action="${pageContext.request.contextPath}/addComment" method="post">
+		<input type="hidden" name="boardId" value="${boardOne.boardId}">
+		<div class="form-group">
+			<textarea id="commentContent" rows="5" cols="50" name="commentContent" class="form-control"></textarea>
+		</div>
+		<div class="form-group">
+			userName
+			<input type="text" id="username" name="username">
+			<button type="button" id="addCommentBtn" class="btn btn-default" style="float: right;">추가</button>
+		</div>
+	</form>
+	<hr>
 	<div>
-		<a class="btn btn-default" href="${pageContext.request.contextPath}/addComment">추가</a>
 		등록된 comment ${commentList.size()}개
 	</div>
 	<br>
@@ -59,10 +87,10 @@
 		<table class="table" border="1">
 			<tr>
 				<td>${i.username}</td>
-				<td>${i.commentContent}</td>
+				<td >${i.commentContent}</td>
 				<td>${i.insertDate}</td>
 				<td>
-					<a class="btn btn-default" href="${pageContext.request.contextPath}/removeComment">삭제</a>
+					<a class="btn btn-default" href="${pageContext.request.contextPath}/removeComment?commentId=${i.commentId}&boardId=${boardOne.boardId}">삭제</a>
 				</td>
 			</tr>
 		</table>
