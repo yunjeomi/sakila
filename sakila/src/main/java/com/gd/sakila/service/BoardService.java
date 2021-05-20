@@ -1,16 +1,23 @@
 package com.gd.sakila.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gd.sakila.mapper.BoardMapper;
+import com.gd.sakila.mapper.BoardfileMapper;
 import com.gd.sakila.mapper.CommentMapper;
 import com.gd.sakila.vo.Board;
+import com.gd.sakila.vo.BoardForm;
+import com.gd.sakila.vo.Boardfile;
 import com.gd.sakila.vo.Comment;
 import com.gd.sakila.vo.Page;
 
@@ -23,6 +30,7 @@ public class BoardService {
 	//BoardMapper의 객체를 생성
 	@Autowired BoardMapper boardMapper;
 	@Autowired CommentMapper commentMapper;
+	@Autowired BoardfileMapper boardfileMapper;
 	
 	//수정
 	public int modifyBoard(Board board) {
@@ -50,9 +58,51 @@ public class BoardService {
 	}
 	
 	//추가
-	public int addBoard(Board board) {
-		log.debug("▷▶▷▶▷addBoard-> "+board.toString());
-		return boardMapper.insertBoard(board);
+	public void addBoard(BoardForm boardForm) {
+		log.debug("▷▶▷▶▷addBoard-> "+boardForm.toString());
+		//BoardForm을 board & boardFile로 쪼개자
+		
+		//1)board호출
+		Board board = boardForm.getBoard();	//입력할 때 boardId는 autoIncreament니까 아직 생성이 안 된 상태..!
+		log.debug("●●●●▶boardId 이전의 board-> "+board);	//0
+		//입력시 만들어진 key값을 리턴받아야 함 -> 
+		boardMapper.insertBoard(board);	//실행
+		log.debug("●●●●▶boardId 이후의 board-> "+board);	//INSERT 후 autoIncreament로 생성된 boardId를 가져온다
+		
+		//2)boardfile 호출; boardForm에서 유일하게 꺼낼 수 있는 List<multipartFile>!!
+		//multipartFile을 boardFile로 바꿔준다.
+		List<MultipartFile> list = boardForm.getBoardfile();
+		
+		if(list != null) {
+			for(MultipartFile f : list) {
+				//boardFile채워넣기
+				Boardfile boardfile = new Boardfile();	//임시적인 것이라 DI사용하지 않는다.
+				//원래는 boardId가 null이지만 mapper.xml 쿼리 수정(<selectKey>)하여 boardId를 가져옴
+				boardfile.setBoardId(board.getBoardId());	
+				//boardFile.setBoardfileName(f.getOriginalFilename()); //중복으로 인해 덮어쓸 수 있는 **이슈**
+				
+				//test.txt -> newName.txt 바꾸는 과정
+				String originalFilename = f.getOriginalFilename();
+				int dotPosition = originalFilename.lastIndexOf(".");	//text.txt의 .의 위치를 인덱스값으로 가져온다.
+				String ext = originalFilename.substring(dotPosition).toLowerCase();	//.부터 가져오고~ 소문자로 바꿔라
+				String prename = UUID.randomUUID().toString().replace("-", "");	//랜덤의문자를 스트링 변환후 -를 없애라
+				String filename = prename+ext;
+				boardfile.setBoardfileName(filename);
+				boardfile.setBoardfileSize(f.getSize());
+				boardfile.setBoardfileType(f.getContentType());
+				log.debug("●●●●▶새로운 파일 이름 boardFile-> "+boardfile);	//0
+				
+				//2-1) 메소드 실행
+				boardfileMapper.insertBoardfile(boardfile);
+				
+				//2-2) 파일을 저장
+				try {
+					f.transferTo(new File("D:\\upload\\"+filename));
+				} catch (Exception e) {
+					throw new RuntimeException();	//예외 발생하면 발생한걸 알 수 있도록!
+				}
+			}
+		}
 	}
 	
 	//하나보기 + 댓글보기!!

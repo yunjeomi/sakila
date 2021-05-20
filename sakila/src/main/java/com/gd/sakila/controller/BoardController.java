@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.sakila.service.BoardService;
 import com.gd.sakila.vo.Board;
+import com.gd.sakila.vo.BoardForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,10 +73,11 @@ public class BoardController {
 	//동일한 메소드명 -> 매개변수가 다르다. 오버로딩 되었음
 	@PostMapping("/addBoard")	//addBoard.jsp에서 form submit 클릭했을 때
 	//Board board - 커맨드객체; form하나의 모양과 같다.
-	public String addBoard(Board board) {	//form안에 입력되는 값 전부를 vo(db의 필드)값으로 아예 받아버린다.
-		int cnt = boardService.addBoard(board);
+	public String addBoard(BoardForm boardForm) {	//form안에 입력되는 값 전부를 vo(db의 필드)값으로 아예 받아버린다. -> boardfile 추가로 board대신 boardForm을 받는다.
+		log.debug("▷▶▷▶▷boardForm-> "+boardForm);
+		boardService.addBoard(boardForm);
 		//System.out.println("입력성공1, 실패0-> "+cnt);
-		log.debug("▷▶▷▶▷입력성공1, 실패0-> "+cnt);
+		//log.debug("▷▶▷▶▷입력성공1, 실패0-> "+cnt);
 		return "redirect:/admin/getBoardList";	//redirect: <- request.sendRedirect((request.getContextPath+)"/주소"); '/주소'로 페이지 이동하라. 
 	}
 	

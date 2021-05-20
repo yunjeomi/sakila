@@ -19,7 +19,24 @@
 <script>
 $(document).ready(function() {
 	$('#addButton').click(function() {
-		if ($('#boardPw').val().length < 4) {
+		
+		//파일중 하나라도 첨부되지 않으면 ck = true
+		let ck = false;
+		let boardfile = $('.boardfile');	//배열
+		
+		//break; 키워드를 사용하기 위해 boardfile.each(index, item)을 사용하지 않는다.
+		for(let item of boardfile){
+			if($(item).val() == ''){	//첨부파일이 없을 경우
+				ck = true;
+				console.log('첨부되지 않은 파일이 있습니다!');
+				break;	//break를 사용하지 않으면 없는 갯수만큼 콘솔에 출력된다.
+			}
+		}
+		
+		//ck가 true일 경우 우선순위로 둔다.
+		if(ck){
+			alert('첨부되지 않은 파일이 있습니다!');
+		} else if ($('#boardPw').val().length < 4) {
 			alert('boardPw는 4자이상 이어야 합니다');
 			$('#boardPw').focus();
 		} else if ($('#boardTitle').val() == '') {
@@ -35,29 +52,51 @@ $(document).ready(function() {
 			$('#addForm').submit();
 		}
 	});
+	
+	//<div id="inputFile">에 input type="file" 추가
+	$('#addFileBtn').click(function(){
+		console.log('addFileBtn click!');
+		$('#inputFile').append('<input type="file" name="boardfile" class="boardfile">');
+	});
+	
+	//<div id="inputFile">에 input type="file" 삭제 -> children().last().remove(); 자식의 마지막을 삭제
+	$('#delFileBtn').click(function(){
+		console.log('delFileBtn click!');
+		$('#inputFile').children().last().remove();
+	});
 });
 </script>
 </head>
 <body>
 <div class="container">
 	<h1>addBoard</h1>
-	<form id="addForm"
-		action="${pageContext.request.contextPath}/admin/addBoard" method="post">
+	<form id="addForm" action="${pageContext.request.contextPath}/admin/addBoard" method="post"
+			enctype="multipart/form-data">
+		<div>
+			<div>
+				<button id="addFileBtn" type="button">파일추가</button>
+				<button id="delFileBtn" type="button">파일삭제</button>
+			</div>
+			<div id="inputFile">
+				
+			</div>
+		</div>
+		
 		<div class="form-group">
 			<label for="boardPw">boardPw</label>
-			<input class="form-control" name="boardPw" id="boardPw" type="password">
+			<input class="form-control" name="board.boardPw" id="boardPw" type="password">
 		</div>
 		<div class="form-group">
 			<label for="boardTitle">boardTitle</label>
-			<input class="form-control" name="boardTitle" id="boardTitle" type="text">
+			<input class="form-control" name="board.boardTitle" id="boardTitle" type="text">
 		</div>
 		<div class="form-group">
 			<label for="boardContent">boardContent</label>
-			<textarea class="form-control" name="boardContent" id="boardContent" rows="5" cols="50"></textarea>
+			<textarea class="form-control" name="board.boardContent" id="boardContent" rows="5" cols="50"></textarea>
 		</div>
 		<div class="form-group">
 			<label for="staffId">staffId</label>
-			<input class="form-control" name="staffId" id="staffId" type="text">
+			<input class="form-control" name="board.staffId" id="staffId" type="text">
 		</div>
 		<div>
 			<input class="btn btn-default" id="addButton" type="button" value="글입력">
