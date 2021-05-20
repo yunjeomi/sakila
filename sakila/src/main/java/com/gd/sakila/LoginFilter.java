@@ -24,16 +24,16 @@ public class LoginFilter implements Filter {
 		//매개변수의 타입이 HttpServlet이 아닌 Servlet! 
 		
 		HttpSession session = null;
-		if(request instanceof HttpServletRequest) {	//형변환이 가능하다면
+		if(request instanceof HttpServletRequest) {	//형변환이 가능하다면 상위:ServletRequest/Response, 하위:HttpServletRequest/Response
 			session = ((HttpServletRequest)request).getSession();
 		}
-		/* 로그인 필터 개발모드에서는 주석처리
+		//로그인 필터 개발모드에서는 주석처리
 		if(session.getAttribute("loginStaff")==null) {
-			if(response instanceof HttpServletRequest) {
+			if(response instanceof HttpServletResponse) {
 				((HttpServletResponse)response).sendRedirect("/");
 			}
 			return;
-		}*/
+		}
 		
 		
 		/* 이전에 했던 방식과 비교해보기
@@ -41,7 +41,7 @@ public class LoginFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse)response;
 		
 		HttpSession session = httpRequest.getSession();
-		if(session.getAttribute("loginStaff") == null) {	//scope생략으로 이름이 헷갈리지 않게 하기 위해 member가 아닌 sessionMember로 저장해준다.
+		if(session.getAttribute("loginStaff") == null) {
 			httpResponse.sendRedirect(httpRequest.getContextPath()+"/");
 			return; //새로운 요청발생으로 doFilter메소드 종료
 		}*/
