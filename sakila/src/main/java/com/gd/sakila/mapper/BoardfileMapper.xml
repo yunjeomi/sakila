@@ -8,6 +8,7 @@
 	 -->
 	<select id="selectBoardfileByBoardId" parameterType="int" resultType="com.gd.sakila.vo.Boardfile">
 		SELECT
+			board_id boardId,
 			boardfile_id boardfileId,
 			boardfile_name boardfileName,
 			boardfile_size boardfileSize
