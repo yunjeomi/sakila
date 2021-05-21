@@ -86,10 +86,12 @@ public class BoardController {
 	public String getBoardOne(Model model, @RequestParam(value = "boardId", required = true) int boardId) {
 		Map<String, Object> map = boardService.getBoardOne(boardId);
 		log.debug("▷▶▷▶▷map-boardOne"+map.get("boardOne"));
+		log.debug("▷▶▷▶▷map-boardfileList"+map.get("boardfileList"));
 		log.debug("▷▶▷▶▷map-commentList"+map.get("commentList"));
 		
 		//map으로 묶어온 보드와 코멘트를 다시 나누어 jsp에서 좀 더 간결하게 받도록 한다.
 		model.addAttribute("boardOne", map.get("boardOne"));
+		model.addAttribute("boardfileList", map.get("boardfileList"));
 		model.addAttribute("commentList", map.get("commentList"));
 		return "getBoardOne";
 	}

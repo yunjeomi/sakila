@@ -56,6 +56,19 @@ $(document).ready(function(){
 					<td>insertDate</td>
 					<td>${boardOne.insertDate}</td>
 				</tr>
+				<tr>
+					<td>boardfile</td>
+					<td>
+						<!-- 보드파일을 출력하는 반복문 코드 구현 -->
+						<c:forEach var="f" items="${boardfileList}">
+							<div>
+								<a href="${pageContext.request.contextPath}/resource/${f.boardfileName}">${f.boardfileName}</a>
+								<a href=""><button type="button">삭제</button></a>
+							</div>
+						</c:forEach>
+						<div><a href=""><button type="button">파일추가</button></a></div>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 	

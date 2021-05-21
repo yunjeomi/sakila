@@ -97,7 +97,10 @@ public class BoardService {
 				
 				//2-2) 파일을 저장
 				try {
-					f.transferTo(new File("D:\\upload\\"+filename));
+					File temp = new File(""); //프로젝트 폴더에 빈파일이 만들어진다.
+					String path = temp.getAbsolutePath();	//프로젝트 폴더의 주소
+					//file.getAbsolutePath();	//프로젝트 폴더 위치
+					f.transferTo(new File(path+"\\src\\main\\webapp\\resource\\"+filename));	//괄호안에서 이스케이프 문자 사용
 				} catch (Exception e) {
 					throw new RuntimeException();	//예외 발생하면 발생한걸 알 수 있도록!
 				}
@@ -105,12 +108,16 @@ public class BoardService {
 		}
 	}
 	
-	//하나보기 + 댓글보기!!
+	//하나보기 + 댓글보기!! + 파일보기 -> 원래의 리턴이 map이기 때문에 추가만 하면 된다.
 	public Map<String, Object> getBoardOne(int boardId){
 		log.debug("▷▶▷▶▷getBoardOne.boardId-> "+boardId);
 		//하나보기
 		Map<String, Object> boardOne = boardMapper.selectBoardOne(boardId);
 		log.debug("▷▶▷▶▷boardOne-> "+boardOne);
+		
+		//파일출력 boardfile
+		List<Boardfile> boardfileList = boardfileMapper.selectBoardfileByBoardId(boardId);
+		log.debug("▷▶▷▶▷boardfileList-> "+boardfileList);
 		
 		//댓글보기
 		List<Comment> commentList = commentMapper.selectCommentListByBoard(boardId);
@@ -119,6 +126,7 @@ public class BoardService {
 		//Map에 하나보기와 댓글보기를 넣어준다!! - 쿼리를 2개 실행하지만 트랜잭션 처리 할 필요가 없음. <-select
 		Map<String, Object> map = new HashMap<>();
 		map.put("boardOne", boardOne);
+		map.put("boardfileList", boardfileList);
 		map.put("commentList", commentList);
 		
 		return map;

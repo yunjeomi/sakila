@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.sakila.mapper.BoardfileMapper"> <!-- 자바 클래스의 패키지명과 같음 -->
+	<!-- 테이블명과 제네릭 타입의 필드명의 불일치 해결방법
+		1) mybatis 설정 파일 세팅을 통해서 스네이크표현식(~_~)을 자동으로 카멜표현식으로
+	 -->
+	<select id="selectBoardfileByBoardId" parameterType="int" resultType="com.gd.sakila.vo.Boardfile">
+		SELECT
+			boardfile_name boardfileName,
+			boardfile_size boardfileSize
+		FROM boardfile
+		WHERE board_id = #{boardId}
+	</select>
+	
 	<insert id="insertBoardfile" parameterType="com.gd.sakila.vo.Boardfile">
 		INSERT INTO boardfile(
 			board_id,
