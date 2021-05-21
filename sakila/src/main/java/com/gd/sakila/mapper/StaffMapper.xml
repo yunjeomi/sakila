@@ -9,4 +9,17 @@
 		FROM staff
 		WHERE email = #{email} AND password = PASSWORD(#{password})
 	</select>
+	
+	<select id="selectStaffList" resultType="java.util.Map">
+		SELECT
+			ID,
+			name,
+			address,
+			`zip code`,
+			phone,
+			city,
+			country,
+			SID
+		FROM staff_list
+	</select> 
 </mapper>
