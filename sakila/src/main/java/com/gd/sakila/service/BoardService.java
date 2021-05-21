@@ -34,16 +34,16 @@ public class BoardService {
 	
 	//수정
 	public int modifyBoard(Board board) {
-		log.debug("▷▶▷▶▷modifyBoard-> "+board.toString());
+		log.debug("●●●●▶modifyBoard-> "+board.toString());
 		return boardMapper.updateBoard(board);
 	}
 	
-	//삭제; 보드 삭제 전에 달려있는 댓글 전부 삭제 되도록 한다.
+	//삭제; 보드 삭제 전에 달려있는 댓글 전부 삭제 되도록 한다. + 첨부파일도 삭제하도록 한다.
 	public int removeBoard(Board board) {
-		log.debug("▷▶▷▶▷removeBoard-> "+board.toString());
+		log.debug("●●●●▶removeBoard-> "+board.toString());
 		//게시글 삭제 -> 게시글 삭제 후 댓글 삭제로 순서 변경. 단) 외래키 지정하지 않거나 no action일 경우
 		int boardRow = boardMapper.deleteBoard(board);
-		log.debug("▷▶▷▶▷removeBoard boardRow-> "+boardRow);
+		log.debug("●●●●▶removeBoard boardRow-> "+boardRow);
 		
 		//외래키 board_id를 no action 수정해도 에러 발생하여 외래키를 끊어버림
 		if(boardRow == 0) {
@@ -52,14 +52,32 @@ public class BoardService {
 		
 		//댓글 삭제
 		int commentRow = commentMapper.deleteCommentByBoardId(board.getBoardId());
-		log.debug("▷▶▷▶▷removeBoard commentRow-> "+commentRow);
+		log.debug("●●●●▶removeBoard commentRow-> "+commentRow);
+		
+		//프로젝트 내(resource) 파일 삭제
+		List<Boardfile> boardfileList = boardfileMapper.selectBoardfileByBoardId(board.getBoardId());
+		if(boardfileList != null) {
+			for(Boardfile f : boardfileList) {	//select해서 가져온 리스트를 출력
+				//프로젝트 경로 얻기 위해
+				File temp = new File("");
+				String path = temp.getAbsolutePath();
+				
+				//위에서 얻은 프로젝트 경로(path)를 이용해 프로젝트 내 파일들을 삭제한다.
+				File file = new File(path+"\\src\\main\\webapp\\resource\\"+f.getBoardfileName());
+				file.delete();
+			}
+		}
+		
+		//DB 행 삭제 -> db 행을 먼저 삭제할 경우 위의 boardfileList를 출력할 수 없음
+		int boardfileRow = boardfileMapper.deleteBoardfileByBoardId(board.getBoardId());
+		log.debug("●●●●▶removeBoard boardfileRow-> "+boardfileRow);
 		
 		return boardRow;
 	}
 	
 	//추가
 	public void addBoard(BoardForm boardForm) {
-		log.debug("▷▶▷▶▷addBoard-> "+boardForm.toString());
+		log.debug("●●●●▶addBoard-> "+boardForm.toString());
 		//BoardForm을 board & boardFile로 쪼개자
 		
 		//1)board호출
@@ -110,18 +128,18 @@ public class BoardService {
 	
 	//하나보기 + 댓글보기!! + 파일보기 -> 원래의 리턴이 map이기 때문에 추가만 하면 된다.
 	public Map<String, Object> getBoardOne(int boardId){
-		log.debug("▷▶▷▶▷getBoardOne.boardId-> "+boardId);
+		log.debug("●●●●▶getBoardOne.boardId-> "+boardId);
 		//하나보기
 		Map<String, Object> boardOne = boardMapper.selectBoardOne(boardId);
-		log.debug("▷▶▷▶▷boardOne-> "+boardOne);
+		log.debug("●●●●▶boardOne-> "+boardOne);
 		
 		//파일출력 boardfile
 		List<Boardfile> boardfileList = boardfileMapper.selectBoardfileByBoardId(boardId);
-		log.debug("▷▶▷▶▷boardfileList-> "+boardfileList);
+		log.debug("●●●●▶boardfileList-> "+boardfileList);
 		
 		//댓글보기
 		List<Comment> commentList = commentMapper.selectCommentListByBoard(boardId);
-		log.debug("▷▶▷▶▷commentList.size()-> "+commentList.size());
+		log.debug("●●●●▶commentList.size()-> "+commentList.size());
 		
 		//Map에 하나보기와 댓글보기를 넣어준다!! - 쿼리를 2개 실행하지만 트랜잭션 처리 할 필요가 없음. <-select
 		Map<String, Object> map = new HashMap<>();
@@ -150,7 +168,7 @@ public class BoardService {
 		page.setRowPerPage(rowPerPage);
 		page.setSearchWord(searchWord);
 		//System.out.println("Page-> "+page.toString());
-		log.debug("▷▶▷▶▷getBoardList.page-> "+page.toString());
+		log.debug("●●●●▶getBoardList.page-> "+page.toString());
 		
 		//쿼리 호출
 		List<Board> boardList = boardMapper.selectBoardList(page);	//Page

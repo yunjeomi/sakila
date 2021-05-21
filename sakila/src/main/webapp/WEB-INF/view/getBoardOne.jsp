@@ -63,7 +63,7 @@ $(document).ready(function(){
 						<c:forEach var="f" items="${boardfileList}">
 							<div>
 								<a href="${pageContext.request.contextPath}/resource/${f.boardfileName}">${f.boardfileName}</a>
-								<a href=""><button type="button">삭제</button></a>
+								<a href="${pageContext.request.contextPath}/admin/removeBoardfile?boardfileId=${f.boardfileId}"><button type="button">삭제</button></a>
 							</div>
 						</c:forEach>
 						<div><a href=""><button type="button">파일추가</button></a></div>
