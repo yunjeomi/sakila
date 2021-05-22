@@ -38,14 +38,14 @@
 		<tbody>
 			<c:forEach var="s" items="${staffList}">
 				<tr>
-					<td>${s.get("ID")}</td>
-					<td>${s.get("name")}</td>
-					<td>${s.get("address")}</td>
-					<td>${s.get("zip code")}</td>
-					<td>${s.get("phone")}</td>
-					<td>${s.get("city")}</td>
-					<td>${s.get("country")}</td>
-					<td>${s.get("SID")}</td>
+					<td>${s.id}</td>
+					<td>${s.name}</td>
+					<td>${s.address}</td>
+					<td>${s.zipCode}</td>
+					<td>${s.phone}</td>
+					<td>${s.city}</td>
+					<td>${s.country}</td>
+					<td>${s.sid}</td>
 				</tr>
 			</c:forEach>
 		</tbody>

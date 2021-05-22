@@ -12,14 +12,14 @@
 	
 	<select id="selectStaffList" resultType="java.util.Map">
 		SELECT
-			ID,
-			name,
-			address,
-			`zip code`,
-			phone,
-			city,
-			country,
-			SID
+			ID id,
+			name name,
+			address address,
+			`zip code` zipCode,
+			phone phone,
+			city city,
+			country country,
+			SID sid
 		FROM staff_list
 	</select> 
 </mapper>
