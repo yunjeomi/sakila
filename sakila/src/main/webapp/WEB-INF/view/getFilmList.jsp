@@ -21,6 +21,17 @@
 <div class="container">
 	<h1>getFilmList</h1>
 	
+	<br>
+	<c:if test="${selectSearch.equals('titleOrActors')}">
+		<h4>[제목+배우] "${searchWord}"로 검색한 결과입니다.</h4>
+	</c:if>
+	<c:if test="${selectSearch.equals('title')}">
+		<h4>[제목] "${searchWord}"로 검색한 결과입니다.</h4>
+	</c:if>
+	<c:if test="${selectSearch.equals('actors')}">
+		<h4>[배우] "${searchWord}"로 검색한 결과입니다.</h4>
+	</c:if>
+	
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -48,18 +59,24 @@
 
 	<ul class="pager">
         <c:if test="${currentPage > 1}">
-            <li class="previous"><a href="${pageContext.request.contextPath}/admin/getFilmList?currentPage=${currentPage-1}&searchWord=${searchWord}">이전</a></li>
+            <li class="previous"><a href="${pageContext.request.contextPath}/admin/getFilmList?currentPage=${currentPage-1}&searchWord=${searchWord}&selectSearch=${selectSearch}">이전</a></li>
         </c:if>
         <c:if test="${currentPage < lastPage}">
-            <li class="next"><a href="${pageContext.request.contextPath}/admin/getFilmList?currentPage=${currentPage+1}&searchWord=${searchWord}">다음</a></li>
+            <li class="next"><a href="${pageContext.request.contextPath}/admin/getFilmList?currentPage=${currentPage+1}&searchWord=${searchWord}&selectSearch=${selectSearch}">다음</a></li>
         </c:if>
     </ul>
     
-    <form action="${pageContext.request.contextPath}/admin/getFilmList" method="get">
-        <label for="searchWord">검색어(제목) :</label> 
-        <input name="searchWord" type="text">
-        <button type="submit">검색</button>
-    </form>
+	<form action="${pageContext.request.contextPath}/admin/getFilmList" method="get">
+		<select name="selectSearch">
+			<option value="titleOrActors">제목+배우</option>
+			<option value="title">제목</option>
+			<option value="actors">배우</option>
+		</select>
+		
+		<input name="searchWord" type="text">
+		
+		<button type="submit">검색</button>
+	</form>
     
 </div>
 </body>

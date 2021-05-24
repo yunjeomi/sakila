@@ -1,31 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.sakila.mapper.FilmMapper">
-	<select id="selectFilmList" parameterType="com.gd.sakila.vo.Page" resultType="java.util.Map">
+	<select id="selectFilmOne" parameterType="String" resultType="com.gd.sakila.vo.Film">
+		SELECT
+			film_id filmId,
+			title title,
+			description description,
+			release_year releaseYear,
+			language_id languageId,
+			original_language_id orginalLanguageId,
+			rental_duration rentalDuration,
+			rental_rate rentalRate,
+			length length,
+			replacement_cost replacementCost,
+			rating rating,
+			special_features specialFeatures,
+			last_update lastUpdate
+		FROM film
+		WHERE title = #{title}
+	</select>
+	
+	<select id="selectFilmList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
-			FID,
-			title,
-			description,
-			category,
-			price,
-			length,
-			rating,
-			actors
-		FROM nicer_but_slower_film_list
+			l.FID FID,
+			l.title title,
+			l.description description,
+			l.category category,
+			l.price price,
+			l.length length,
+			l.rating rating,
+			l.actors actors
+		FROM film f 
+		LEFT JOIN film_list l
+		ON f.title = l.title 
 		<where>
-			<if test="searchWord != null">
-				title LIKE CONCAT('%',#{searchWord},'%')
+			<if test="searchWord != null and selectSearch == 'titleOrActors'">
+				f.title LIKE CONCAT('%',#{searchWord},'%') OR l.actors LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchWord != null and selectSearch == 'title'">
+				f.title LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchWord != null and selectSearch == 'actors'">
+				l.actors LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 		</where>
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
-	<select id="selectFilmTotal" parameterType="String" resultType="int">
+	<select id="selectFilmTotal" parameterType="java.util.Map" resultType="int">
 		SELECT COUNT(*)
-		FROM nicer_but_slower_film_list
+		FROM film f 
+		LEFT JOIN film_list l
+		ON f.title = l.title 
 		<where>
-			<if test="searchWord != null">
-				title LIKE CONCAT('%',#{searchWord},'%')
+			<if test="searchWord != null and selectSearch == 'titleOrActors'">
+				f.title LIKE CONCAT('%',#{searchWord},'%') OR l.actors LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchWord != null and selectSearch == 'title'">
+				f.title LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchWord != null and selectSearch == 'actors'">
+				l.actors LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 		</where>
 	</select>

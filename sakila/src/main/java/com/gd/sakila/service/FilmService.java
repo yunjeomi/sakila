@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.sakila.mapper.FilmMapper;
+import com.gd.sakila.vo.Film;
 import com.gd.sakila.vo.Page;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class FilmService {
 	@Autowired FilmMapper filmMapper;
+	
+	public Film getFilmOne(String title) {
+		return filmMapper.selectFilmOne(title);		
+	}
 	
 	public Map<String, Object> getFilmOne(int filmId, int storeId){
 		Map<String, Object> paramMap = new HashMap<>();
@@ -30,22 +35,26 @@ public class FilmService {
 		List<Integer> list = filmMapper.selectFilmInStock(paramMap);
 		log.debug("●●●●▶filmCount-> "+paramMap.get("filmCount"));
 		log.debug("●●●●▶list-> "+list);
+		log.debug("●●●●▶paramMap-> "+paramMap);
 		
-		Map<String, Object> returnMap = new HashMap<>();
-		
-		return returnMap;
+		return paramMap;
 	}
 	
 	
-	public Map<String, Object> getFilmList(int currentPage, int rowPerPage, String searchWord) {
+	public Map<String, Object> getFilmList(int currentPage, int rowPerPage, String searchWord, String selectSearch) {
 		log.debug("●●●●▶currentPage-> "+currentPage);
 		log.debug("●●●●▶rowPerPage-> "+rowPerPage);
 		log.debug("●●●●▶searchWord-> "+searchWord);
+		log.debug("●●●●▶selectSearch-> "+selectSearch);
 		
 		//페이징 시 필요한 것
 		//rowPerPage, beginRow, lastPage, currentPage
 		
-		int totalPage = filmMapper.selectFilmTotal(searchWord);
+		Map<String, Object> getMap = new HashMap<>();
+		getMap.put("searchWord", searchWord);
+		getMap.put("selectSearch", selectSearch);
+		
+		int totalPage = filmMapper.selectFilmTotal(getMap);
 		int lastPage = totalPage/rowPerPage;
 		if(totalPage%rowPerPage == 0) {
 			lastPage += 1;
@@ -60,7 +69,10 @@ public class FilmService {
 		page.setSearchWord(searchWord);
 		log.debug("●●●●▶page-> "+page);
 		
-		List<Map<String, Object>> filmList = filmMapper.selectFilmList(page);
+		getMap.put("beginRow", beginRow);
+		getMap.put("rowPerPage", rowPerPage);
+		
+		List<Map<String, Object>> filmList = filmMapper.selectFilmList(getMap);
 		log.debug("●●●●▶filmList-> "+filmList);
 		
 		Map<String, Object> map = new HashMap<>();
