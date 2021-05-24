@@ -22,7 +22,7 @@ public class StaffController {
 	
 	@GetMapping("/staffList")
 	public String staffList(Model model) {
-		List<Map<String, Object>> staffList = staffService.selectStaffList();
+		List<Map<String, Object>> staffList = staffService.getStaffList();
 		log.debug("●●●●▶staffList-> "+staffList.toString());
 		model.addAttribute("staffList", staffList);
 		return "staffList";

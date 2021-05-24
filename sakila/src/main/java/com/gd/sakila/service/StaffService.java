@@ -31,7 +31,7 @@ public class StaffService {
 		FROM staff_list
 	*/
 	//스태프 리스트
-	public List<Map<String, Object>> selectStaffList(){
+	public List<Map<String, Object>> getStaffList(){
 		List<Map<String, Object>> staffList = new ArrayList<>();
 		staffList = staffMapper.selectStaffList();
 		log.debug("●●●●▶selectStaffList staffList-> "+staffList);
