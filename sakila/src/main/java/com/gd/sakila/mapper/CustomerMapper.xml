@@ -10,5 +10,15 @@
 							GROUP BY customer_id
 							HAVING DATEDIFF(NOW(), MAX(rental_date)) > 365
 							)
+							
+		UPDATE customer c, 
+				(SELECT customer_id, 
+						max(rental_date), 
+						DATEDIFF(NOW(), max(rental_date))
+				FROM rental
+				GROUP BY customer_id
+				HAVING DATEDIFF(NOW(), max(rental_date)) > 365) A
+		SET c.active = 0
+		WHERE c.customer_id = A.customer_id
 	</update>
 </mapper>

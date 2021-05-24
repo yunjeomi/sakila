@@ -47,6 +47,7 @@ $(document).ready(function(){
 	<c:if test="${loginStaff == null}">
 		<a href="${pageContext.request.contextPath}/admin/getBoardList">게시판</a>
 		<a href="${pageContext.request.contextPath}/admin/staffList">직원정보</a>
+		<a href="${pageContext.request.contextPath}/admin/getFilmList">영화정보</a>
 		<a href="${pageContext.request.contextPath}/admin/logout">로그아웃</a>
 	</c:if>
 	
