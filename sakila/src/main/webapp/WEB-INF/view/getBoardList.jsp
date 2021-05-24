@@ -41,7 +41,7 @@
     </table>
     
     <!-- 검색어 입력창 -->
-    <form action="/getBoardList" method="get">
+    <form action="${pageContext.request.contextPath}/admin/getBoardList" method="get">
         <label for="searchWord">검색어(제목) :</label> 
         <input name="searchWord" type="text">
         <button type="submit">검색</button>
