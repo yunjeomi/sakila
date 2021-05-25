@@ -50,9 +50,25 @@ $(document).ready(function(){
 	<br><br>
 	<form id="searchForm" action="${pageContext.request.contextPath}/admin/getFilmList" method="get">
 		<select name="selectSearch">
-			<option value="titleOrActors">제목+배우</option>
-			<option value="title">제목</option>
-			<option value="actors">배우</option>
+			<c:if test="${selectSearch == 'titleOrActors'}">
+				<option value="titleOrActors" selected>제목+배우</option>
+			</c:if>
+			<c:if test="${selectSearch != 'titleOrActors'}">
+				<option value="titleOrActors">제목+배우</option>
+			</c:if>
+			<c:if test="${selectSearch == 'title'}">
+				<option value="title" selected>제목</option>
+			</c:if>
+			<c:if test="${selectSearch != 'title'}">
+				<option value="title">제목</option>
+			</c:if>
+			<c:if test="${selectSearch == 'actors'}">
+				<option value="actors" selected>배우</option>
+			</c:if>
+			<c:if test="${selectSearch != 'actors'}">
+				<option value="actors">배우</option>
+			</c:if>
+			
 		</select>
 		
 		<input id="searchWord" type="text" name="searchWord" value="${searchWord}">
