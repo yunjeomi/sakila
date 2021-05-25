@@ -20,67 +20,58 @@
 <body>
 <div class="container">
 	<h1>getFilmOne</h1>
-	
+	<br>
 	<table class="table table-striped">
 		<tr>
 			<td>title</td>
 			<td>${getFilmOne.title}</td>
 		</tr>
 		<tr>
+			<td>category</td>
+			<td>${getFilmOne.category}</td>
+		</tr>
+		<tr>
 			<td>description</td>
 			<td>${getFilmOne.description}</td>
 		</tr>
 		<tr>
-			<td>releaseYear</td>
-			<td>${getFilmOne.releaseYear}</td>
-		</tr>
-		<tr>
-			<td>languageId</td>
-			<td>${getFilmOne.languageId}</td>
-		</tr>
-		<tr>
-			<td>orginalLanguageId</td>
-			<td>${getFilmOne.originalLanguageId}</td>
+			<td>price</td>
+			<td>${getFilmOne.price}</td>
 		</tr>
 		<tr>
 			<td>rentalDuration</td>
-			<td>${getFilmOne.rentalDuration}</td>
+			<td>${getFilmOne.duration}</td>
 		</tr>
 		<tr>
-			<td>rentalRate</td>
-			<td>${getFilmOne.rentalRate}</td>
-		</tr>
-		<tr>
-			<td>length</td>
-			<td>${getFilmOne.length}</td>
-		</tr>
-		<tr>
-			<td>replacementCost</td>
-			<td>${getFilmOne.replacementCost}</td>
-		</tr>
-		<tr>
-			<td>rating</td>
-			<td>${getFilmOne.rating}</td>
+			<td>actors</td>
+			<td>${getFilmOne.actors}</td>
 		</tr>
 		<tr>
 			<td>specialFeatures</td>
 			<td>${getFilmOne.specialFeatures}</td>
 		</tr>
 		<tr>
-			<td>lastUpdate</td>
-			<td>${getFilmOne.lastUpdate}</td>
+			<td>releaseYear</td>
+			<td>${getFilmOne.releaseYear}</td>
+		</tr>
+		<tr>
+			<td>length</td>
+			<td>${getFilmOne.length}</td>
+		</tr>
+		<tr>
+			<td>rating</td>
+			<td>${getFilmOne.rating}</td>
+		</tr>
+		<tr>
+			<td>store_1 in stock</td>
+			<td>${store1.filmCount}개</td>
+		</tr>
+		<tr>
+			<td>store_2 in stock</td>
+			<td>${store2.filmCount}개</td>
 		</tr>
 	</table>
-	
-	<br>
-	<hr>
-	<h4>재고현황</h4>
-	<div>
-		store1 : ${store1.filmCount}개
-	</div>
-	<div>
-		store2 : ${store2.filmCount}개
-	</div>
+	<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getFilmList">영화목록</a>	
 </div>
 </body>
 </html>

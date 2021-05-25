@@ -1,47 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.sakila.mapper.FilmMapper">
-	<select id="selectFilmOne" parameterType="String" resultType="com.gd.sakila.vo.Film">
-		SELECT
-			film_id filmId,
-			title title,
-			description description,
-			release_year releaseYear,
-			language_id languageId,
-			original_language_id orginalLanguageId,
-			rental_duration rentalDuration,
-			rental_rate rentalRate,
-			length length,
-			replacement_cost replacementCost,
-			rating rating,
-			special_features specialFeatures,
-			last_update lastUpdate
-		FROM film
-		WHERE title = #{title}
-	</select>
-	
 	<select id="selectFilmList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
 			l.FID FID,
 			l.title title,
-			l.description description,
 			l.category category,
 			l.price price,
+			f.rental_duration duration,
 			l.length length,
-			l.rating rating,
-			l.actors actors
-		FROM film f 
-		LEFT JOIN film_list l
-		ON f.title = l.title 
+			l.rating rating
+		FROM film_list l
+		INNER JOIN film f
+		ON l.FID = f.film_id
 		<where>
 			<if test="searchWord != null and selectSearch == 'titleOrActors'">
-				f.title LIKE CONCAT('%',#{searchWord},'%') OR l.actors LIKE CONCAT('%',#{searchWord},'%')
+				AND (l.title LIKE CONCAT('%',#{searchWord},'%') OR l.actors LIKE CONCAT('%',#{searchWord},'%'))
 			</if>
 			<if test="searchWord != null and selectSearch == 'title'">
-				f.title LIKE CONCAT('%',#{searchWord},'%')
+				AND l.title LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 			<if test="searchWord != null and selectSearch == 'actors'">
-				l.actors LIKE CONCAT('%',#{searchWord},'%')
+				AND l.actors LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="categoryName != null">
+				AND l.category = #{categoryName}
+			</if>
+			<if test="price != null">
+				AND l.price = #{price}
+			</if>
+			<if test="duration != null">
+				AND f.rental_duration = #{duration}
+			</if>
+			<if test="rating != null">
+				AND l.rating = #{rating}
 			</if>
 		</where>
 		LIMIT #{beginRow}, #{rowPerPage}
@@ -49,20 +41,51 @@
 	
 	<select id="selectFilmTotal" parameterType="java.util.Map" resultType="int">
 		SELECT COUNT(*)
-		FROM film f 
-		LEFT JOIN film_list l
-		ON f.title = l.title 
+		FROM film_list l
+		INNER JOIN film f
+		ON l.FID = f.film_id
 		<where>
 			<if test="searchWord != null and selectSearch == 'titleOrActors'">
-				f.title LIKE CONCAT('%',#{searchWord},'%') OR l.actors LIKE CONCAT('%',#{searchWord},'%')
+				AND (l.title LIKE CONCAT('%',#{searchWord},'%') OR l.actors LIKE CONCAT('%',#{searchWord},'%'))
 			</if>
 			<if test="searchWord != null and selectSearch == 'title'">
-				f.title LIKE CONCAT('%',#{searchWord},'%')
+				AND l.title LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 			<if test="searchWord != null and selectSearch == 'actors'">
-				l.actors LIKE CONCAT('%',#{searchWord},'%')
+				AND l.actors LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="categoryName != null">
+				AND l.category = #{categoryName}
+			</if>
+			<if test="price != null">
+				AND l.price = #{price}
+			</if>
+			<if test="duration != null">
+				AND f.rental_duration = #{duration}
+			</if>
+			<if test="rating != null">
+				AND l.rating = #{rating}
 			</if>
 		</where>
+	</select>
+	
+	<select id="selectFilmOne" parameterType="String" resultType="java.util.Map">
+		SELECT 
+			l.FID FID,
+			l.title title,
+			l.description description,
+			l.category category,
+			l.price price,
+			l.actors actors,
+			f.rental_duration duration,
+			l.length length,
+			l.rating rating,
+			f.release_year releaseYear,
+			f.special_features specialFeatures
+		FROM film_list l
+		INNER JOIN film f
+		ON l.FID = f.film_id
+		WHERE l.title = #{title}
 	</select>
 	
 	<!-- 프로시저를 호출하는 문법 statementType="CALLABLE" & { call 프로시저명{매개변수}} -->
