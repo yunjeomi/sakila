@@ -48,11 +48,12 @@ public class FilmService {
 		//rowPerPage, beginRow, lastPage, currentPage
 			
 		int totalPage = filmMapper.selectFilmTotal(getMap);
-		int lastPage = totalPage/rowPerPage;
-		if(totalPage%rowPerPage == 0) {
+		int lastPage = (int)totalPage/rowPerPage;
+		if(totalPage%rowPerPage != 0) {
 			lastPage += 1;
 		}
 		int beginRow = (currentPage-1)*rowPerPage;
+		log.debug("●●●●▶totalPage-> "+totalPage);
 		log.debug("●●●●▶lastPage-> "+lastPage);
 		
 		//vo page 채워넣고 요 값들을 메소드에 넘겨준다
