@@ -6,11 +6,10 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.gd.sakila.vo.Actor;
-import com.gd.sakila.vo.Page;
 
 @Mapper
 public interface ActorMapper {
-	List<Map<String, Object>> selectActorInfoList(Page page);
-	int selectActorTotal(String searchWord);
+	List<Map<String, Object>> selectActorInfoList(Map<String, Object> map);
+	int selectActorTotal(String searchWord, String searchSelect);
 	int insertActor(Actor actor);
 }

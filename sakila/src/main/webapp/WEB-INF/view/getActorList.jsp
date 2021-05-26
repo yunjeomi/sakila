@@ -37,9 +37,45 @@ $(document).ready(function(){
 	
 	<a href="${pageContext.request.contextPath}/">home</a>
 	
-	<c:if test="${searchWord != null && searchWord != ''}">
-		<div>"${searchWord}" 검색 결과</div>
+	
+	<!-- 검색창 -->
+	<form id="searchForm" action="${pageContext.request.contextPath}/admin/getActorList" method="get">
+		<select name="searchSelect">
+			<c:if test="${searchSelect == 'actorAndFilm'}">
+				<option value="actorAndFilm" selected>배우+영화
+			</c:if>
+			<c:if test="${searchSelect != 'actorAndFilm'}">
+				<option value="actorAndFilm">배우+영화
+			</c:if>
+			<c:if test="${searchSelect == 'actor'}">
+				<option value="actor" selected>배우
+			</c:if>
+			<c:if test="${searchSelect != 'actor'}">
+				<option value="actor">배우
+			</c:if>
+			<c:if test="${searchSelect == 'film'}">
+				<option value="film" selected>영화
+			</c:if>
+			<c:if test="${searchSelect != 'film'}">
+				<option value="film">영화
+			</c:if>
+		</select>
+		<input id="searchWord" type="text" name="searchWord">
+		<button id="searchBtn" type="button">검색</button>
+	</form>
+	
+	<!-- 검색결과 간단하게 알려주는 창 -->
+	<c:if test="${searchWord != null && searchSelect == 'actorAndFilm'}">
+		<div>[배우+영화] "${searchWord}" 검색 결과 (${totalPage}개)</div>
 	</c:if>
+	<c:if test="${searchWord != null && searchSelect == 'actor'}">
+		<div>[배우] "${searchWord}" 검색 결과 (${totalPage}개)</div>
+	</c:if>
+	<c:if test="${searchWord != null && searchSelect == 'film'}">
+		<div>[영화] "${searchWord}" 검색 결과 (${totalPage}개)</div>
+	</c:if>
+	<br>
+	
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -57,22 +93,18 @@ $(document).ready(function(){
 		</tbody>
 	</table>
 	
-	<!-- 검색창 -->
-	<form id="searchForm" action="${pageContext.request.contextPath}/admin/getActorList" method="get">
-		<input id="searchWord" type="text" name="searchWord" placeholder="actorName을 입력하세요">
-		<button id="searchBtn" type="button">검색</button>
-	</form>
-	
 	<!-- 버튼 -->
 	<ul class="pager">
 		<c:if test="${currentPage>1}">
-			<li class="previous"><a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getActorList?currentPage=${currentPage-1}&searchWord=${searchWord}">이전</a></li>
+			<li class="previous"><a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getActorList?currentPage=${currentPage-1}&searchWord=${searchWord}&searchSelect=${searchSelect}">이전</a></li>
 		</c:if>
 		<c:if test="${currentPage<lastPage}">
-			<li class="next"><a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getActorList?currentPage=${currentPage+1}&searchWord=${searchWord}">다음</a></li>
+			<li class="next"><a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getActorList?currentPage=${currentPage+1}&searchWord=${searchWord}&searchSelect=${searchSelect}">다음</a></li>
 		</c:if>
 	</ul>
+	
 	<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/addActor">배우 추가</a>
+	
 </div>
 </body>
 </html>

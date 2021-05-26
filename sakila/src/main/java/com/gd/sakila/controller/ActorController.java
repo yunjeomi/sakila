@@ -25,20 +25,31 @@ public class ActorController {
 	public String getActorList(Model model, 
 								@RequestParam(value = "currentPage", defaultValue = "1") int currentPage, 
 								@RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage, 
-								@RequestParam(value = "searchWord", required = false) String searchWord) {
+								@RequestParam(value = "searchWord", required = false) String searchWord,
+								@RequestParam(value = "searchSelect", required = false) String searchSelect) {
 		log.debug("●◆■◆●▶ currentPage-> "+currentPage);
 		log.debug("●◆■◆●▶ rowPerPage-> "+rowPerPage);
 		log.debug("●◆■◆●▶ searchWord-> "+searchWord);
+		log.debug("●◆■◆●▶ searchSelect-> "+searchSelect);
+		
+		if(searchSelect != null && searchSelect.equals("")) {
+			searchSelect = null;
+		}
+		if(searchWord != null && searchWord.equals("")) {
+			searchWord = null;
+		}
 		
 		//service호출
-		Map<String, Object> map = actorService.getActorList(currentPage, rowPerPage, searchWord);
+		Map<String, Object> map = actorService.getActorList(currentPage, rowPerPage, searchWord, searchSelect);
 		log.debug("●◆■◆●▶Controller에서 호출한 Service의 map-> "+map);
 		
 		//service에서 가져온 값 model로 넘겨주기
 		model.addAttribute("actorList", map.get("actorList"));
 		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("totalPage", map.get("totalPage"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("searchSelect", searchSelect);
 		return "getActorList";
 	}
 	
@@ -49,6 +60,7 @@ public class ActorController {
 	
 	@PostMapping("/addActor")
 	public String addActor(Actor actor) {
+		log.debug("●◆■◆●▶입력한 actor 정보-> "+actor);
 		int cnt = actorService.addActor(actor);
 		log.debug("●◆■◆●▶addActor 완료 1, 실패 0-> "+cnt);
 		return "redirect:/admin/getActorList";
