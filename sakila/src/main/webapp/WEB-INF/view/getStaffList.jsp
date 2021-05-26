@@ -20,7 +20,7 @@
 </head>
 <body>
 <div class="container">
-	<h1>staffList</h1>
+	<h1>getStaffList</h1>
 	
 	<table class="table table-striped">
 		<thead>

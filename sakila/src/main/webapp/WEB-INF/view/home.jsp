@@ -46,7 +46,7 @@ $(document).ready(function(){
 	<!-- 로그인 후 --><!-- 개발 중엔 null값도 허용 가능하도록 -->
 	<c:if test="${loginStaff == null}">
 		<a href="${pageContext.request.contextPath}/admin/getBoardList">게시판</a>
-		<a href="${pageContext.request.contextPath}/admin/staffList">직원정보</a>
+		<a href="${pageContext.request.contextPath}/admin/getStaffList">직원정보</a>
 		<a href="${pageContext.request.contextPath}/admin/getFilmList">영화정보</a>
 		<a href="${pageContext.request.contextPath}/admin/logout">로그아웃</a>
 	</c:if>

@@ -73,9 +73,6 @@ public class FilmService {
 		List<String> categoryNameList = categoryMapper.selectCategoryNameList();
 		log.debug("●●●●▶categoryNameList-> "+categoryNameList);
 		
-		//List<String> dropDownList = filmMapper.selectDropDown(getMap);
-		//log.debug("●●●●▶dropDownList-> "+dropDownList);
-		
 		Map<String, Object> map = new HashMap<>();
 		map.put("filmList", filmList);
 		map.put("categoryNameList", categoryNameList);

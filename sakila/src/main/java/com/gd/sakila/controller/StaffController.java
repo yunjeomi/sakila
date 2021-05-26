@@ -20,11 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 public class StaffController {
 	@Autowired StaffService staffService;
 	
-	@GetMapping("/staffList")
-	public String staffList(Model model) {
+	@GetMapping("/getStaffList")
+	public String getStaffList(Model model) {
 		List<Map<String, Object>> staffList = staffService.getStaffList();
 		log.debug("●●●●▶staffList-> "+staffList.toString());
 		model.addAttribute("staffList", staffList);
-		return "staffList";
+		return "getStaffList";
 	}
 }
