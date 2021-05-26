@@ -28,8 +28,8 @@ $(document).ready(function(){
 <body>
 	<h1>home</h1>
 	
-	<!-- 로그인 전 -->
-	<c:if test="${loginStaff == null}">
+	<!-- 로그인 전; session 사용 시 == null, != null 로 반드시 바꿀 것 -->
+	<c:if test="${loginStaff != null}">
 		<form id="loginForm" action="${pageContext.request.contextPath}/login" method="post" >
 			<div>
 				email : 
@@ -48,6 +48,7 @@ $(document).ready(function(){
 		<a href="${pageContext.request.contextPath}/admin/getBoardList">게시판</a>
 		<a href="${pageContext.request.contextPath}/admin/getStaffList">직원정보</a>
 		<a href="${pageContext.request.contextPath}/admin/getFilmList">영화정보</a>
+		<a href="${pageContext.request.contextPath}/admin/getActorList">배우정보</a>
 		<a href="${pageContext.request.contextPath}/admin/logout">로그아웃</a>
 	</c:if>
 	
