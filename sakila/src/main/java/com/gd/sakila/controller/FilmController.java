@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -79,13 +80,11 @@ public class FilmController {
 	}
 	
 	@GetMapping("/getFilmOne")
-	public String getFilmOne(Model model, @RequestParam(value = "title", required = true) String title) {
-		log.debug("●●●●▶title-> "+title);
-		Map<String, Object> getFilmOne = filmService.getFilmOne(title);
+	public String getFilmOne(Model model, @RequestParam(value = "filmId", required = true) int filmId) {
+		log.debug("●●●●▶filmId-> "+filmId);
+		Map<String, Object> getFilmOne = filmService.getFilmOne(filmId);
 		log.debug("●●●●▶getFilmOne-> "+getFilmOne);
 		
-		int filmId = (int)getFilmOne.get("FID");
-		log.debug("●●●●▶뽑아낸 filmId-> "+filmId);
 		
 		//new store 고려x
 		Map<String, Object> store1 = filmService.getFilmOne(filmId, 1);	//film_id, store_id 넣어주면 몇개 남았나 알려준다.
@@ -98,5 +97,31 @@ public class FilmController {
 		model.addAttribute("store2", store2);
 		
 		return "getFilmOne";
+	}
+	
+	@GetMapping("/modifyActorInFilmOne")
+	public String modifyActorInFilmOne(Model model, 
+									@RequestParam(value = "filmId", required = true) int filmId) {
+		log.debug("●●●●▶filmId-> "+filmId);
+		
+		Map<String, Object> actorList = filmService.addActorInFilmOne(filmId);
+		log.debug("●●●●▶actorList-> "+actorList);
+		
+		model.addAttribute("actorListInFilm", actorList.get("actorListInFilm"));
+		model.addAttribute("actorListNotInFilm", actorList.get("actorListNotInFilm"));
+		model.addAttribute("filmId", filmId);
+		return "modifyActorInFilmOne";
+	}
+	
+	@PostMapping("/modifyActorInFilmOne")
+	public String modifyActorInFilmOne(@RequestParam(value = "filmId", required = true) int filmId,
+										@RequestParam(value = "actorCk") int[] actorCk) {
+		log.debug("●●●●▶filmId-> "+filmId);
+		log.debug("●●●●▶actorCk-> "+actorCk);
+		log.debug("●●●●▶actorCk.length-> "+actorCk.length);
+		
+		filmService.modifyActorInFilmOne(filmId, actorCk);
+		
+		return "redirect:/admin/getFilmOne?filmId="+filmId;
 	}
 }

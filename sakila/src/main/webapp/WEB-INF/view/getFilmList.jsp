@@ -176,7 +176,7 @@ $(document).ready(function(){
 		<tbody>
 			<c:forEach var="f" items="${filmList}">
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/admin/getFilmOne?title=${f.title}">${f.title}</a></td>
+					<td><a href="${pageContext.request.contextPath}/admin/getFilmOne?filmId=${f.filmId}">${f.title}</a></td>
 					<td>${f.category}</td>
 					<td>${f.price}</td>
 					<td>${f.duration}</td>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gd.sakila.mapper.ActorMapper;
 import com.gd.sakila.mapper.CategoryMapper;
 import com.gd.sakila.mapper.FilmMapper;
 import com.gd.sakila.vo.Page;
@@ -20,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FilmService {
 	@Autowired FilmMapper filmMapper;
 	@Autowired CategoryMapper categoryMapper;
+	@Autowired ActorMapper actorMapper;
 	
 	public Map<String, Object> getFilmList(int currentPage, int rowPerPage, String searchWord, String selectSearch, String categoryName, Double price, Integer duration, String rating) {
 		log.debug("●●●●▶currentPage-> "+currentPage);
@@ -99,7 +101,40 @@ public class FilmService {
 		return paramMap;
 	}
 	
-	public Map<String, Object> getFilmOne(String title) {
-		return filmMapper.selectFilmOne(title);		
+	public Map<String, Object> getFilmOne(int filmId) {
+		return filmMapper.selectFilmOne(filmId);		
+	}
+	
+	public Map<String, Object> addActorInFilmOne(int filmId){
+		//0->출연중인 배우 리스트, 1->미출연 배우 리스트
+		List<Map<String, Object>> actorListInFilm = actorMapper.selectActorInFilmOne(filmId, 0);
+		List<Map<String, Object>> actorListNotInFilm = actorMapper.selectActorInFilmOne(filmId, 1);
+		log.debug("●●●●▶actorListInFilm-> "+actorListInFilm);
+		log.debug("●●●●▶actorListNotInFilm-> "+actorListNotInFilm);
+		
+		//리턴값이 2개니까 map에 넣어준다
+		Map<String, Object> actorList = new HashMap<>();
+		actorList.put("actorListInFilm", actorListInFilm);
+		actorList.put("actorListNotInFilm", actorListNotInFilm);
+		
+		return actorList;
+	}
+	
+	public int modifyActorInFilmOne(int filmId, int[] actorId) {
+		//service에서 해야할 일
+		//1) delete from film_actor where film_id = filmId -> 영화-배우 정보에서 배우id를 먼저 삭제한다
+		//2) insert into film_actor(actor_id, film_id) values( , )
+		
+		//1. 기존의 배우 정보 지우기
+		int delCnt = actorMapper.deleteActorInFilmOne(filmId);
+		log.debug("●●●●▶delCnt 삭제 완료 "+delCnt+". 실패0-> "+delCnt);
+		
+		//2. 영화 정보에 배우 정보 넣기
+		for(int i=0; i<actorId.length; i++) {
+			int inCnt = actorMapper.insertActorInFilmOne(filmId, actorId[i]);
+			log.debug("●●●●▶"+actorId[i]+" 추가 완료 1. 실패0-> "+inCnt);
+		}
+		
+		return 0;
 	}
 }

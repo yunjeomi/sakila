@@ -9,6 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface FilmMapper {
 	List<Map<String, Object>> selectFilmList(Map<String, Object> map);
 	int selectFilmTotal(Map<String, Object> map);
-	Map<String, Object> selectFilmOne(String title);
+	Map<String, Object> selectFilmOne(int filmId);
 	List<Integer> selectFilmInStock(Map<String, Object> map);
 }

@@ -47,4 +47,39 @@
 			UPPER(#{lastName})
 		)
 	</insert>
+	
+	<select id="selectActorInFilmOne" parameterType="Integer" resultType="java.util.Map">
+		SELECT 
+			a.actor_id actorId, 
+			CONCAT(a.first_name,' ',a.last_name) name,
+			if(ex.actor_id IS NULL, 'X', 'O') chk
+		FROM actor a
+		LEFT JOIN (SELECT *
+					FROM film_actor WHERE film_id = #{filmId}) ex
+		ON a.actor_id = ex.actor_id
+		<where>
+			<if test="checkActorInFilm == 0">
+				ex.actor_id IS NOT NULL
+				ORDER BY chk, name ASC
+			</if>
+			<if test="checkActorInFilm == 1">
+				ex.actor_id IS NULL
+				ORDER BY chk, name ASC
+			</if>
+		</where>
+	</select>
+	
+	<delete id="deleteActorInFilmOne" parameterType="int">
+		DELETE FROM film_actor WHERE film_id = #{filmId}
+	</delete>
+	
+	<insert id="insertActorInFilmOne" parameterType="int">
+		INSERT INTO film_actor(
+			actor_id,
+			film_id
+		) VALUES(
+			#{actorId},
+			#{filmId}
+		)
+	</insert>
 </mapper>

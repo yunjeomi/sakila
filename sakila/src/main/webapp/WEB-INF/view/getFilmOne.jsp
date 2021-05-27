@@ -43,8 +43,13 @@
 			<td>${getFilmOne.duration}</td>
 		</tr>
 		<tr>
-			<td>actors</td>
-			<td>${getFilmOne.actors}</td>
+			<td>
+				actors
+			</td>
+			<td>
+				${getFilmOne.actors}
+				<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/modifyActorInFilmOne?filmId=${getFilmOne.filmId}">변경</a>
+			</td>
 		</tr>
 		<tr>
 			<td>specialFeatures</td>

@@ -3,7 +3,7 @@
 <mapper namespace="com.gd.sakila.mapper.FilmMapper">
 	<select id="selectFilmList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
-			l.FID FID,
+			l.FID filmId,
 			l.title title,
 			l.category category,
 			l.price price,
@@ -69,9 +69,9 @@
 		</where>
 	</select>
 	
-	<select id="selectFilmOne" parameterType="String" resultType="java.util.Map">
+	<select id="selectFilmOne" parameterType="Integer" resultType="java.util.Map">
 		SELECT 
-			l.FID FID,
+			l.FID filmId,
 			l.title title,
 			l.description description,
 			l.category category,
@@ -85,7 +85,7 @@
 		FROM film_list l
 		INNER JOIN film f
 		ON l.FID = f.film_id
-		WHERE l.title = #{title}
+		WHERE f.film_id = #{filmId}
 	</select>
 	
 	<!-- 프로시저를 호출하는 문법 statementType="CALLABLE" & { call 프로시저명{매개변수}} -->

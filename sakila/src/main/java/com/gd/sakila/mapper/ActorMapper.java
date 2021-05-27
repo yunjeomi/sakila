@@ -12,4 +12,7 @@ public interface ActorMapper {
 	List<Map<String, Object>> selectActorInfoList(Map<String, Object> map);
 	int selectActorTotal(String searchWord, String searchSelect);
 	int insertActor(Actor actor);
+	List<Map<String, Object>> selectActorInFilmOne(int filmId, int checkActorInFilm);
+	int deleteActorInFilmOne(int filmId);
+	int insertActorInFilmOne(int filmId, int actorId);
 }
