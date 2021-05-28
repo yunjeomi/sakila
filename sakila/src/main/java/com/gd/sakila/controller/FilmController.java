@@ -1,5 +1,6 @@
 package com.gd.sakila.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gd.sakila.service.CategoryService;
 import com.gd.sakila.service.FilmService;
+import com.gd.sakila.service.LanguageService;
+import com.gd.sakila.vo.Category;
+import com.gd.sakila.vo.FilmForm;
+import com.gd.sakila.vo.Language;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class FilmController {
 	@Autowired FilmService filmService;
+	@Autowired CategoryService categoryService;
+	@Autowired LanguageService languageService;
 	
 	@GetMapping("/getFilmList")
 	public String getFilmList(Model model, 
@@ -64,7 +72,7 @@ public class FilmController {
 		Map<String, Object> map = filmService.getFilmList(currentPage, rowPerPage, searchWord, selectSearch, categoryName, price, duration, rating);
 		
 		model.addAttribute("filmList", map.get("filmList"));
-		model.addAttribute("categoryNameList", map.get("categoryNameList"));
+		model.addAttribute("categoryList", map.get("categoryList"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", map.get("lastPage"));
 		model.addAttribute("totalPage", map.get("totalPage"));
@@ -121,6 +129,40 @@ public class FilmController {
 		log.debug("●●●●▶actorCk.length-> "+actorCk.length);
 		
 		filmService.modifyActorInFilmOne(filmId, actorCk);
+		
+		return "redirect:/admin/getFilmOne?filmId="+filmId;
+	}
+	
+	@GetMapping("/addFilm")
+	public String addFilm(Model model) {
+		//addFilm에 카테고리 리스트를 출력하기 위해 카테고리 출력 매퍼를 호출한다.
+		List<Category> categoryList = categoryService.getCategoryList();
+		List<Language> languageList = languageService.getLanguageList();
+		log.debug("●●●●▶categoryList-> "+categoryList);
+		log.debug("●●●●▶languageList-> "+languageList);
+		
+		//등급, specialFeatures을 배열값으로 넘겨준다
+		String[] ratingList = {"G", "NC-17", "PG", "PG-13", "R"};
+		String[] specialFeaturesList = {"Trailers", "Commentaries", "Deleted Scenes", "Behind the Scenes"};
+		
+		//카테고리 리스트를 넘긴다
+		model.addAttribute("categoryList", categoryList);
+		model.addAttribute("languageList", languageList);
+		model.addAttribute("ratingList", ratingList);
+		model.addAttribute("specialFeaturesList", specialFeaturesList);
+		return "addFilm";
+	}
+	
+	@PostMapping("/addFilm")
+	//1) 매개변수의 이름을 동일하게 한다. 2)RequestParam을 사용한다. 3)Command 타입을 사용한다.
+	public String addFilm(FilmForm filmForm) {
+		log.debug("●●●●▶filmForm-> "+filmForm);
+		log.debug("●●●●▶specialFeatures-> "+filmForm.getSpecialFeatures());
+		
+		//가져온 값들은 service에서 풀도록 한다.
+		//filmId는 값을 보존하기 위한 역할. One으로 이동해서 actor를 추가하려면 filmId가 필요하다
+		int filmId = filmService.addFilm(filmForm);
+		log.debug("●●●●▶filmId-> "+filmId);
 		
 		return "redirect:/admin/getFilmOne?filmId="+filmId;
 	}

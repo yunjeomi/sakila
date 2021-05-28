@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gd.sakila.mapper.ActorMapper;
 import com.gd.sakila.mapper.CategoryMapper;
 import com.gd.sakila.mapper.FilmMapper;
+import com.gd.sakila.vo.Category;
+import com.gd.sakila.vo.Film;
+import com.gd.sakila.vo.FilmForm;
 import com.gd.sakila.vo.Page;
 
 import lombok.extern.slf4j.Slf4j;
@@ -72,12 +75,12 @@ public class FilmService {
 		List<Map<String, Object>> filmList = filmMapper.selectFilmList(getMap);
 		log.debug("●●●●▶filmList-> "+filmList);
 		
-		List<String> categoryNameList = categoryMapper.selectCategoryNameList();
-		log.debug("●●●●▶categoryNameList-> "+categoryNameList);
+		List<Category> categoryList = categoryMapper.selectCategoryList();
+		log.debug("●●●●▶categoryList-> "+categoryList);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("filmList", filmList);
-		map.put("categoryNameList", categoryNameList);
+		map.put("categoryList", categoryList);
 		map.put("lastPage", lastPage);
 		map.put("totalPage", totalPage);
 		map.put("ratingList", ratingList);
@@ -120,7 +123,7 @@ public class FilmService {
 		return actorList;
 	}
 	
-	public int modifyActorInFilmOne(int filmId, int[] actorId) {
+	public void modifyActorInFilmOne(int filmId, int[] actorId) {
 		//service에서 해야할 일
 		//1) delete from film_actor where film_id = filmId -> 영화-배우 정보에서 배우id를 먼저 삭제한다
 		//2) insert into film_actor(actor_id, film_id) values( , )
@@ -134,7 +137,32 @@ public class FilmService {
 			int inCnt = actorMapper.insertActorInFilmOne(filmId, actorId[i]);
 			log.debug("●●●●▶"+actorId[i]+" 추가 완료 1. 실패0-> "+inCnt);
 		}
+	}
+	
+	//입력된 addFilm 메소드 실행 시 filmId값을 리턴한다
+	public int addFilm(FilmForm filmForm) {
+		Film film = filmForm.getFilm();
+		Category category = filmForm.getCategory();
+		log.debug("●●●●▶film-> "+film);
+		log.debug("●●●●▶category-> "+category);
 		
-		return 0;
+		
+		//film.setSpecialFeatures(filmForm.getFilm().getSpecialFeatures());
+		
+		
+		//1. 필름을 film 테이블에 먼저 등록한다.
+		int filmCnt = filmMapper.insertFilm(film);	//filmId가 생성된 후 film.getFilmId 호출함
+		log.debug("●●●●▶addFilmCnt 등록 완료1, 실패0-> "+filmCnt);
+		
+		//..2를 위한 사전작업..
+		Map<String, Object> map = new HashMap<>();
+		map.put("filmId", film.getFilmId());
+		map.put("categoryId", category.getCategoryId());
+		
+		//2. 위에 저장된 film 정보를 film_category 테이블에도 등록해준다.
+		int fAndC = filmMapper.insertFilmCategory(map);
+		log.debug("●●●●▶addFilmAndCategoryCnt 등록 완료1, 실패0-> "+fAndC);
+		
+		return film.getFilmId();
 	}
 }

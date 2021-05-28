@@ -86,12 +86,12 @@ $(document).ready(function(){
 			<!-- category -->
 			<select id="categoryName" name="categoryName">
 				<option value="">category</option>
-				<c:forEach var="n" items="${categoryNameList}">
-					<c:if test="${n == categoryName}">
-						<option value="${n}" selected>${n}</option>
+				<c:forEach var="n" items="${categoryList}">
+					<c:if test="${n.name == categoryName}">
+						<option value="${n.name}" selected>${n.name}</option>
 					</c:if>
-					<c:if test="${n != categoryName}">
-						<option value="${n}">${n}</option>
+					<c:if test="${n.name != categoryName}">
+						<option value="${n.name}">${n.name}</option>
 					</c:if>
 				</c:forEach>
 			</select>
@@ -195,6 +195,8 @@ $(document).ready(function(){
             <li class="next"><a href="${pageContext.request.contextPath}/admin/getFilmList?currentPage=${currentPage+1}&searchWord=${searchWord}&selectSearch=${selectSearch}&categoryName=${categoryName}&price=${price}&duration=${duration}&rating=${rating}">다음</a></li>
         </c:if>
     </ul>
+    
+    <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/addFilm">영화 추가</a>
 </div>
 </body>
 </html>

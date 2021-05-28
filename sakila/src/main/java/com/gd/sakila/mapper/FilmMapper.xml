@@ -80,7 +80,7 @@
 			f.rental_duration duration,
 			l.length length,
 			l.rating rating,
-			f.release_year releaseYear,
+			YEAR(f.release_year) releaseYear,
 			f.special_features specialFeatures
 		FROM film_list l
 		INNER JOIN film f
@@ -99,4 +99,49 @@
 			)
 		}
 	</select>
+	
+	<insert id="insertFilm" parameterType="com.gd.sakila.vo.Film">
+		<selectKey keyProperty="filmId" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO film(
+			film_id,
+			title,
+			description,
+			release_year,
+			language_id,
+			original_language_id,
+			rental_duration,
+			rental_rate,
+			length,
+			replacement_cost,
+			rating,
+			special_features,
+			last_update
+		) VALUES(
+			#{filmId},
+			#{title},
+			#{description},
+			#{releaseYear},
+			#{languageId},
+			#{originalLanguageId},
+			#{rentalDuration},
+			#{rentalRate},
+			#{length},
+			#{replacementCost},
+			#{rating},
+			#{specialFeatures},
+			NOW()
+		)
+	</insert>
+	
+	<insert id="insertFilmCategory" parameterType="java.util.Map">
+		INSERT INTO film_category(
+			film_id,
+			category_id
+		) VALUES(
+			#{filmId},
+			#{categoryId}
+		)
+	</insert>
 </mapper>
