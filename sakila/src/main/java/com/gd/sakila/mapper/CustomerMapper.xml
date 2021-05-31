@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.sakila.mapper.CustomerMapper">
+	<select id="selectCustomerList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			ID customerId,
+			name,
+			phone,
+			SID storeId
+		FROM customer_list
+		<where>
+			<if test="searchWord != null">
+				name LIKE CONCAT('%', #{searchWord}, '%') OR phone LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="storeId != null">
+				SID = ${storeId}
+			</if>
+			
+		</where>
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<select id="selectCustomerTotal" parameterType="java.util.Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM customer_list
+		<where>
+			<if test="searchWord != null">
+				name LIKE CONCAT('%', #{searchWord}, '%') OR phone LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="storeId != null">
+				SID = ${storeId}
+			</if>
+		</where>
+	</select>
+	
 	<update id="updateCustomerActiveByScheduled">
 		UPDATE customer
 		SET active = 0
