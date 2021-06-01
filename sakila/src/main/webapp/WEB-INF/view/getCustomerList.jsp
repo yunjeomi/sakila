@@ -33,8 +33,9 @@ $(document).ready(function(){
 <div class="container">
 	<h1>getCustomerList</h1>
 	
+	<br>
 	<form id="selectForm" action="${pageContext.request.contextPath}/admin/getCustomerList" method="get">
-		상세검색
+		<input type="hidden" name="searchWord" value="${searchWord}">
 		<select name="storeId">
 			<option value="">==store==</option>
 			<c:if test="${storeId == 1}">
@@ -65,6 +66,7 @@ $(document).ready(function(){
 				<td>customerName</td>
 				<td>phone</td>
 				<td>storeId</td>
+				<td>black&vip</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -76,6 +78,7 @@ $(document).ready(function(){
 					</td>
 					<td>${c.phone}</td>
 					<td>${c.storeId}</td>
+					<td>${c.blackAndVip}</td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -92,12 +95,16 @@ $(document).ready(function(){
 	</ul>
 	
 	<form id="searchForm" class="" action="${pageContext.request.contextPath}/admin/getCustomerList" method="get">
+		<input type="hidden" name="storeId" value="${storeId}">
 		고객 검색 : 
 		<input class="" type="text" name="searchWord">
 		<button id="searchBtn" type="button">검색</button>
 	</form>
 	<br>
 	<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/addCustomer">고객추가</a>
+	<hr>
+	<div>vip : 대여횟수 30회 이상, 구매금액 150달러 이상, not black</div>
+	<div>black : 연체횟수 15번 이상</div>
 </div>
 </body>
 </html>

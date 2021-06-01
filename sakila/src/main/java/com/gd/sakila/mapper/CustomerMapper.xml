@@ -6,14 +6,37 @@
 			ID customerId,
 			name,
 			phone,
-			SID storeId
+			SID storeId,
+			case when ID IN(SELECT c.ID
+                           FROM customer_list c 
+                           INNER JOIN 
+                           (SELECT  p.customer_id,   
+                                    case when DATEDIFF(r.return_date, r.rental_date) &lt; rental_duration 
+                                         then 'overdue' END 'overdue'
+                           FROM payment p, rental r, inventory i, film f
+                           WHERE p.rental_id = r.rental_id AND
+                                 r.inventory_id = i.inventory_id AND
+                                 i.film_id = f.film_id) t
+                           ON c.ID = t.customer_id 
+                           GROUP BY c.Id, overdue 
+                           HAVING overdue 
+                           IS NOT NULL AND COUNT(*) > 15) 
+                             then 'black'
+                when ID IN (SELECT
+                              customer_id
+                              FROM payment
+                              GROUP BY customer_id
+                            HAVING COUNT(customer_id) > 30 
+                            AND SUM(amount) > 150)
+                           then 'vip'
+         	 END 'blackAndVip'
 		FROM customer_list
 		<where>
 			<if test="searchWord != null">
-				name LIKE CONCAT('%', #{searchWord}, '%') OR phone LIKE CONCAT('%', #{searchWord}, '%')
+				AND (name LIKE CONCAT('%', #{searchWord}, '%') OR phone LIKE CONCAT('%', #{searchWord}, '%'))
 			</if>
 			<if test="storeId != null">
-				SID = ${storeId}
+				AND SID = ${storeId}
 			</if>
 			
 		</where>
@@ -26,10 +49,10 @@
 		FROM customer_list
 		<where>
 			<if test="searchWord != null">
-				name LIKE CONCAT('%', #{searchWord}, '%') OR phone LIKE CONCAT('%', #{searchWord}, '%')
+				AND (name LIKE CONCAT('%', #{searchWord}, '%') OR phone LIKE CONCAT('%', #{searchWord}, '%'))
 			</if>
 			<if test="storeId != null">
-				SID = ${storeId}
+				AND SID = ${storeId}
 			</if>
 		</where>
 	</select>
