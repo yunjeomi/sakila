@@ -84,22 +84,22 @@ $(document).ready(function() {
 		
 		<div class="form-group">
 			<label for="boardPw">boardPw</label>
-			<input class="form-control" name="board.boardPw" id="boardPw" type="password">
+			<input id="boardPw" class="form-control" name="board.boardPw" type="password">
 		</div>
 		<div class="form-group">
 			<label for="boardTitle">boardTitle</label>
-			<input class="form-control" name="board.boardTitle" id="boardTitle" type="text">
+			<input id="boardTitle" class="form-control" name="board.boardTitle" type="text">
 		</div>
 		<div class="form-group">
 			<label for="boardContent">boardContent</label>
-			<textarea class="form-control" name="board.boardContent" id="boardContent" rows="5" cols="50"></textarea>
+			<textarea id="boardContent" class="form-control" name="board.boardContent" rows="5" cols="50"></textarea>
 		</div>
 		<div class="form-group">
 			<label for="staffId">staffId</label>
-			<input class="form-control" name="board.staffId" id="staffId" type="text">
+			<input id="staffId" class="form-control" name="board.staffId" type="text">
 		</div>
 		<div>
-			<input class="btn btn-default" id="addButton" type="button" value="글입력">
+			<input id="addButton" class="btn btn-default" type="button" value="글입력">
 			<input class="btn btn-default" type="reset" value="초기화">
 			<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getBoardList">글목록</a>
 		</div>

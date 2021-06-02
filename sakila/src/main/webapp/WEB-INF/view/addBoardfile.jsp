@@ -38,12 +38,12 @@ $(document).ready(function(){
 	
 	<form id="addBoardfile" action="${pageContext.request.contextPath}/admin/addBoardfile" method="post" enctype="multipart/form-data">
 		<div>
-			<input type="hidden" id="boardId" name="boardId" value="${boardId}">
-			<input type="file" id="multipartFile" name="multipartFile">
+			<input id="boardId" type="hidden" name="boardId" value="${boardId}">
+			<input id="multipartFile" type="file" name="multipartFile">
 		</div>
 		<br>
 		<div>
-			<button type="button" id="btn">파일추가</button>
+			<button id="btn" type="button">파일추가</button>
 		</div>
 	</form>
 </body>
