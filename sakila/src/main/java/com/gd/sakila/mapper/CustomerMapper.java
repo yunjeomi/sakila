@@ -10,4 +10,6 @@ public interface CustomerMapper {
 	int updateCustomerActiveByScheduled();
 	List<Map<String, Object>> selectCustomerList(Map<String, Object> map);
 	int selectCustomerTotal(Map<String, Object> map);
+	Map<String, Object> selectCustomerOne(int customerId);
+	List<Map<String, Object>> selectRentalListByCustomer (int customerId, int numOfNull);
 }

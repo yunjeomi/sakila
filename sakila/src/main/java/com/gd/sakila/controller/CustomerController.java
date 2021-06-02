@@ -49,4 +49,18 @@ public class CustomerController {
 		
 		return "getCustomerList";
 	}
+	
+	@GetMapping("/getCustomerOne")
+	public String getCustomerOne(Model model, @RequestParam(value = "customerId", required = true) int customerId) {
+		log.debug("●●●●▶ customerId-> "+customerId);
+		
+		Map<String, Object> map = customerService.getCustomerOne(customerId);
+		log.debug("●●●●▶ customerOne(정보,구매액,대여리스트)-> "+map);
+		
+		model.addAttribute("customerOne", map.get("customerOne"));
+		model.addAttribute("payment", map.get("payment"));
+		model.addAttribute("rentalListOfNull", map.get("rentalListOfNull"));
+		model.addAttribute("rentalListOfNotNull", map.get("rentalListOfNotNull"));
+		return "getCustomerOne";
+	}
 }

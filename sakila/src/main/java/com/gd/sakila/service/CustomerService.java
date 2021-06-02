@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.sakila.mapper.CustomerMapper;
+import com.gd.sakila.mapper.PaymentMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class CustomerService {
 	@Autowired CustomerMapper customerMapper;
+	@Autowired PaymentMapper paymentMapper;
 	
 	public Map<String, Object> getCustomerList(int currentPage, int rowPerPage, String searchWord, Integer storeId){
 		log.debug("●●●●▶ currentPage-> "+currentPage);
@@ -52,6 +54,29 @@ public class CustomerService {
 		map.put("customerList", customerList);
 		map.put("lastPage", lastPage);
 		map.put("totalPage", totalPage);
+		
+		return map;
+	}
+	
+	public Map<String, Object> getCustomerOne(int customerId){
+		log.debug("●●●●▶ customerId-> "+customerId);
+		Map<String, Object> customerOne = customerMapper.selectCustomerOne(customerId);
+		log.debug("●●●●▶ customerOne-> "+customerOne);
+		double payment = paymentMapper.selectPaymentByCustomer(customerId);
+		log.debug("●●●●▶ 총 구매액 payment-> "+payment);
+		
+		//return null일 때, not null일 때 구분한다.
+		//null -> 0 / not null -> 1
+		List<Map<String, Object>> rentalListOfNull = customerMapper.selectRentalListByCustomer(customerId, 0);
+		List<Map<String, Object>> rentalListOfNotNull = customerMapper.selectRentalListByCustomer(customerId, 1);
+		log.debug("●●●●▶ 대여중 리스트 rentalListOfNull-> "+rentalListOfNull);
+		log.debug("●●●●▶ 대여완료 리스트 rentalListOfNotNull-> "+rentalListOfNotNull);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("customerOne", customerOne);
+		map.put("payment", payment);
+		map.put("rentalListOfNull", rentalListOfNull);
+		map.put("rentalListOfNotNull", rentalListOfNotNull);
 		
 		return map;
 	}

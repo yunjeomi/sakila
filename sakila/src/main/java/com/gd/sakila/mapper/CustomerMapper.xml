@@ -36,7 +36,7 @@
 				AND (name LIKE CONCAT('%', #{searchWord}, '%') OR phone LIKE CONCAT('%', #{searchWord}, '%'))
 			</if>
 			<if test="storeId != null">
-				AND SID = ${storeId}
+				AND SID = #{storeId}
 			</if>
 			
 		</where>
@@ -52,7 +52,49 @@
 				AND (name LIKE CONCAT('%', #{searchWord}, '%') OR phone LIKE CONCAT('%', #{searchWord}, '%'))
 			</if>
 			<if test="storeId != null">
-				AND SID = ${storeId}
+				AND SID = #{storeId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectCustomerOne" parameterType="int" resultType="java.util.Map">
+		SELECT
+			c.customer_id customerId,
+			c.store_id storeId,
+			c.email email,
+			c.create_date createDate,
+			c.active active,
+			cl.name name,
+			cl.address address,
+			cl.`zip code` zipCode,
+			cl.phone phone,
+			cl.city city,
+			cl.country country
+		FROM customer c INNER JOIN customer_list cl
+		ON c.customer_id = cl.ID
+		WHERE c.customer_id = #{customerId}
+	</select>
+	
+	<select id="selectRentalListByCustomer" parameterType="int" resultType="java.util.Map">
+		SELECT 
+			r.customer_id customerId,
+			f.film_id filmId, 
+			f.title title,
+			CASE WHEN r.return_date IS NULL AND DATEDIFF(NOW(), r.rental_date) > f.rental_duration
+					THEN '연체중'
+				WHEN r.return_date IS NULL
+					THEN '대여중'
+				ELSE ''
+			END 'state'
+		FROM rental r, inventory i, film f, payment p
+		<where>
+			r.inventory_id = i.inventory_id AND i.film_id = f.film_id 
+			AND p.rental_id = r.rental_id AND r.customer_id = #{customerId}
+			<if test="numOfNull == 0">
+				AND r.return_date IS NULL
+			</if>
+			<if test="numOfNull == 1">
+				AND r.return_date IS NOT NULL
 			</if>
 		</where>
 	</select>
