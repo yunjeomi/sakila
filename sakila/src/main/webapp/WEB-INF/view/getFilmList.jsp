@@ -72,7 +72,7 @@ $(document).ready(function(){
 		</select>
 		
 		<input id="searchWord" type="text" name="searchWord" value="${searchWord}">
-		<button id="searchBtn" type="button">검색</button>
+		<button id="searchBtn" class="btn btn-default" type="button">검색</button>
 	</form>
 	
 	<br>
@@ -144,7 +144,7 @@ $(document).ready(function(){
 					</c:if>
 				</c:forEach>
 			</select>
-		<button id="dropDownBtn" type="button">검색</button>
+		<button id="dropDownBtn" class="btn btn-default" type="button">검색</button>
 		</div>
 	</form>
 	

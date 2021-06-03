@@ -53,7 +53,7 @@ $(document).ready(function(){
 		</select>
 	
 	
-		<button id="selectBtn" type="button">검색</button>
+		<button id="selectBtn" class="btn btn-default" type="button">검색</button>
 	</form>
 	
 	<c:if test="${searchWord != null || storeId != null}">
@@ -98,7 +98,7 @@ $(document).ready(function(){
 		<input type="hidden" name="storeId" value="${storeId}">
 		고객 검색 : 
 		<input class="" type="text" name="searchWord">
-		<button id="searchBtn" type="button">검색</button>
+		<button id="searchBtn" class="btn btn-default" type="button">검색</button>
 	</form>
 	<br>
 	<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/addCustomer">고객추가</a>

@@ -61,7 +61,7 @@ $(document).ready(function(){
 			</c:if>
 		</select>
 		<input id="searchWord" type="text" name="searchWord">
-		<button id="searchBtn" type="button">검색</button>
+		<button id="searchBtn" class="btn btn-default" type="button">검색</button>
 	</form>
 	
 	<!-- 검색결과 간단하게 알려주는 창 -->
