@@ -1,15 +1,25 @@
 package com.gd.sakila.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gd.sakila.mapper.CountryMapper;
+import com.gd.sakila.service.AddressService;
+import com.gd.sakila.service.CityService;
 import com.gd.sakila.service.CustomerService;
+import com.gd.sakila.vo.Address;
+import com.gd.sakila.vo.City;
+import com.gd.sakila.vo.Country;
+import com.gd.sakila.vo.CustomerForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CustomerController {
 	@Autowired CustomerService customerService;
+	@Autowired CountryMapper countryMapper;
+	@Autowired AddressService addressService;
+	@Autowired CityService cityService;
 	
 	@GetMapping("/getCustomerList")
 	public String getCustomerList(Model model, 
@@ -62,5 +75,36 @@ public class CustomerController {
 		model.addAttribute("rentalListOfNull", map.get("rentalListOfNull"));
 		model.addAttribute("rentalListOfNotNull", map.get("rentalListOfNotNull"));
 		return "getCustomerOne";
+	}
+	
+	
+	@GetMapping("/addCustomer")
+	public String addCustomer(Model model) {
+		List<Country> countryList = countryMapper.selectCountryList();
+		log.debug("●●●●▶ countryList-> "+countryList);
+		model.addAttribute("countryList", countryList);
+		return "addCustomer";
+	}
+	
+	//.ajax; RestController 사용하니까 여기 페이지는 다 에러발생,,~
+	@ResponseBody
+	@GetMapping("/addCustomer/phone")
+	public List<Address> addCustomer() {
+		return addressService.getPhone();
+	}
+	
+	@ResponseBody
+	@GetMapping("/addCustomer/city")
+	public List<City> addCustomer(@RequestParam(value = "countryId") int countryId) {
+		List<City> cityList = cityService.getCity(countryId);
+		log.debug("●●●●▶ cityList-> "+cityList);
+		return cityService.getCity(countryId);
+	}
+	
+	@PostMapping("/addCustomer")
+	public String addCustomer(CustomerForm customerForm) {
+		log.debug("●●●●▶ customerForm-> "+customerForm);
+		customerService.addCustomer(customerForm);
+		return "redirect:/admin/getCustomerList";
 	}
 }

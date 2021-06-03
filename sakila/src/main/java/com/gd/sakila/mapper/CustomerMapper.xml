@@ -99,6 +99,26 @@
 		</where>
 	</select>
 	
+	<insert id="insertCustomer" parameterType="com.gd.sakila.vo.Customer">
+		INSERT INTO customer(
+			store_id,
+			first_name,
+			last_name,
+			email,
+			address_id,
+			active,
+			last_update
+		) VALUES(
+			#{storeId},
+			#{firstName},
+			#{lastName},
+			#{email},
+			#{addressId},
+			1,
+			NOW()
+		)
+	</insert>
+	
 	<update id="updateCustomerActiveByScheduled">
 		UPDATE customer
 		SET active = 0
