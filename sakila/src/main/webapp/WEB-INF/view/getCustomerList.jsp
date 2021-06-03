@@ -21,11 +21,6 @@ $(document).ready(function(){
 		console.log('searchBtn click!');
 		$('#searchForm').submit();
 	});
-	
-	$('#selectBtn').click(function(){
-		console.log('selectBtn click!');
-		$('#selectForm').submit();
-	});
 });
 </script>
 </head>
@@ -34,8 +29,7 @@ $(document).ready(function(){
 	<h1>getCustomerList</h1>
 	
 	<br>
-	<form id="selectForm" action="${pageContext.request.contextPath}/admin/getCustomerList" method="get">
-		<input type="hidden" name="searchWord" value="${searchWord}">
+	<form id="searchForm" action="${pageContext.request.contextPath}/admin/getCustomerList" method="get">
 		<select name="storeId">
 			<option value="">==store==</option>
 			<c:if test="${storeId == 1}">
@@ -51,14 +45,21 @@ $(document).ready(function(){
 				<option value="2">2</option>
 			</c:if>
 		</select>
-	
-	
-		<button id="selectBtn" class="btn btn-default" type="button">검색</button>
+		<input type="text" name="searchWord" placeholder="이름+번호 검색">
+		<button id="searchBtn" class="btn btn-default" type="button">검색</button>
 	</form>
-	
-	<c:if test="${searchWord != null || storeId != null}">
-	<div>검색결과 (${totalPage})</div>
-	</c:if>
+	<br>
+	<div>
+		<c:if test="${storeId != null}">
+			[store${storeId}]
+		</c:if>
+		<c:if test="${searchWord != null}">
+			"${searchWord}"
+		</c:if>
+		<c:if test="${storeId != null || searchWord != null}">
+			검색결과 (${totalRow})
+		</c:if>
+	</div>
 	
 	<table class="table table-striped">
 		<thead>
@@ -94,12 +95,6 @@ $(document).ready(function(){
 	</c:if>
 	</ul>
 	
-	<form id="searchForm" class="" action="${pageContext.request.contextPath}/admin/getCustomerList" method="get">
-		<input type="hidden" name="storeId" value="${storeId}">
-		고객 검색 : 
-		<input class="" type="text" name="searchWord">
-		<button id="searchBtn" class="btn btn-default" type="button">검색</button>
-	</form>
 	<br>
 	<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/addCustomer">고객추가</a>
 	<hr>
