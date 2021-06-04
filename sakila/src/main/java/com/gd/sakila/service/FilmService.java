@@ -36,7 +36,6 @@ public class FilmService {
 		log.debug("●●●●▶duration-> "+duration);
 		log.debug("●●●●▶rating-> "+rating);
 		
-		
 		//selectFilmTotal, selectFilmList에 매개값으로 넘겨줄 새로운 Map을 하나 만들고, 값을 넣어준다.
 		Map<String, Object> getMap = new HashMap<>();
 		getMap.put("searchWord", searchWord);
@@ -45,32 +44,29 @@ public class FilmService {
 		getMap.put("price", price);
 		getMap.put("duration", duration);
 		getMap.put("rating", rating);
-		
+		getMap.put("rowPerPage", rowPerPage);
 		//view에서 보여줄 rating list 작성
 		String[] ratingList = {"G", "NC-17", "PG", "PG-13", "R"};
 			
 		//페이징 시 필요한 것
 		//rowPerPage, beginRow, lastPage, currentPage
+		int beginRow = (currentPage-1)*rowPerPage;
+		getMap.put("beginRow", beginRow);
 			
-		int totalPage = filmMapper.selectFilmTotal(getMap);
-		int lastPage = (int)totalPage/rowPerPage;
-		if(totalPage%rowPerPage != 0) {
+		int totalRow = filmMapper.selectFilmTotal(getMap);
+		int lastPage = (int)totalRow/rowPerPage;
+		if(totalRow%rowPerPage != 0) {
 			lastPage += 1;
 		}
-		int beginRow = (currentPage-1)*rowPerPage;
-		log.debug("●●●●▶totalPage-> "+totalPage);
+		log.debug("●●●●▶totalRow-> "+totalRow);
 		log.debug("●●●●▶lastPage-> "+lastPage);
 		
 		//vo page 채워넣고 요 값들을 메소드에 넘겨준다
-		Page page = new Page();
-		page.setBeginRow(beginRow);
-		page.setRowPerPage(rowPerPage);
-		page.setSearchWord(searchWord);
-		log.debug("●●●●▶page-> "+page);
-		
-		getMap.put("beginRow", beginRow);
-		getMap.put("rowPerPage", rowPerPage);
-		
+//		Page page = new Page();
+//		page.setBeginRow(beginRow);
+//		page.setRowPerPage(rowPerPage);
+//		page.setSearchWord(searchWord);
+//		log.debug("●●●●▶page-> "+page);
 		
 		List<Map<String, Object>> filmList = filmMapper.selectFilmList(getMap);
 		log.debug("●●●●▶filmList-> "+filmList);
@@ -82,7 +78,7 @@ public class FilmService {
 		map.put("filmList", filmList);
 		map.put("categoryList", categoryList);
 		map.put("lastPage", lastPage);
-		map.put("totalPage", totalPage);
+		map.put("totalRow", totalRow);
 		map.put("ratingList", ratingList);
 		log.debug("●●●●▶map-> "+map);
 		return map;

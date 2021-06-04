@@ -55,16 +55,11 @@ public class FilmController {
 			selectSearch = null;
 		}
 		
-		//카테고리, 가격, 기간 선택하지 않고 검색했을 때 생기는 버그 수정
+		//카테고리, 가격, 기간 선택하지 않고 검색했을 때 생기는 버그 수정 -> Integer, Double은 애초에 null값으로 넘어온다.
 		if(categoryName != null && (categoryName.equals("null") || categoryName.equals(""))) {
 			categoryName = null;
 		}
-		if(price != null && price == 0.0) {
-			price = null;
-		}
-		if(duration != null && duration == 0) {
-			duration = null;
-		}
+
 		if(rating != null && (rating.equals("null") || rating.equals(""))) {
 			rating = null;
 		}
@@ -75,7 +70,7 @@ public class FilmController {
 		model.addAttribute("categoryList", map.get("categoryList"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", map.get("lastPage"));
-		model.addAttribute("totalPage", map.get("totalPage"));
+		model.addAttribute("totalRow", map.get("totalRow"));
 		model.addAttribute("ratingList", map.get("ratingList"));
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("selectSearch", selectSearch);

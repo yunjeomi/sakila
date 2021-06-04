@@ -66,13 +66,13 @@ $(document).ready(function(){
 	
 	<!-- 검색결과 간단하게 알려주는 창 -->
 	<c:if test="${searchWord != null && searchSelect == 'actorAndFilm'}">
-		<div>[배우+영화] "${searchWord}" 검색 결과 (${totalPage}개)</div>
+		<div>[배우+영화] "${searchWord}" 검색 결과 (${totalRow})</div>
 	</c:if>
 	<c:if test="${searchWord != null && searchSelect == 'actor'}">
-		<div>[배우] "${searchWord}" 검색 결과 (${totalPage}개)</div>
+		<div>[배우] "${searchWord}" 검색 결과 (${totalRow})</div>
 	</c:if>
 	<c:if test="${searchWord != null && searchSelect == 'film'}">
-		<div>[영화] "${searchWord}" 검색 결과 (${totalPage}개)</div>
+		<div>[영화] "${searchWord}" 검색 결과 (${totalRow})</div>
 	</c:if>
 	<br>
 	

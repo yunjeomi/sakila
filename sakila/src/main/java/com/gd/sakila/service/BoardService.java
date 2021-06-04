@@ -154,9 +154,9 @@ public class BoardService {
 	public Map<String, Object>	getBoardList(int currentPage, int rowPerPage, String searchWord){
 		//매개변수 값 가공&처리
 		//전체 list 수(boardTotal), 마지막 페이지(lastPage) 구하기
-		int boardTotal = boardMapper.selectBoardTotal(searchWord);
-		int lastPage = boardTotal/rowPerPage;
-		if(boardTotal%rowPerPage != 0) {
+		int totalRow = boardMapper.selectBoardTotal(searchWord);
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow%rowPerPage != 0) {
 			lastPage += 1;
 		}
 		//int lastPage = (int)(Math.ceil((double)boardTotal/rowPerPage));

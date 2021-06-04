@@ -32,14 +32,14 @@ public class ActorService {
 		
 		//페이징용 beginRow, rowPerPage, lastPage, totalPage
 		int beginRow = (currentPage-1)*rowPerPage;
-		int totalPage = actorMapper.selectActorTotal(searchWord, searchSelect);
-		int lastPage = totalPage/rowPerPage;
-		if(totalPage % rowPerPage != 0) {
+		int totalRow = actorMapper.selectActorTotal(searchWord, searchSelect);
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
 			lastPage += 1;
 		}
 		
 		log.debug("●◆■◆●▶ beginRow-> "+beginRow);
-		log.debug("●◆■◆●▶ totalPage-> "+totalPage);
+		log.debug("●◆■◆●▶ totalRow-> "+totalRow);
 		log.debug("●◆■◆●▶ lastPage-> "+lastPage);
 		
 		//vo에 넣어서 보내주기
@@ -53,7 +53,7 @@ public class ActorService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("actorList", actorList);
 		map.put("lastPage", lastPage);
-		map.put("totalPage", totalPage);
+		map.put("totalRow", totalRow);
 		
 		return map;
 	}

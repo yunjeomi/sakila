@@ -46,7 +46,7 @@ public class ActorController {
 		//service에서 가져온 값 model로 넘겨주기
 		model.addAttribute("actorList", map.get("actorList"));
 		model.addAttribute("lastPage", map.get("lastPage"));
-		model.addAttribute("totalPage", map.get("totalPage"));
+		model.addAttribute("totalRow", map.get("totalRow"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("searchSelect", searchSelect);

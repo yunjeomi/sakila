@@ -47,15 +47,11 @@ public class CustomerController {
 			searchWord = null;
 		}
 		
-		if(storeId != null && storeId == 0) {
-			storeId = null;
-		}
-		
 		Map<String, Object> map = customerService.getCustomerList(currentPage, rowPerPage, searchWord, storeId);
 		
 		model.addAttribute("customerList", map.get("customerList"));
 		model.addAttribute("lastPage", map.get("lastPage"));
-		model.addAttribute("totalPage", map.get("totalPage"));
+		model.addAttribute("totalRow", map.get("totalRow"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("storeId", storeId);

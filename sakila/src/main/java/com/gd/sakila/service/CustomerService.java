@@ -45,13 +45,13 @@ public class CustomerService {
 		//totalPage, lastPage, beginRow
 		//totalPage구하기 위해 위 값들을 먼저 넣는다.
 		int beginRow = (currentPage-1)*rowPerPage;
-		int totalPage = customerMapper.selectCustomerTotal(getMap);
-		int lastPage = totalPage/rowPerPage;
-		if(totalPage % rowPerPage != 0) {
+		int totalRow = customerMapper.selectCustomerTotal(getMap);
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
 			lastPage += 1;
 		}
 		
-		log.debug("●●●●▶ totalPage-> "+totalPage);
+		log.debug("●●●●▶ totalRow-> "+totalRow);
 		log.debug("●●●●▶ lastPage-> "+lastPage);
 		
 		//customerList얻기 위해 구한 beginRow를 map에 넣어준다.
@@ -63,7 +63,7 @@ public class CustomerService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("customerList", customerList);
 		map.put("lastPage", lastPage);
-		map.put("totalPage", totalPage);
+		map.put("totalRow", totalRow);
 		
 		return map;
 	}

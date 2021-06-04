@@ -150,16 +150,16 @@ $(document).ready(function(){
 	
 	<br>
 	<c:if test="${searchWord == null}">
-		<div>검색결과 ${totalPage}개</div>
+		<div>검색결과 ${totalRow}개</div>
 	</c:if>	
 	<c:if test="${selectSearch.equals('titleOrActors')}">
-		<div>[제목+배우] "${searchWord}" (검색결과 ${totalPage}개)</div>
+		<div>[제목+배우] "${searchWord}" (검색결과 ${totalRow}개)</div>
 	</c:if>
 	<c:if test="${selectSearch.equals('title')}">
-		<div>[제목] "${searchWord}" (검색결과 ${totalPage}개)</div>
+		<div>[제목] "${searchWord}" (검색결과 ${totalRow}개)</div>
 	</c:if>
 	<c:if test="${selectSearch.equals('actors')}">
-		<div>[배우] "${searchWord}" (검색결과 ${totalPage}개)</div>
+		<div>[배우] "${searchWord}" (검색결과 ${totalRow}개)</div>
 	</c:if>
 	
 	<table class="table table-striped">
