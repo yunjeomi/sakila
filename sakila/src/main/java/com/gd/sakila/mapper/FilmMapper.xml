@@ -88,6 +88,18 @@
 		WHERE f.film_id = #{filmId}
 	</select>
 	
+	<select id="selectFilmTitleList" parameterType="String" resultType="com.gd.sakila.vo.Film">
+		SELECT
+			film_id filmId,
+			title title
+		FROM film
+		<where>
+			<if test="keyWord != null">
+				title LIKE CONCAT('%',#{keyWord},'%')
+			</if>
+		</where>
+	</select>
+	
 	<!-- 프로시저를 호출하는 문법 statementType="CALLABLE" & { call 프로시저명{매개변수}} -->
 	<!-- Map : filmId, storeId, filmCount -->
 	<select id="selectFilmInStock" parameterType ="java.util.Map" resultType="int" statementType="CALLABLE"> 
