@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.sakila.mapper.InventoryMapper">
+	<select id="selectInventoryList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			i.inventory_id inventoryId,
+			f.film_id filmId,
+			f.title title,
+			<if test="notInStock != 0">
+				<if test="storeId != 1 and storeId != 2">
+					COUNT(case when i.store_id = 1 and `inventory_in_stock`(i.inventory_id) = 1 then 1 END) 'store1',
+					COUNT(case when i.store_id = 2 and `inventory_in_stock`(i.inventory_id) = 1 then 1 END) 'store2',
+				</if>
+				COUNT(case when `inventory_in_stock`(i.inventory_id) = 1 AND i.inventory_id IS NOT NULL then 1 END) 'totalInStock',
+			</if>
+			COUNT(case when `inventory_in_stock`(i.inventory_id) = 0 then 1 END) 'notInStock'
+			<if test="notInStock != 0">
+				, COUNT(i.film_id) 'total'
+			</if>
+		FROM inventory i
+		RIGHT JOIN film f
+		ON f.film_id = i.film_id
+		<where>
+			<if test="searchWord != null">
+				AND f.title LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="storeId != null">
+				AND i.store_id = #{storeId}
+			</if>
+			<if test="notInStock == 0">
+				AND `inventory_in_stock`(i.inventory_id) = 0
+			</if>
+		</where>
+		GROUP BY f.title
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<select id="selectInventoryTotal" parameterType="java.util.Map" resultType="int">
+		SELECT
+			COUNT(DISTINCT f.title)
+		FROM inventory i
+		RIGHT JOIN film f
+		ON f.film_id = i.film_id
+		<where>
+			<if test="searchWord != null">
+				AND f.title LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="storeId != null">
+				AND i.store_id = #{storeId}
+			</if>
+			<if test="notInStock == 0">
+				AND `inventory_in_stock`(i.inventory_id) = 0
+			</if>
+		</where>
+	</select>
+</mapper>
