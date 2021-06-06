@@ -79,7 +79,38 @@ public class InventoryService {
 		return totalCnt;
 	}
 	
+	public int removeInventory(Inventory inventory, int ea) {
+		log.debug("▶@▶@▶@▶inventory-> "+inventory);
+		log.debug("▶@▶@▶@▶삭제 갯수-> "+ea);
+		
+		int removeCnt = 0;	//추가 횟수
+		int totalCnt = 0;	//확인용
+		int inventoryId = 0;
+		//delete에서 selectKey가 안 먹혀서 쿼리를 2개로 나눴음.
+		//inventoryId 구하는 select쿼리 실행 후 -> delete 실행
+		
+		for(int i=0; i<ea; i++) {
+			inventoryId = inventoryMapper.selectLastInventoryId(inventory);	//inventoryId 얻기 <- 제일 늦게 등록한 inventoryId를 가져온다.
+			removeCnt = inventoryMapper.deleteInventory(inventoryId);		//위에서 얻은 id로 삭제 실행
+			log.debug("▶@▶@▶@▶inventory 삭제 완료1, 실패0-> "+removeCnt);
+			if(removeCnt == 1) {
+				totalCnt += 1;
+			}
+		}
+		return totalCnt;
+	}
+	
 	public List<Film> addInventoryByFilmTitleList(String keyWord) {
 		return filmMapper.selectFilmTitleList(keyWord);
+	}
+	
+	public List<Map<String, Object>> removeInventoryByFilmTitleList(int storeId, String keyWord){
+		log.debug("▶@▶@▶@▶storeId-> "+storeId);
+		log.debug("▶@▶@▶@▶keyWord-> "+keyWord);
+		//selectFilmTitleListByStoreId의 매개타입 Map
+		Map<String, Object> setMap = new HashMap<>();
+		setMap.put("storeId", storeId);
+		setMap.put("keyWord", keyWord);
+		return filmMapper.selectFilmTitleListByStoreId(setMap);
 	}
 }

@@ -65,4 +65,20 @@ public class InventoryController {
 		
 		return "redirect:/admin/getInventoryList";
 	}
+	
+	@GetMapping("/removeInventory")
+	public String removeInventory() {
+		return "removeInventory";
+	}
+	
+	@PostMapping("/removeInventory")
+	public String removeInventory(Inventory inventory, int ea) {
+		log.debug("▶@▶@▶@▶inventory-> "+inventory);
+		log.debug("▶@▶@▶@▶삭제 갯수-> "+ea);
+		
+		int totalCnt = inventoryService.removeInventory(inventory, ea);
+		log.debug("▶@▶@▶@▶삭제 갯수:"+ea+", 처리 횟수(service실행 후):"+totalCnt);
+		
+		return "redirect:/admin/getInventoryList";
+	}
 }

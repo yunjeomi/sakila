@@ -12,4 +12,6 @@ public interface InventoryMapper {
 	List<Map<String, Object>> selectInventoryList(Map<String, Object> map);
 	int selectInventoryTotal(Map<String, Object> map);
 	int insertInventory(Inventory inventory);
+	int selectLastInventoryId(Inventory inventory);
+	int deleteInventory(int inventoryId);
 }

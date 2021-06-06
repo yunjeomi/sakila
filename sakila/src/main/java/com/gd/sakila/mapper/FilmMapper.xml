@@ -100,6 +100,31 @@
 		</where>
 	</select>
 	
+	<select id="selectFilmTitleListByStoreId" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			i.inventory_id inventoryId,
+			f.film_id filmId,
+			f.title title
+			<if test="storeId != 0">
+				,COUNT(case when i.store_id = #{storeId} and `inventory_in_stock`(i.inventory_id) = 1 then 1 END) 'inStock'
+			</if>
+			<if test="storeId == 0">
+				,COUNT(case when `inventory_in_stock`(i.inventory_id) = 1 then 1 END) 'inStock'
+			</if>
+		FROM film f
+		left join inventory i
+		ON i.film_id = f.film_id
+		<where>
+			<if test="storeId != 0">
+				AND i.store_id = #{storeId}
+			</if>
+			<if test="keyWord != null">
+				AND title LIKE CONCAT('%',#{keyWord},'%')
+			</if>
+		</where>
+		GROUP BY title
+	</select>
+	
 	<!-- 프로시저를 호출하는 문법 statementType="CALLABLE" & { call 프로시저명{매개변수}} -->
 	<!-- Map : filmId, storeId, filmCount -->
 	<select id="selectFilmInStock" parameterType ="java.util.Map" resultType="int" statementType="CALLABLE"> 

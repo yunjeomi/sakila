@@ -13,6 +13,7 @@ public interface FilmMapper {
 	int selectFilmTotal(Map<String, Object> map);
 	Map<String, Object> selectFilmOne(int filmId);
 	List<Film> selectFilmTitleList(String keyWord);
+	List<Map<String, Object>> selectFilmTitleListByStoreId(Map<String, Object> map);
 	List<Integer> selectFilmInStock(Map<String, Object> map);
 	int insertFilm(Film film);
 	int insertFilmCategory(Map<String, Object> map);

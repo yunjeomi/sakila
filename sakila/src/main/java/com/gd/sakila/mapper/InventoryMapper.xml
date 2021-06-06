@@ -65,4 +65,16 @@
 			NOW()
 		)
 	</insert>
+	
+	<select id="selectLastInventoryId" parameterType="com.gd.sakila.vo.Inventory">
+		SELECT
+			MAX(inventory_id) inventoryId
+		FROM inventory
+		WHERE film_id = #{filmId} AND store_id = #{storeId}
+	</select>
+	
+	<delete id="deleteInventory" parameterType="com.gd.sakila.vo.Inventory">
+		DELETE FROM inventory
+		WHERE inventory_id = #{inventoryId}
+	</delete>
 </mapper>
