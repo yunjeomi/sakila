@@ -10,14 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gd.sakila.mapper.CountryMapper;
 import com.gd.sakila.service.AddressService;
 import com.gd.sakila.service.CityService;
 import com.gd.sakila.service.CustomerService;
-import com.gd.sakila.vo.Address;
-import com.gd.sakila.vo.City;
 import com.gd.sakila.vo.Country;
 import com.gd.sakila.vo.CustomerForm;
 
@@ -82,20 +79,6 @@ public class CustomerController {
 		return "addCustomer";
 	}
 	
-	//.ajax; RestController 사용하니까 여기 페이지는 다 에러발생,,~
-	@ResponseBody
-	@GetMapping("/addCustomer/phone")
-	public List<Address> addCustomer() {
-		return addressService.getPhone();
-	}
-	
-	@ResponseBody
-	@GetMapping("/addCustomer/city")
-	public List<City> addCustomer(@RequestParam(value = "countryId") int countryId) {
-		List<City> cityList = cityService.getCity(countryId);
-		log.debug("●●●●▶ cityList-> "+cityList);
-		return cityService.getCity(countryId);
-	}
 	
 	@PostMapping("/addCustomer")
 	public String addCustomer(CustomerForm customerForm) {
