@@ -6,4 +6,33 @@
 		FROM payment
 		WHERE customer_id = #{customerId}
 	</select>
+	
+	<select id="selectSalesListByCategory" resultType="java.util.Map">
+		SELECT
+			category category,
+			total_sales totalSales
+		FROM sales_by_film_category
+	</select>
+	
+	<select id="selectBestSellerList" resultType="java.util.Map">
+		SELECT
+			f.title title,
+			COUNT(i.film_id) rentalTotal,
+			SUM(p.amount) paymentTotal
+		FROM rental r, payment p, inventory i, film f
+		WHERE r.rental_id = p.rental_id AND i.film_id = f.film_id AND r.inventory_id = i.inventory_id
+		GROUP BY i.film_id
+		HAVING COUNT(i.film_id) > 30
+		ORDER BY COUNT(i.film_id) DESC, r.rental_id DESC
+	</select>
+	
+	<select id="selectSalesListByStore" resultType="java.util.Map">
+		SELECT
+			i.store_id storeId,
+			SUM(p.amount) totalSales
+		FROM payment AS p
+		INNER JOIN rental AS r ON p.rental_id = r.rental_id
+		INNER JOIN inventory AS i ON r.inventory_id = i.inventory_id
+		GROUP BY i.store_id
+	</select>
 </mapper>
