@@ -28,8 +28,11 @@ $(document).ready(function(){
 	<!-- 대여 프로세스
 	rental; rentalId 추가 하는 것.
 	payment; 렌탈비를 먼저 받아야 하니까 paymentId도 함께 추가한다. -> rental fee, 반납일 구하는 쿼리 필요 
-	
+	rental과 payment의 paymentdate, rentaldate가 같음. -> 즉 두개의 id는 같이 생성된다.
 	근데, payment에서 rentalId null인건 대체 무슨 이유인지 모르겠음..
+	
+	경우의 수 1) 대여하면서 결제한 경우 -> 기본 대여료를 지급했음 -> payment의 amount는 대여료이며, if rental의 return_date가 rentalDuration을 초과한 경우 +1달러, *2일경우 replaceCost
+	경우의 수 2) 대여하면서 미 결제한 경우 -> amount는 우선 0 -> 리턴이 찍히면 amount 뜨거나, 결제금액 창을 미리 만들어놓는다.
 	-->
 	<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/addRental">대여</a>
 	
@@ -39,7 +42,7 @@ $(document).ready(function(){
 	-->
 	<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/addPayment">반납</a>
 	<br><br>
-	<form id="searchForm" action="${pageContext.request.contextPath}/admin/getInventoryList" method="get">
+	<form id="searchForm" action="${pageContext.request.contextPath}/admin/getRentalList" method="get">
 		<select name="storeId">
 			<option value="">==store==</option>
 			<c:if test="${storeId == 1}">
@@ -67,6 +70,7 @@ $(document).ready(function(){
 				<th>title</th>
 				<th>rentalDate</th>
 				<th>storeId</th>
+				<th>overdueFee</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -76,6 +80,7 @@ $(document).ready(function(){
 					<td>${r.title}</td>
 					<td>${r.rentalDate}</td>
 					<td>${r.storeId}</td>
+					<td></td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -83,10 +88,10 @@ $(document).ready(function(){
 
 	<ul class="pager">
         <c:if test="${currentPage > 1}">
-            <li class="previous"><a href="${pageContext.request.contextPath}/admin/getFilmList?currentPage=${currentPage-1}&searchWord=${searchWord}&selectSearch=${selectSearch}&categoryName=${categoryName}&price=${price}&duration=${duration}&rating=${rating}">이전</a></li>
+            <li class="previous"><a href="${pageContext.request.contextPath}/admin/getRentalList?currentPage=${currentPage-1}&searchWord=${searchWord}&storeId=${storeId}">이전</a></li>
         </c:if>
         <c:if test="${currentPage < lastPage}">
-            <li class="next"><a href="${pageContext.request.contextPath}/admin/getFilmList?currentPage=${currentPage+1}&searchWord=${searchWord}&selectSearch=${selectSearch}&categoryName=${categoryName}&price=${price}&duration=${duration}&rating=${rating}">다음</a></li>
+            <li class="next"><a href="${pageContext.request.contextPath}/admin/getRentalList?currentPage=${currentPage+1}&searchWord=${searchWord}&storeId=${storeId}">다음</a></li>
         </c:if>
     </ul>
 </div>

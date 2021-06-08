@@ -43,7 +43,7 @@ $(document).ready(function(){
 			success: function(jsonData) {
 				//console.log('얻은data->'+jsonData);
 				if(jsonData != 0){
-					$('#phoneCk').text('환영합니다!');
+					$('#phoneCk').text('등록된 고객입니다!');
 					customerId = jsonData;
 					console.log('customerId->'+customerId);
 					ckBtn = true;
@@ -123,28 +123,22 @@ $(document).ready(function(){
 	//[+]버튼 클릭하면 위에 입력한 정보들을 대여리스트로 이동시킨다.
 	$('#plusBtn').click(function(){
 		console.log('plusBtn click!');
-		console.log('ckBtn'+ckBtn);
-		//console.log('customerId->'+customerId);
-		//console.log('title->'+title);
-		//console.log('storeId->'+$('#storeId_').val());
-		//console.log('ea->'+$('#ea_').val());
+
 		if(ckBtn == false){
 			alert('고객 등록을 먼저 해주세요!');
 			return;
 		}
+
 		staffId = $('#storeId_').val();
-		ea = $('#ea_').val();
+		
 		let plusForm = '';
 		plusForm += '<tr>';
 		plusForm += '	<td>'+customerId+'</td>';
 		plusForm += '	<td>'+title+'</td>';
 		plusForm += '	<td>'+$('#storeId_').val()+'</td>';
-		plusForm += '	<td>'+$('#ea_').val()+'</td>';
-		plusForm += '	<td><button id="minusBtn" class="btn btn-default" type="button">-</button></td>';
-		plusForm += '<input type="hidden" name="customerId" value="'+customerId+'">';
-		plusForm += '<input type="hidden" name="staffId" value="'+staffId+'">';
-		plusForm += '<input type="hidden" name="inventoryId" value="'+inventoryId+'">';
-		plusForm += '<input type="hidden" name="ea" value="'+ea+'">';
+		plusForm += '<input id="customerId" type="hidden" name="customerId" value="'+customerId+'">';
+		plusForm += '<input id="staffId" type="hidden" name="staffId" value="'+staffId+'">';
+		plusForm += '<input id="inventoryId" type="hidden" name="inventoryId" value="'+inventoryId+'">';
 		plusForm += '</tr>';
 		
 		$("#addTr").append(plusForm);	//위의 내용들을 대여리스트 테이블에 추가한다.
@@ -152,19 +146,17 @@ $(document).ready(function(){
 		//filmId, title, inStock, ea 초기화 시킨다.
 		$('#textInput_').val('');
 		$('#inStock_').val('');
-		$('#ea_').val('');
-		//console.log('title->'+$('#textInput').val());
-		//console.log('inStock->'+$('#inStock').val());
-		//console.log('ea->'+$('#ea').val());
+		
+		//값 확인하기
+		console.log('customerId->'+$('#customerId').val());
+		console.log('staffId->'+$('#staffId').val());
+		console.log('inventoryId->'+$('#inventoryId').val());
 	});
 	
-	//잘못 입력한 정보는 삭제 가능하도록
-	$('#minusBtn').click(function() {
-		$('#addTr > tbody:last > tr:last').remove();
-	});
-
+	//유효성 검사는 나중에... ㅠㅠ
 	$('#addBtn').click(function(){
 		console.log('addBtn click!');
+		$('#addForm').submit();
 		
 		//위에서 받아온 filmId값을 넣어준다.
 		console.log('값 넣기 전 filmId은 ?-> '+$('#filmId').val());
@@ -174,9 +166,6 @@ $(document).ready(function(){
 		//등록되지 않은 영화 판별위한 디버깅
 		console.log('선택한 title은 ?-> '+title);
 		console.log('입력된 title은 ?-> '+$('#textInput').val());
-		
-		
-			$('#addForm').submit();
 		
 	})
 });
@@ -191,7 +180,7 @@ $(document).ready(function(){
 			<td>customerPhone</td>
 			<td>
 				<div>
-					<input id="phone_" class="form-control" type="text" name="customerId_" placeholder="phoneNumber을 입력해주세요">
+					<input id="phone_" class="form-control" type="text" name="customerId_" placeholder="phoneNumber 입력">
 				</div>
 				<div>
 					<button id="ckBtn" class="btn btn-default" type="button">check</button>
@@ -224,13 +213,6 @@ $(document).ready(function(){
 				<input id="inStock_" class="form-control" type="text" name="inStock_" readonly>
 			</td>
 		</tr>
-		
-		<tr>
-			<td>대여수량</td>
-			<td>
-				<input id="ea_" class="form-control" type="number" name="ea_" min="1" max="5">
-			</td>
-		</tr>
 	</table>
 	<div>
 		<button id="plusBtn" class="btn btn-default" type="button">+</button>
@@ -245,8 +227,6 @@ $(document).ready(function(){
 					<th>customerId</th>
 					<th>title</th>
 					<th>storeId</th>
-					<th>대여수량</th>
-					<th>삭제</th>
 				</tr>
 			</thead>
 			<tbody id="addTr">

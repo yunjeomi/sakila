@@ -50,14 +50,13 @@ public class RentalController {
 	}
 	
 	@PostMapping("/addRental")
-	public String addRental(int[] customerId, int[] inventoryId, int[] staffId, int[] ea) {
-		//customerId, inventoryId, staffId
-//		log.debug("▶@▶@▶@▶rental-> "+rental);
-		log.debug("▶@▶@▶@▶대여customerId-> "+customerId);
+	public String addRental(String customerId, String inventoryId, String staffId) {
+		log.debug("▶@▶@▶@▶대여 customerId-> "+customerId);
 		log.debug("▶@▶@▶@▶대여 inventoryId-> "+inventoryId);
 		log.debug("▶@▶@▶@▶대여 staffId-> "+staffId);
-		log.debug("▶@▶@▶@▶대여 수량-> "+ea);
+		int totalCnt = rentalService.addRental(customerId, inventoryId, staffId);
+		log.debug("▶@▶@▶@▶대여 등록 횟수-> "+totalCnt);
 		
-		return "addRental";
+		return "redirect:/admin/getRentalList";
 	}
 }

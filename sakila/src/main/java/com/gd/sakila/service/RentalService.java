@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.sakila.mapper.FilmMapper;
 import com.gd.sakila.mapper.RentalMapper;
+import com.gd.sakila.vo.Rental;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,5 +65,30 @@ public class RentalService {
 		setMap.put("storeId", storeId);
 		setMap.put("keyWord", keyWord);
 		return filmMapper.selectFilmTitleListByStoreId(setMap);
+	}
+	
+	public int addRental(String customerId, String inventoryId, String staffId) {
+		//String ","로 구분되어 있는 정보를 배열로 구분하고 처리하자.
+		log.debug("▶@▶@▶@▶대여 customerId-> "+customerId);
+		log.debug("▶@▶@▶@▶대여 inventoryId-> "+inventoryId);
+		log.debug("▶@▶@▶@▶대여 staffId-> "+staffId);
+		
+		String[] customerIdArr = customerId.split(",");
+		String[] inventoryIdArr = inventoryId.split(",");
+		String[] staffIdArr = staffId.split(",");
+		
+		Rental rental = new Rental();
+		int addRentalCnt = 0;
+		int totalCnt = 0;
+		//arr를 변환후 메소드 실행해주기
+		for(int i=0; i<customerIdArr.length; i++) {
+			rental.setCustomerId(Integer.parseInt(customerIdArr[i]));
+			rental.setInventoryId(Integer.parseInt(inventoryIdArr[i]));
+			rental.setStaffId(Integer.parseInt(staffIdArr[i]));
+			addRentalCnt = rentalMapper.insertRental(rental);
+			log.debug("▶@▶@▶@▶등록 성공1, 실패0-> "+addRentalCnt);
+			totalCnt += 1;
+		}
+		return totalCnt;
 	}
 }

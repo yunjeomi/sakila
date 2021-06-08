@@ -3,12 +3,12 @@ package com.gd.sakila.vo;
 import lombok.Data;
 
 @Data
-public class Rental {
-	private int rentalId;
-	private String rentalDate;
-	private int inventoryId;
+public class Payment {
+	private int paymentId;
 	private int customerId;
-	private String returnDate;
 	private int staffId;
+	private int rentalId;
+	private double amount;
+	private String paymentdate;
 	private String lastUpdate;
 }
