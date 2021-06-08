@@ -50,15 +50,8 @@ $(document).ready(function(){
 			<tr>
 				<th>actorNotInFilm</th>
 				<td>
-					<c:set var="preFirstStr" value=""/>
 					<c:forEach var="n" items="${actorListNotInFilm}">
-						<c:if test="${preFirstStr != n.name.substring(0, 1)}">
-							<c:set var="preFirstStr" value="${n.name.substring(0, 1)}"/>
-								<input id="actorListNotInFilm" type="checkbox" name="actorCk" value="${n.actorId}"> ${n.name}&nbsp;
-						</c:if>
-						<c:if test="${preFirstStr == n.name.substring(0, 1)}">
-							<input id="actorListNotInFilm" type="checkbox" name="actorCk" value="${n.actorId}"> ${n.name}&nbsp;
-						</c:if>
+						<input id="actorListNotInFilm" type="checkbox" name="actorCk" value="${n.actorId}"> ${n.name}&nbsp;
 					</c:forEach>
 				</td>
 			</tr>

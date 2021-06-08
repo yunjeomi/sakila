@@ -52,6 +52,7 @@ $(document).ready(function(){
 		<a href="${pageContext.request.contextPath}/admin/getCustomerList">고객정보</a>
 		<a href="${pageContext.request.contextPath}/admin/getInventoryList">재고관리</a>
 		<a href="${pageContext.request.contextPath}/admin/getSalesListByStore">매출현황</a>
+		<a href="${pageContext.request.contextPath}/admin/getRentalList">대여/반납</a>
 		<a href="${pageContext.request.contextPath}/admin/logout">로그아웃</a>
 	</c:if>
 	

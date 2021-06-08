@@ -120,7 +120,6 @@ public class FilmController {
 	public String modifyActorInFilmOne(@RequestParam(value = "filmId", required = true) int filmId,
 										@RequestParam(value = "actorCk") int[] actorCk) {
 		log.debug("●●●●▶filmId-> "+filmId);
-		log.debug("●●●●▶actorCk-> "+actorCk);
 		log.debug("●●●●▶actorCk.length-> "+actorCk.length);
 		
 		filmService.modifyActorInFilmOne(filmId, actorCk);

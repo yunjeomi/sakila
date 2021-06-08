@@ -36,8 +36,8 @@ $(document).ready(function(){
 			url:'/phoneNumList',
 			data: {phone : $('#phone').val()},
 			success: function(JsonData) {
-				//console.log('얻은data->'+JsonData);
-				if(JsonData == 1){
+				console.log('얻은data->'+JsonData);
+				if(JsonData != 0){
 					$('#phoneCk').text('이미 등록된 번호입니다.');
 					$('#phone').focus();
 					console.log('ckBtn : t or f?->'+ckBtn);

@@ -104,7 +104,8 @@
 		SELECT
 			i.inventory_id inventoryId,
 			f.film_id filmId,
-			f.title title
+			f.title title,
+			f.rating rating
 			<if test="storeId != 0">
 				,COUNT(case when i.store_id = #{storeId} and `inventory_in_stock`(i.inventory_id) = 1 then 1 END) 'inStock'
 			</if>

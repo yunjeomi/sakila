@@ -91,6 +91,10 @@ public class CustomerService {
 		return map;
 	}
 	
+	public Integer getPhone(String phone) {
+		return customerMapper.selectPhone(phone);
+	}
+	
 	public void addCustomer(CustomerForm customerForm) {
 		log.debug("●●●●▶ customerForm-> "+customerForm);
 		//customerForm 에서 -> customer, country, city, address 꺼내 vo에 넣어준다.

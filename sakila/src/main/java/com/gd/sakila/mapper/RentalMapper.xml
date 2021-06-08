@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.sakila.mapper.RentalMapper">
+	<select id="selectRentalList" resultType="java.util.Map">
+		SELECT
+			CONCAT(c.first_name, ' ', c.last_name) name,
+			f.title title,
+			r.rental_date rentalDate,
+			i.store_id storeId
+		FROM rental r, inventory i, customer c, film f
+		WHERE r.inventory_id = i.inventory_id 
+			AND i.film_id = f.film_id 
+			AND r.customer_id = c.customer_id 
+			AND return_date IS null
+	</select>
+	
+	<select id="selectRentalListTotal" resultType="int">
+		SELECT
+			COUNT(DISTINCT i.inventory_id)
+		FROM rental r, inventory i, customer c, film f
+		WHERE r.inventory_id = i.inventory_id 
+			AND i.film_id = f.film_id 
+			AND r.customer_id = c.customer_id 
+			AND return_date IS null
+	</select>
+	
+	<insert id="insertRental" parameterType="com.gd.sakila.vo.Rental">
+		INSERT INTO rental (
+			rental_date,
+			inventory_id,
+			customer_id,
+			staff_id,
+			last_update
+		) VALUES(
+			NOW(),
+			#{inventoryId},
+			#{customerId},
+			#{staffId},
+			NOW()
+		)
+	</insert>
+</mapper>

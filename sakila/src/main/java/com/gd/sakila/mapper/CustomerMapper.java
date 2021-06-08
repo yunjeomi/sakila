@@ -13,6 +13,7 @@ public interface CustomerMapper {
 	List<Map<String, Object>> selectCustomerList(Map<String, Object> map);
 	int selectCustomerTotal(Map<String, Object> map);
 	Map<String, Object> selectCustomerOne(int customerId);
+	Integer selectPhone(String phone);
 	int insertCustomer(Customer customer);
 	List<Map<String, Object>> selectRentalListByCustomer (int customerId, int numOfNull);
 }

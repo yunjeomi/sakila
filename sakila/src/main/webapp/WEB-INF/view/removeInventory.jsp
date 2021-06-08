@@ -108,7 +108,7 @@ $(document).ready(function(){
 <body>
 <div class="container">
 	<h1>addInventory</h1>
-	<form id="removeForm" action="${pageContext.request.contextPath}/admin/addInventory" method="post">
+	<form id="removeForm" action="${pageContext.request.contextPath}/admin/removeInventory" method="post">
 		<table class="table table-hover">
 		<tr>
 			<td>storeId</td>

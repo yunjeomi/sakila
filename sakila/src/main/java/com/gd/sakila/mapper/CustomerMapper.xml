@@ -99,6 +99,13 @@
 		</where>
 	</select>
 	
+	<select id="selectPhone" parameterType="String" resultType="Integer">
+		SELECT
+			ID customerId
+		FROM customer_list
+		WHERE phone = #{phone}
+	</select>
+	
 	<insert id="insertCustomer" parameterType="com.gd.sakila.vo.Customer">
 		INSERT INTO customer(
 			store_id,

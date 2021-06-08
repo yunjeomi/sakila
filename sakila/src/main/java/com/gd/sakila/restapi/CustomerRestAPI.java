@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gd.sakila.service.AddressService;
 import com.gd.sakila.service.CityService;
+import com.gd.sakila.service.CustomerService;
 import com.gd.sakila.vo.City;
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +16,13 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 public class CustomerRestAPI {
-	@Autowired AddressService addressService;
+	@Autowired CustomerService customerService;
 	@Autowired CityService cityService;
 	//RestController 대신 ->ResponseBody 사용 가능
 	
 	@GetMapping("/phoneNumList")
-	public int addCustomer(@RequestParam(value = "phone") String phone) {
-		return addressService.getPhone(phone);
+	public Integer addCustomer(@RequestParam(value = "phone") String phone) {
+		return customerService.getPhone(phone);
 	}
 	
 	@GetMapping("/cityList")
