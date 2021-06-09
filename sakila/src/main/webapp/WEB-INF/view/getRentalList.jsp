@@ -17,7 +17,10 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
 $(document).ready(function(){
-	
+	$('#searchBtn').click(function(){
+		console.log('searchBtn click!');
+		$('#searchForm').submit();
+	});
 })
 </script>
 </head>
@@ -58,7 +61,6 @@ $(document).ready(function(){
 				<option value="2">2</option>
 			</c:if>
 		</select>
-		<input type="hidden" name="notInStock" value="${notInStock}">
 		<input type="text" name="searchWord" placeholder="title 검색">
 		<button id="searchBtn" class="btn btn-default" type="button">검색</button>
 	</form>
@@ -70,7 +72,7 @@ $(document).ready(function(){
 				<th>title</th>
 				<th>rentalDate</th>
 				<th>storeId</th>
-				<th>overdueFee</th>
+				<th>overdue</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -80,7 +82,7 @@ $(document).ready(function(){
 					<td>${r.title}</td>
 					<td>${r.rentalDate}</td>
 					<td>${r.storeId}</td>
-					<td></td>
+					<td>${r.overdue}</td>
 				</tr>
 			</c:forEach>
 		</tbody>

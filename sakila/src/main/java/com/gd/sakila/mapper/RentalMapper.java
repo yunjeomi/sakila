@@ -9,7 +9,7 @@ import com.gd.sakila.vo.Rental;
 
 @Mapper
 public interface RentalMapper {
-	List<Map<String, Object>> selectRentalList();
-	int selectRentalListTotal();
+	List<Map<String, Object>> selectRentalList(Map<String, Object> map);
+	int selectRentalListTotal(Map<String, Object> map);
 	int insertRental(Rental rental);
 }

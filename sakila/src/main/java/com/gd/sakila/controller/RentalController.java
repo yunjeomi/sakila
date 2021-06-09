@@ -24,22 +24,25 @@ public class RentalController {
 	@GetMapping("/getRentalList")
 	public String getRentalList(Model model, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
 											@RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage,
-											@RequestParam(value = "searchWord", required = false) String searchWord) {
+											@RequestParam(value = "searchWord", required = false) String searchWord,
+											@RequestParam(value = "storeId", required = false) Integer storeId) {
 		log.debug("▶@▶@▶@▶currentPage-> "+currentPage);
 		log.debug("▶@▶@▶@▶rowPerPage-> "+rowPerPage);
 		log.debug("▶@▶@▶@▶searchWord-> "+searchWord);	
+		log.debug("▶@▶@▶@▶storeId-> "+storeId);	
 		
 		//String 넘어오는 값 전처리
 		if(searchWord != null && searchWord.equals("")) {
 			searchWord = null;
 		}
 		
-		Map<String, Object> map = rentalService.getRentalList(currentPage, rowPerPage, searchWord);
+		Map<String, Object> map = rentalService.getRentalList(currentPage, rowPerPage, searchWord, storeId);
 		model.addAttribute("rentalList", map.get("rentalList"));
 		model.addAttribute("lastPage", map.get("lastPage"));
 		model.addAttribute("totalRow", map.get("totalRow"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("storeId", storeId);
 		
 		return "getRentalList";
 	}
@@ -56,6 +59,7 @@ public class RentalController {
 		log.debug("▶@▶@▶@▶대여 staffId-> "+staffId);
 		int totalCnt = rentalService.addRental(customerId, inventoryId, staffId);
 		log.debug("▶@▶@▶@▶대여 등록 횟수-> "+totalCnt);
+		//렌탈 id 추가 후 paymentId 추가하도록 한다.
 		
 		return "redirect:/admin/getRentalList";
 	}

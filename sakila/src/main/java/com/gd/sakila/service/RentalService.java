@@ -21,18 +21,20 @@ public class RentalService {
 	@Autowired RentalMapper rentalMapper;
 	@Autowired FilmMapper filmMapper;
 	
-	public Map<String, Object> getRentalList(int currentPage, int rowPerPage, String searchWord){
+	public Map<String, Object> getRentalList(int currentPage, int rowPerPage, String searchWord, Integer storeId){
 		log.debug("▶@▶@▶@▶currentPage-> "+currentPage);
 		log.debug("▶@▶@▶@▶rowPerPage-> "+rowPerPage);
 		log.debug("▶@▶@▶@▶searchWord-> "+searchWord);
+		log.debug("▶@▶@▶@▶storeId-> "+storeId);
 		
 		//메소드 실행시 매개변수로 넣어줄 setMap
 		Map<String, Object> setMap = new HashMap<>();
 		setMap.put("searchWord", searchWord);
+		setMap.put("storeId", storeId);
 		
 		//페이징
 		int beginRow = (currentPage-1)*rowPerPage;
-		int totalRow = rentalMapper.selectRentalListTotal();
+		int totalRow = rentalMapper.selectRentalListTotal(setMap);
 		log.debug("▶@▶@▶@▶totalRow-> "+totalRow);
 		int lastPage = totalRow / rowPerPage;
 		if(totalRow % rowPerPage != 0) {
@@ -45,7 +47,7 @@ public class RentalService {
 		log.debug("▶@▶@▶@▶setMap-> "+setMap);
 		
 		//리스트 출력 메소드
-		List<Map<String, Object>> rentalList = rentalMapper.selectRentalList();
+		List<Map<String, Object>> rentalList = rentalMapper.selectRentalList(setMap);
 		log.debug("▶@▶@▶@▶rentalList-> "+rentalList);
 		
 		//컨트롤러에게 전달해줄 map
