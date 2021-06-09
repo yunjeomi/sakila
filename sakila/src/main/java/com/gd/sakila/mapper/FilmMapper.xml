@@ -116,6 +116,7 @@
 		left join inventory i
 		ON i.film_id = f.film_id
 		<where>
+			`inventory_in_stock`(i.inventory_id) = 1
 			<if test="storeId != 0">
 				AND i.store_id = #{storeId}
 			</if>

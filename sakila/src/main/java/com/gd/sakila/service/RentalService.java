@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.sakila.mapper.FilmMapper;
+import com.gd.sakila.mapper.PaymentMapper;
 import com.gd.sakila.mapper.RentalMapper;
+import com.gd.sakila.vo.Payment;
 import com.gd.sakila.vo.Rental;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RentalService {
 	@Autowired RentalMapper rentalMapper;
 	@Autowired FilmMapper filmMapper;
+	@Autowired PaymentMapper paymentMapper;
 	
 	public Map<String, Object> getRentalList(int currentPage, int rowPerPage, String searchWord, Integer storeId){
 		log.debug("▶@▶@▶@▶currentPage-> "+currentPage);
@@ -80,7 +83,9 @@ public class RentalService {
 		String[] staffIdArr = staffId.split(",");
 		
 		Rental rental = new Rental();
+		Payment payment = new Payment();
 		int addRentalCnt = 0;
+		int addPaymentCnt = 0;
 		int totalCnt = 0;
 		//arr를 변환후 메소드 실행해주기
 		for(int i=0; i<customerIdArr.length; i++) {
@@ -88,8 +93,19 @@ public class RentalService {
 			rental.setInventoryId(Integer.parseInt(inventoryIdArr[i]));
 			rental.setStaffId(Integer.parseInt(staffIdArr[i]));
 			addRentalCnt = rentalMapper.insertRental(rental);
-			log.debug("▶@▶@▶@▶등록 성공1, 실패0-> "+addRentalCnt);
-			totalCnt += 1;
+			log.debug("▶@▶@▶@▶rental등록 성공1, 실패0-> "+addRentalCnt);
+			int rentalId = rental.getRentalId();
+			log.debug("▶@▶@▶@▶바로 얻어온 rentalId-> "+rentalId);
+			
+			//rental 테이블에 db추가후 payment도 바로 추가해준다.
+			payment.setCustomerId(rental.getCustomerId());
+			payment.setStaffId(rental.getStaffId());
+			payment.setRentalId(rentalId);
+			payment.setAmount(paymentMapper.selectAmountFromRentalDate(rentalId));	//쿼리를 통해 새로 가져온 amount를 넣어준다.
+			addPaymentCnt = paymentMapper.insertPayment(payment);
+			log.debug("▶@▶@▶@▶payment등록 성공1, 실패0-> "+addPaymentCnt);
+			
+			totalCnt += 1;	//rental & payment 묶어서 하나 등록
 		}
 		return totalCnt;
 	}

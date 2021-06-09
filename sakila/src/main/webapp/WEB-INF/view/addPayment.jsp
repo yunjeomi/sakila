@@ -74,8 +74,28 @@ $(document).ready(function(){
 	</table>
 	<div>
 		<button id="plusBtn" class="btn btn-default" type="button">+</button>
-		<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getRentalList">취소</a>
 	</div>
+	<hr>
+	<h3>결제리스트</h3>
+	<form id="addForm" action="${pageContext.request.contextPath}/admin/addRental" method="post">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>customerId</th>
+					<th>title</th>
+					<th>rentalDate</th>	<!-- realRentalDuration -->
+					<th>storeId</th>
+					<th>paymentFee</th>
+				</tr>
+			</thead>
+			<tbody id="addTr">
+			</tbody>
+		</table>
+		<div>
+			<button id="addBtn" class="btn btn-default" type="button">결제&반납</button>
+			<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getRentalList">취소</a>
+		</div>
+	</form>
 </div>
 </body>
 </html>

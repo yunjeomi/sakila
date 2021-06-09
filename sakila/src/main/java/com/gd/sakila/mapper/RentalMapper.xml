@@ -6,13 +6,14 @@
 			CONCAT(c.first_name, ' ', c.last_name) name,
 			f.title title,
 			r.rental_date rentalDate,
+			DATEDIFF(NOW(), r.rental_date) realRentalDuration,
 			i.store_id storeId,
 			case when DATEDIFF(NOW(), r.rental_date) > (f.rental_duration)*2
 					then f.rental_rate + DATEDIFF(NOW(), r.rental_date) - f.rental_duration + f.replacement_cost
 					when DATEDIFF(NOW(), r.rental_date) > f.rental_duration
 					then f.rental_rate + DATEDIFF(NOW(), r.rental_date) - f.rental_duration
 			ELSE f.rental_rate
-			END 'overdue'
+			END 'paymentFee'
 		FROM rental r, inventory i, customer c, film f, payment p
 		<where> 
 			r.inventory_id = i.inventory_id AND i.film_id = f.film_id AND r.customer_id = c.customer_id 
@@ -24,10 +25,10 @@
 				AND i.store_id = 2
 			</if>
 			<if test="searchWord != null">
-				AND searchWord LIKE CONCAT('%',#{searchWord},'%')
+				AND f.title LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 		</where>
-		ORDER BY overdue DESC
+		ORDER BY r.rental_date DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
@@ -45,12 +46,15 @@
 				AND i.store_id = 2
 			</if>
 			<if test="searchWord != null">
-				AND searchWord LIKE CONCAT('%',#{searchWord},'%')
+				AND f.title LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 		</where>
 	</select>
 	
 	<insert id="insertRental" parameterType="com.gd.sakila.vo.Rental">
+		<selectKey keyProperty="rentalId" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		INSERT INTO rental (
 			rental_date,
 			inventory_id,

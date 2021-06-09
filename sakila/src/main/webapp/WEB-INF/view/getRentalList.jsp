@@ -72,7 +72,7 @@ $(document).ready(function(){
 				<th>title</th>
 				<th>rentalDate</th>
 				<th>storeId</th>
-				<th>overdue</th>
+				<th>paymentFee</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -82,7 +82,7 @@ $(document).ready(function(){
 					<td>${r.title}</td>
 					<td>${r.rentalDate}</td>
 					<td>${r.storeId}</td>
-					<td>${r.overdue}</td>
+					<td>${r.paymentFee}</td>
 				</tr>
 			</c:forEach>
 		</tbody>
