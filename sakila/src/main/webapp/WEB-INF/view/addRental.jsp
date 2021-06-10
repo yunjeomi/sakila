@@ -41,7 +41,7 @@ $(document).ready(function(){
 			url:'/phoneNumListInRental',
 			data: {phone : $('#phone_').val()},
 			success: function(jsonData) {
-				//console.log('얻은data->'+jsonData);
+				console.log('얻은data->'+jsonData);
 				if(jsonData != 0){
 					$('#phoneCk').text('등록된 고객입니다!');
 					customerId = jsonData;

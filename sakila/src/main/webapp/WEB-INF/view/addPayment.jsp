@@ -17,7 +17,112 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
 $(document).ready(function(){
+	let customerId, title, rentalId, rentalDate, rentalDuration, paymentFee;
+	let ckBtn = false;
+	let paymentTotal = 0;
+	//phone 중복확인 시
+	$('#ckBtn').click(function(){
+		console.log('ckBtn click!');
+		if($('#storeId').val() == 0){
+			alert('storeId를 선택하세요');
+			return;
+		} 
+		
+		$.ajax({
+			url: '/paymentListByStoreIdInPayment',
+			type: 'get',
+			data: { phone : $('#phone').val(),
+					storeId : $('#storeId').val() },
+			dataType: 'json',
+			contentType: 'application/json',
+			success: function(jsonData){
+				$('#title').empty();
+				console.log('phone ajax 성공');
+				//console.log('jsonData->'+jsonData);
+				if(jsonData == null){
+					$('#phoneCk').text('등록된 고객이 아닙니다.');
+					return;
+				}
+				
+				ckBtn = true;	//고객 확인 되었을 경우 ckBtn을 true로 활성화하여 유효성 검사한다.
+				$('#title').append(
+					'<option value="0">==선택==</option>'		
+				)
+				$(jsonData).each(function(index, item){
+					name = item.name;
+					console.log('name->'+name);
+					$('#phoneCk').text(''+item.name+'님 반갑습니다.');
+					$('#title').append(
+						'<option value="'+item.title+'">'+item.title+'</option>'		
+					)
+				});
+			}
+		});
+		
+	});
 	
+	//title select-option으로 선택했을 시
+	$('#title').change(function(){
+		console.log('title change!');
+		$.ajax({
+			url: '/paymentListByTitleInPayment',
+			type: 'get',
+			data: {phone : $('#phone').val(),
+					storeId : $('#storeId').val(),
+					title : $('#title').val()},
+			dataType: 'json',
+			contentType: 'application/json',
+			success: function(jsonData){
+				console.log('paymentInfo ajax 성공');
+				//console.log('jsonData->'+jsonData);
+				$('#rentalDate').empty();
+				$('#rentalDuration').empty();
+				$('#paymentFee').empty();
+				$(jsonData).each(function(index, item){
+					customerId = item.customerId;
+					title = item.title;
+					rentalId = item.rentalId;
+					rentalDate = item.rentalDate;
+					rentalDuration = item.rentalDuration;
+					paymentFee = item.paymentFee;
+					$('#rentalDate').val(rentalDate);
+					$('#rentalDuration').val(rentalDuration);
+					$('#paymentFee').val(paymentFee);
+				});
+			}
+		});
+	});
+	
+	//
+	$('#plusBtn').click(function(){
+		console.log('plusBtn click!');
+		if(ckBtn == false){
+			alert('정보 입력 후 사용 가능합니다.');
+			return;
+		}
+		
+		
+		let plusForm = '';
+		plusForm += '<tr>';
+		plusForm += '	<td>'+customerId+'</td>';
+		plusForm += '	<td>'+title+'</td>';
+		plusForm += '	<td>'+rentalDate+'</td>';
+		plusForm += '	<td>'+rentalDuration+'</td>';
+		plusForm += '	<td>'+paymentFee+'</td>';
+		plusForm += '<input id="rentalId" type="hidden" name="storeId" value="'+rentalId+'">';
+		plusForm += '<input id="amount" type="hidden" name="amount" value="'+paymentFee+'">';
+		plusForm += '</tr>';
+		
+		paymentTotal += paymentFee;	//총 결제금액
+		console.log('총결제금액-> '+paymentTotal);
+		$('#paymentTotal').text('총 결제금액 : '+paymentTotal);
+		$("#addTr").append(plusForm);	//위의 내용들을 대여리스트 테이블에 추가한다.
+	});
+		
+	//결제/반납 버튼 클릭 시
+	$('#paymentBtn').click(function(){
+		$('#paymentForm').submit();
+	});
 })
 </script>
 </head>
@@ -40,6 +145,10 @@ $(document).ready(function(){
 			<td>
 				<div>
 					<input id="phone" class="form-control" type="text" name="customerId" placeholder="phoneNumber 입력">
+				</div>
+				<div>
+					<button id="ckBtn" class="btn btn-default" type="button">확인</button>
+					<span id="phoneCk"></span>
 				</div>
 			</td>
 		</tr>
@@ -68,31 +177,34 @@ $(document).ready(function(){
 		<tr>
 			<td>결제금액</td>
 			<td>
-				<input id="payAmount" class="form-control" type="text" name="payAmount" readonly>
+				<input id="paymentFee" class="form-control" type="text" name="paymentFee" readonly>
 			</td>
 		</tr>
 	</table>
 	<div>
 		<button id="plusBtn" class="btn btn-default" type="button">+</button>
 	</div>
+	
 	<hr>
 	<h3>결제리스트</h3>
-	<form id="addForm" action="${pageContext.request.contextPath}/admin/addRental" method="post">
+	<form id="paymentForm" action="${pageContext.request.contextPath}/admin/addPayment" method="post">
 		<table class="table table-hover">
 			<thead>
 				<tr>
 					<th>customerId</th>
 					<th>title</th>
 					<th>rentalDate</th>	<!-- realRentalDuration -->
-					<th>storeId</th>
+					<th>realRentalDuration</th>
 					<th>paymentFee</th>
 				</tr>
 			</thead>
 			<tbody id="addTr">
 			</tbody>
 		</table>
+		<div><span id="paymentTotal"></span></div>
+		<br>
 		<div>
-			<button id="addBtn" class="btn btn-default" type="button">결제&반납</button>
+			<button id="paymentBtn" class="btn btn-default" type="button">결제&반납</button>
 			<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getRentalList">취소</a>
 		</div>
 	</form>

@@ -13,6 +13,8 @@ public interface PaymentMapper {
 	List<Map<String, Object>> selectSalesListByCategory();
 	List<Map<String, Object>> selectBestSellerList();
 	List<Map<String, Object>> selectSalesListByStore();
-	int insertPayment(Payment payment);
+	List<Map<String, Object>> selectPaymentInfoList(Map<String, Object> map);
 	Double selectAmountFromRentalDate(int rentalId);
+	int insertPayment(Payment payment);
+	int updateAmount(Double amount);
 }

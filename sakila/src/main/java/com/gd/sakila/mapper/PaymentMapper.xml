@@ -36,6 +36,32 @@
 		GROUP BY i.store_id
 	</select>
 	
+	<select id="selectPaymentInfoList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			r.customer_id customerId,
+			cl.name name,
+			cl.phone phone,
+			f.title title,
+			r.staff_id staffId,
+			r.rental_id rentalId,
+			r.rental_date rentalDate,
+			DATEDIFF(NOW(), r.rental_date) rentalDuration,
+			case when DATEDIFF(NOW(), r.rental_date) > (f.rental_duration)*2
+							then f.rental_rate + DATEDIFF(NOW(), r.rental_date) - f.rental_duration + f.replacement_cost
+							when DATEDIFF(NOW(), r.rental_date) > f.rental_duration
+							then f.rental_rate + DATEDIFF(NOW(), r.rental_date) - f.rental_duration
+					ELSE f.rental_rate
+					END paymentFee
+		FROM rental r, inventory i, film f, customer_list cl
+		<where> 
+			r.inventory_id = i.inventory_id AND i.film_id = f.film_id AND cl.ID = r.customer_id AND r.return_date IS NULL
+			AND cl.phone = #{phone} AND i.store_id = #{storeId}
+			<if test="title != null">
+				AND f.title = #{title}
+			</if>
+		</where> 
+	</select>
+	
 	<select id="selectAmountFromRentalDate" parameterType="int" resultType="Double">
 		SELECT
 			f.rental_rate
@@ -60,4 +86,8 @@
 			NOW()
 		)
 	</insert>
+	
+	<update id="updateAmount" parameterType="Double">
+		UPDATE payment SET amount = #{amount} 
+	</update>
 </mapper>

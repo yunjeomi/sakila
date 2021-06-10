@@ -12,4 +12,5 @@ public interface RentalMapper {
 	List<Map<String, Object>> selectRentalList(Map<String, Object> map);
 	int selectRentalListTotal(Map<String, Object> map);
 	int insertRental(Rental rental);
+	int updateReturnDate(int rentalId);
 }

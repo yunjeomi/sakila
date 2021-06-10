@@ -69,4 +69,9 @@
 			NOW()
 		)
 	</insert>
+	
+	<update id="updateReturnDate" parameterType="int">
+		UPDATE rental SET return_date = NOW()
+		WHERE rental_id = #{rentalId}
+	</update>
 </mapper>
