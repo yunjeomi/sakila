@@ -15,11 +15,27 @@
 <!-- bootstrap javascript소스를 사용하기 위한 CDN주소 -->
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script>
 $(document).ready(function(){
 	let customerId, title, rentalId, rentalDate, rentalDuration, paymentFee;
 	let ckBtn = false;
 	let paymentTotal = 0;
+	let arr = [];
+	
+	//기존에 입력된 값 있을 경우 초기화 해준다.
+	$('#phone').click(function(){
+		console.log('phone번호 창 클릭');
+		$('#phone').val('');
+		$('#phoneCk').empty();
+		$('#title').empty();
+		$('#rentalDate').val('');
+		$('#rentalDuration').val('');
+		$('#paymentFee').val('');	
+		$("#addTr").empty();	//테이블 내용 초기화
+		$('#paymentTotal').empty();	//총 결제금액 칸 초기화
+	});
+	
 	//phone 중복확인 시
 	$('#ckBtn').click(function(){
 		console.log('ckBtn click!');
@@ -82,7 +98,9 @@ $(document).ready(function(){
 					customerId = item.customerId;
 					title = item.title;
 					rentalId = item.rentalId;
-					rentalDate = item.rentalDate;
+					//rentalDate = item.rentalDate; 날짜 변환 포맷을 대신 사용한다
+					rentalDate = moment(item.rentalDate).format("YYYY-MM-DD HH:mm:ss");
+					//console.log('rentalDate->'+rentalDate);
 					rentalDuration = item.rentalDuration;
 					paymentFee = item.paymentFee;
 					$('#rentalDate').val(rentalDate);
@@ -93,7 +111,7 @@ $(document).ready(function(){
 		});
 	});
 	
-	//
+	//[+]버튼 클릭했을 때
 	$('#plusBtn').click(function(){
 		console.log('plusBtn click!');
 		if(ckBtn == false){
@@ -101,6 +119,13 @@ $(document).ready(function(){
 			return;
 		}
 		
+		if(arr.includes(rentalId)){
+			alert('이미 리스트에 추가된 항목입니다.');
+			return;
+		}
+		
+		arr.push(rentalId);
+		console.log('arr->'+arr);
 		
 		let plusForm = '';
 		plusForm += '<tr>';
@@ -109,7 +134,7 @@ $(document).ready(function(){
 		plusForm += '	<td>'+rentalDate+'</td>';
 		plusForm += '	<td>'+rentalDuration+'</td>';
 		plusForm += '	<td>'+paymentFee+'</td>';
-		plusForm += '<input id="rentalId" type="hidden" name="storeId" value="'+rentalId+'">';
+		plusForm += '<input id="rentalId" type="hidden" name="rentalId" value="'+rentalId+'">';
 		plusForm += '<input id="amount" type="hidden" name="amount" value="'+paymentFee+'">';
 		plusForm += '</tr>';
 		
@@ -117,11 +142,18 @@ $(document).ready(function(){
 		console.log('총결제금액-> '+paymentTotal);
 		$('#paymentTotal').text('총 결제금액 : '+paymentTotal);
 		$("#addTr").append(plusForm);	//위의 내용들을 대여리스트 테이블에 추가한다.
+		//console.log('rentalId->'+$('#rentalId').val());
+		//console.log('amount->'+$('#amount').val());
+		
 	});
 		
 	//결제/반납 버튼 클릭 시
 	$('#paymentBtn').click(function(){
-		$('#paymentForm').submit();
+		if($('#rentalId').val() == null){
+			alert('결제리스트 추가 후 결제&반납 가능합니다.');
+		} else{
+			$('#paymentForm').submit();
+		}
 	});
 })
 </script>

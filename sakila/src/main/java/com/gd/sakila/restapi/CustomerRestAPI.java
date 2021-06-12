@@ -1,6 +1,7 @@
 package com.gd.sakila.restapi;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ public class CustomerRestAPI {
 	//RestController 대신 ->ResponseBody 사용 가능
 	
 	@GetMapping("/phoneNumList")
-	public Integer addCustomer(@RequestParam(value = "phone") String phone) {
+	public Map<String, Object> addCustomer(@RequestParam(value = "phone") String phone) {
 		return customerService.getPhone(phone);
 	}
 	

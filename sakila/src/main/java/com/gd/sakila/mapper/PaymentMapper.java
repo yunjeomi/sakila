@@ -16,5 +16,5 @@ public interface PaymentMapper {
 	List<Map<String, Object>> selectPaymentInfoList(Map<String, Object> map);
 	Double selectAmountFromRentalDate(int rentalId);
 	int insertPayment(Payment payment);
-	int updateAmount(Double amount);
+	int updateAmount(Map<String, Object> map);
 }

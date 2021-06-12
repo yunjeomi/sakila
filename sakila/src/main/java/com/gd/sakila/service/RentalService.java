@@ -72,41 +72,38 @@ public class RentalService {
 		return filmMapper.selectFilmTitleListByStoreId(setMap);
 	}
 	
-	public int addRental(String customerId, String inventoryId, String staffId) {
-		//String ","로 구분되어 있는 정보를 배열로 구분하고 처리하자.
-		log.debug("▶@▶@▶@▶대여 customerId-> "+customerId);
-		log.debug("▶@▶@▶@▶대여 inventoryId-> "+inventoryId);
-		log.debug("▶@▶@▶@▶대여 staffId-> "+staffId);
-		
-		String[] customerIdArr = customerId.split(",");
-		String[] inventoryIdArr = inventoryId.split(",");
-		String[] staffIdArr = staffId.split(",");
-		
-		Rental rental = new Rental();
-		Payment payment = new Payment();
+	public int addRental(String[] customerIdStr, String[] inventoryIdStr, String[] staffIdStr) {
 		int addRentalCnt = 0;
 		int addPaymentCnt = 0;
 		int totalCnt = 0;
 		//arr를 변환후 메소드 실행해주기
-		for(int i=0; i<customerIdArr.length; i++) {
-			rental.setCustomerId(Integer.parseInt(customerIdArr[i]));
-			rental.setInventoryId(Integer.parseInt(inventoryIdArr[i]));
-			rental.setStaffId(Integer.parseInt(staffIdArr[i]));
+		for(int i=0; i<customerIdStr.length; i++) {
+			log.debug("▶@▶@▶@▶대여 customerId->["+customerIdStr[i]+"], inventoryId->["+inventoryIdStr[i]+"], staffId->["+staffIdStr[i]+"]");
+			int customerId = Integer.parseInt(customerIdStr[i]);
+			int inventoryId = Integer.parseInt(inventoryIdStr[i]);
+			int staffId = Integer.parseInt(staffIdStr[i]);
+			
+			Rental rental = new Rental();
+			
+			rental.setCustomerId(customerId);
+			rental.setInventoryId(inventoryId);
+			rental.setStaffId(staffId);
 			addRentalCnt = rentalMapper.insertRental(rental);
 			log.debug("▶@▶@▶@▶rental등록 성공1, 실패0-> "+addRentalCnt);
 			int rentalId = rental.getRentalId();
 			log.debug("▶@▶@▶@▶바로 얻어온 rentalId-> "+rentalId);
 			
 			//rental 테이블에 db추가후 payment도 바로 추가해준다.
-			payment.setCustomerId(rental.getCustomerId());
-			payment.setStaffId(rental.getStaffId());
-			payment.setRentalId(rentalId);
+			Payment payment = new Payment();
+			payment.setCustomerId(customerId);
+			payment.setStaffId(staffId);
+			payment.setRentalId(rentalId);	//rental에서 얻어온 rentalId 값
 			payment.setAmount(paymentMapper.selectAmountFromRentalDate(rentalId));	//쿼리를 통해 새로 가져온 amount를 넣어준다.
 			addPaymentCnt = paymentMapper.insertPayment(payment);
 			log.debug("▶@▶@▶@▶payment등록 성공1, 실패0-> "+addPaymentCnt);
 			
 			totalCnt += 1;	//rental & payment 묶어서 하나 등록
 		}
-		return totalCnt;
+		return totalCnt;	//총 몇개를 등록했는지?
 	}
 }

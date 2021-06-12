@@ -30,7 +30,7 @@ public class RentalAndPaymentRestAPI {
 	}
 	
 	@GetMapping("/phoneNumListInRental")
-	public Integer addRental(@RequestParam(value = "phone") String phone) {
+	public Map<String, Object> addRental(@RequestParam(value = "phone") String phone) {
 		return customerService.getPhone(phone);
 	}
 	

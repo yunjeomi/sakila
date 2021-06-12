@@ -99,9 +99,10 @@
 		</where>
 	</select>
 	
-	<select id="selectPhone" parameterType="String" resultType="Integer">
+	<select id="selectPhone" parameterType="String" resultType="java.util.Map">
 		SELECT
-			ID customerId
+			ID customerId,
+			name name
 		FROM customer_list
 		WHERE phone = #{phone}
 	</select>

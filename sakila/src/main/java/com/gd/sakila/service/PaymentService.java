@@ -1,5 +1,6 @@
 package com.gd.sakila.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,9 @@ public class PaymentService {
 		map.put("phone", phone);
 		map.put("storeId", storeId);
 		log.debug("▶@▶@▶@▶map-> "+map);
+		List<Map<String, Object>> list = new ArrayList<>();
+		list = paymentMapper.selectPaymentInfoList(map);
+		log.debug("▶@▶@▶@▶list-> "+list);
 		return paymentMapper.selectPaymentInfoList(map);
 	}
 	
@@ -49,23 +53,35 @@ public class PaymentService {
 		return paymentMapper.selectPaymentInfoList(map);
 	}
 	
-	public int modifyAmount(Double amount) {
-		log.debug("▶@▶@▶@▶amount-> "+amount);
-		return paymentMapper.updateAmount(amount);
-	}
-	
-	public int modifyRentalAndPayment(Double amount, int rentalId) {
-		log.debug("▶@▶@▶@▶amount-> "+amount);
-		log.debug("▶@▶@▶@▶rentalId-> "+rentalId);
+	public int modifyRentalAndPayment(String[] rentalIdStr, String[] amountStr) {
+		int rentalCnt = 0;
+		int paymentCnt = 0;
+		int totalCnt = 0;
 		
-		//결제&반납 시 처리해야 할 것 
-		//1. rental table의 return_date NOW로 수정
-		int rentalCnt = rentalMapper.updateReturnDate(rentalId);
-		log.debug("▶@▶@▶@▶paymentCnt 수정 완료1, 실패0-> "+rentalCnt);
+		//String으로 들어온 값 double, int로 변환하기
+		for(int i=0; i<rentalIdStr.length; i++) {
+			log.debug("▶@▶@▶@▶rentalIdStr-> "+rentalIdStr[i]+", amountStr-> "+amountStr[i]);
+			int rentalId = Integer.parseInt(rentalIdStr[i]);
+			double amount = Double.parseDouble(amountStr[i]);
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("rentalId", rentalId);
+			map.put("amount", amount);
+			
+			//결제&반납 시 처리해야 할 것 
+			//1. rental table의 return_date NOW로 수정
+			rentalCnt = rentalMapper.updateReturnDate(rentalId);
+			log.debug("▶@▶@▶@▶rentalCnt return_date 수정 완료1, 실패0-> "+rentalCnt);
+			
+			//2. payment table의 amount를 paymentFee로 수정
+			paymentCnt = paymentMapper.updateAmount(map);
+			log.debug("▶@▶@▶@▶paymentCnt amount 수정 완료1, 실패0-> "+paymentCnt);
+			
+			//총 진행 횟수
+			totalCnt += 1;
+		}
 		
-		//2. payment table의 amount를 paymentFee로 수정
-		int paymentCnt = paymentMapper.updateAmount(amount);
-		log.debug("▶@▶@▶@▶paymentCnt 수정 완료1, 실패0-> "+paymentCnt);
-		return rentalCnt+paymentCnt;
+		log.debug("▶@▶@▶@▶수정한 내역-> "+totalCnt);
+		return totalCnt;
 	}
 }

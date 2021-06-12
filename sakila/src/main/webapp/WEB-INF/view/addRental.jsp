@@ -23,6 +23,7 @@
 $(document).ready(function(){
 	let customerId, staffId, filmId, title, inStock, inventoryId, rating, ea;
 	let ckBtn = false;
+	let arr = [];
 	
 	//핸드폰 번호 중복 체크
 	$('#ckBtn').click(function(){
@@ -41,11 +42,13 @@ $(document).ready(function(){
 			url:'/phoneNumListInRental',
 			data: {phone : $('#phone_').val()},
 			success: function(jsonData) {
-				console.log('얻은data->'+jsonData);
+				//console.log('얻은data->'+jsonData);
+				console.log('얻은data.id->'+jsonData.customerId);
+				console.log('얻은data.name->'+jsonData.name);
 				if(jsonData != 0){
-					$('#phoneCk').text('등록된 고객입니다!');
-					customerId = jsonData;
-					console.log('customerId->'+customerId);
+					$('#phoneCk').text(jsonData.name+'님 환영합니다.');
+					customerId = jsonData.customerId;
+					//console.log('customerId->'+customerId);
 					ckBtn = true;
 				} else{
 					$('#phoneCk').text('고객 등록 먼저 해주세요.');
@@ -128,8 +131,14 @@ $(document).ready(function(){
 			alert('고객 등록을 먼저 해주세요!');
 			return;
 		}
+		
+		if(arr.includes(inventoryId)){
+			alert('이미 대여리스트에 추가된 영화입니다.');
+			return;
+		}
 
 		staffId = $('#storeId_').val();
+		arr.push(inventoryId);
 		
 		let plusForm = '';
 		plusForm += '<tr>';
@@ -153,20 +162,14 @@ $(document).ready(function(){
 		console.log('inventoryId->'+$('#inventoryId').val());
 	});
 	
-	//유효성 검사는 나중에... ㅠㅠ
 	$('#addBtn').click(function(){
 		console.log('addBtn click!');
-		$('#addForm').submit();
 		
-		//위에서 받아온 filmId값을 넣어준다.
-		console.log('값 넣기 전 filmId은 ?-> '+$('#filmId').val());
-		$('#filmId').attr('value', filmId);
-		console.log('값 넣은 후 filmId은 ?-> '+$('#filmId').val());
-		
-		//등록되지 않은 영화 판별위한 디버깅
-		console.log('선택한 title은 ?-> '+title);
-		console.log('입력된 title은 ?-> '+$('#textInput').val());
-		
+		if($('#inventoryId').val() == null){
+			alert('대여리스트 추가 후 대여 가능합니다.');
+		} else{
+			$('#addForm').submit();
+		}
 	})
 });
 </script>

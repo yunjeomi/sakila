@@ -91,7 +91,7 @@ public class CustomerService {
 		return map;
 	}
 	
-	public Integer getPhone(String phone) {
+	public Map<String, Object> getPhone(String phone) {
 		return customerMapper.selectPhone(phone);
 	}
 	
