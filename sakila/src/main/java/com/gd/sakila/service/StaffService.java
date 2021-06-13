@@ -44,5 +44,9 @@ public class StaffService {
 		return staffMapper.selectStaffByLogin(staff);
 	}
 	
-	
+	public int addStaff(Staff staff) {
+		log.debug("●●●●▶staff-> "+staff);
+		
+		return 0;
+	}
 }

@@ -22,4 +22,31 @@
 			SID sid
 		FROM staff_list
 	</select> 
+	
+	<insert id="insertStaff" parameterType="com.gd.sakila.vo.Staff">
+		INSERT INTO staff(
+			first_name,
+			last_name,
+			address_id,
+			picture,
+			email,
+			store_id,
+			active,
+			username,
+			password,
+			last_update
+		) VALUES(
+			#{firstName},
+			#{lastName},
+			#{addressId},
+			#{picture},
+			#{email},
+			#{storeId},
+			1,
+			#{firstName},
+			PASSWORD(#{password}),
+			NOW()
+		)
+	
+	</insert>
 </mapper>

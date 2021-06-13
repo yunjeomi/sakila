@@ -9,8 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gd.sakila.mapper.CountryMapper;
 import com.gd.sakila.service.StaffService;
-import com.gd.sakila.vo.Staff;
+import com.gd.sakila.vo.Country;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/admin")
 public class StaffController {
 	@Autowired StaffService staffService;
+	@Autowired CountryMapper countryMapper;
 	
 	@GetMapping("/getStaffList")
 	public String getStaffList(Model model) {
@@ -26,5 +28,12 @@ public class StaffController {
 		log.debug("●●●●▶staffList-> "+staffList.toString());
 		model.addAttribute("staffList", staffList);
 		return "getStaffList";
+	}
+	
+	@GetMapping("/addStaff")
+	public String addStaff(Model model) {
+		List<Country> countryList = countryMapper.selectCountryList();
+		model.addAttribute("countryList", countryList);
+		return "addStaff";
 	}
 }

@@ -109,96 +109,97 @@ $(document).ready(function(){
 	<h1>addCustomer</h1>
 	<form id="addForm" action="${pageContext.request.contextPath}/admin/addCustomer" method="post">
 		<table class="table table-hover">
-		<tr>
-			<td>storeId</td>
-			<td>
-				<select id="storeId" class="form-control" name="customer.storeId">
-					<option value="0">==store==</option>
-					<option value="1">1</option>
-					<option value="2">2</option>
-				</select>
-			</td>
-		</tr>
-		
-		<tr>
-			<td>firstName</td>
-			<td>
-				<input id="firstName" class="form-control" name="customer.firstName" type="text">
-			</td>
-		</tr>
-		
-		<tr>
-			<td>lastName</td>
-			<td>
-				<input id="lastName" class="form-control" name="customer.lastName" type="text">
-			</td>
-		</tr>
-		<!-- email은 firstName.lastName@sakilacustomer.org 입력되도록 한다 -->
-		
-		<!-- 중복 확인 용도 -->
-		<tr>
-			<td>phone</td>
-			<td>
-				<div><input id="phone" class="form-control" name="address.phone" type="text"></div>
-				<div>
-					<button id="ckBtn" class="btn btn-default" type="button">check</button>
-					<span id="phoneCk"></span>
-				</div>
-			</td>
-		</tr>
-		
-		<!-- country 범위가 더 넓으므로 먼저 선택하도록 한다. -->
-		<!-- select option으로 선택 -->
-		<tr>
-			<td>country</td>
-			<td>
-				<select id="country" class="form-control" name="country.countryId">
-					<option value="">==country==</option>
-					<c:forEach var="c" items="${countryList}"> 
-						<option value="${c.countryId}">${c.country}</option>
-					</c:forEach>
-				</select>
-			</td>
-		</tr>
-		<tr>
-		<!-- 없을 경우 추가 -->
-		<td>city</td>
-		<td>
-			<div>
-				<select id="city" class="form-control" name="city.cityId">
-					<option value="">==city==</option>
-				</select>
-			</div>
-			<div><input class="form-control" name="addCity" type="text" placeholder="직접입력"></div>
+			<tr>
+				<td>storeId</td>
+				<td>
+					<select id="storeId" class="form-control" name="customer.storeId">
+						<option value="0">==store==</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+					</select>
+				</td>
+			</tr>
 			
-		</td>
-		</tr>
-		<tr>
-			<td>district</td>
-			<td>
-				<input id="district" class="form-control" name="address.district" type="text">
-			</td>
-		</tr>
-		<tr>
-			<td>address</td>
-			<td>
-				<input id="address" class="form-control" name="address.address" type="text">
-			</td>
-		</tr>
-		<tr>
-			<td>address2</td>
-			<td>
-				<input id="address2" class="form-control" name="address.address2" type="text">
-			</td>
-		</tr>
-		<tr>
-			<td>postalCode</td>
-			<td>
-				<input id="postalCode" class="form-control" name="address.postalCode" type="text">
-			</td>
-		</tr>
-		
-		
+			<tr>
+				<td>firstName</td>
+				<td>
+					<input id="firstName" class="form-control" name="customer.firstName" type="text">
+				</td>
+			</tr>
+			
+			<tr>
+				<td>lastName</td>
+				<td>
+					<input id="lastName" class="form-control" name="customer.lastName" type="text">
+				</td>
+			</tr>
+			<!-- email은 firstName.lastName@sakilacustomer.org 입력되도록 한다 -->
+			
+			<!-- 중복 확인 용도 -->
+			<tr>
+				<td>phone</td>
+				<td>
+					<div><input id="phone" class="form-control" name="address.phone" type="text"></div>
+					<div>
+						<button id="ckBtn" class="btn btn-default" type="button">check</button>
+						<span id="phoneCk"></span>
+					</div>
+				</td>
+			</tr>
+			
+			<!-- country 범위가 더 넓으므로 먼저 선택하도록 한다. -->
+			<!-- select option으로 선택 -->
+			<tr>
+				<td>country</td>
+				<td>
+					<select id="country" class="form-control" name="country.countryId">
+						<option value="">==country==</option>
+						<c:forEach var="c" items="${countryList}"> 
+							<option value="${c.countryId}">${c.country}</option>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<!-- 없을 경우 추가 -->
+				<td>city</td>
+				<td>
+					<div>
+						<select id="city" class="form-control" name="city.cityId">
+							<option value="">==city==</option>
+						</select>
+					</div>
+					<div><input class="form-control" name="addCity" type="text" placeholder="직접입력"></div>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>district</td>
+				<td>
+					<input id="district" class="form-control" name="address.district" type="text">
+				</td>
+			</tr>
+			
+			<tr>
+				<td>address</td>
+				<td>
+					<input id="address" class="form-control" name="address.address" type="text">
+				</td>
+			</tr>
+			
+			<tr>
+				<td>address2</td>
+				<td>
+					<input id="address2" class="form-control" name="address.address2" type="text">
+				</td>
+			</tr>
+			
+			<tr>
+				<td>postalCode</td>
+				<td>
+					<input id="postalCode" class="form-control" name="address.postalCode" type="text">
+				</td>
+			</tr>
 		
 		</table>
 		<div>
