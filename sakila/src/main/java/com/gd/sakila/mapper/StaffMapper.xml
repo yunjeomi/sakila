@@ -23,6 +23,20 @@
 		FROM staff_list
 	</select> 
 	
+	<select id="selectStaffOne" parameterType="int" resultType="java.util.Map">
+		SELECT
+			s.staff_id staffId,
+			s.first_name firstName,
+			s.last_name lastName,
+			s.picture picture,
+			sl.phone phone,
+			sl.country country,
+			sl.city city,
+			sl.address address
+		FROM staff s, staff_list sl
+		WHERE s.staff_id = sl.ID AND s.staff_id = #{staffId}
+	</select>
+	
 	<insert id="insertStaff" parameterType="com.gd.sakila.vo.Staff">
 		INSERT INTO staff(
 			first_name,

@@ -35,16 +35,39 @@ $(document).ready(function(){
 	//도시list가져오기
 	$('#country').change(function(){
 		$.ajax({
-			url: '/cityList',
-			type: '/get',
-			data: {countryId = $('#countryId').val()},
-			success: function(jsonData){
-				$(jsonData).each(index, item){
-					$('#cityId').append('<option value=""></option>');
-				}
+			url: '/cityListInStaff',
+			type: 'get',
+			data: {countryId : $('#country').val()},
+			success: function(cityData){
+				console.log('city 불러오기 성공');
+				$('#city').empty();
+				
+				$(cityData).each(function(index, item) {
+					$('#city').append(
+						'<option value="'+item.cityId+'">'+item.city+'</option>'
+					);
+				});
+				
+				$('#city').append(
+						'<option value="0">직접입력</option>'
+				);
 			}
 		});
 	});
+	
+	$('#city').change(function(){
+		if($('#city').val() == 0){
+			$('#addCity').append(
+					'<input class="form-control" name="addCity" type="text">'
+			);
+		}
+	});
+	
+	$('#addStaffBtn').click(function(){
+		console.log('addStaffBtn click!');
+		$('#addStaffForm').submit();
+	});
+	
 	
 });
 </script>
@@ -58,7 +81,7 @@ $(document).ready(function(){
 			<tr>
 				<td>storeId</td>
 				<td>
-					<select id="storeId" class="form-control" name="customer.storeId">
+					<select id="storeId" class="form-control" name="storeId">
 						<option value="0">==store==</option>
 						<option value="1">1</option>
 						<option value="2">2</option>
@@ -69,21 +92,21 @@ $(document).ready(function(){
 			<tr>
 				<td>firstName</td>
 				<td>
-					<input id="firstName" class="form-control" name="customer.firstName" type="text">
+					<input id="firstName" class="form-control" name="firstName" type="text">
 				</td>
 			</tr>
 			
 			<tr>
 				<td>lastName</td>
 				<td>
-					<input id="lastName" class="form-control" name="customer.lastName" type="text">
+					<input id="lastName" class="form-control" name="lastName" type="text">
 				</td>
 			</tr>
 			
 			<tr>
 				<td>password</td>
 				<td>
-					<input id="password" class="form-control" name="customer.lastName" type="password">
+					<input id="password" class="form-control" name="password" type="password">
 				</td>
 			</tr>
 			
@@ -91,11 +114,18 @@ $(document).ready(function(){
 				<td>passwordCK</td>
 				<td>
 					<div>
-						<input id="passwordCK" class="form-control" name="customer.lastName" type="password">
+						<input id="passwordCK" class="form-control" name="passwordCK" type="password">
 					</div>
 					<div>
 						<span id="pwCK"></span>
 					</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>phone</td>
+				<td>
+					<input id="phone" class="form-control" name="phone" type="text">
 				</td>
 			</tr>
 			
@@ -109,8 +139,8 @@ $(document).ready(function(){
 			<tr>
 				<td>country</td>
 				<td>
-					<select id="country" class="form-control" name="country.countryId">
-						<option value="0">==country==</option>
+					<select id="country" class="form-control" name="countryId">
+						<option value="">==country==</option>
 						<c:forEach var="c" items="${countryList}"> 
 							<option value="${c.countryId}">${c.country}</option>
 						</c:forEach>
@@ -121,42 +151,43 @@ $(document).ready(function(){
 			<tr>
 				<td>city</td>
 				<td>
-					<select id="city" class="form-control" name="country.countryId">
-						<option value="0">==city==</option>
+					<select id="city" class="form-control" name="cityId">
+						<option value="">==city==</option>
 					</select>
+					<span id="addCity"></span>
 				</td>
 			</tr>
 			
 			<tr>
 				<td>district</td>
 				<td>
-					<input id="district" class="form-control" name="address.district" type="text">
+					<input id="district" class="form-control" name="district" type="text">
 				</td>
 			</tr>
 			
 			<tr>
 				<td>address</td>
 				<td>
-					<input id="address" class="form-control" name="address.address" type="text">
+					<input id="address" class="form-control" name="address" type="text">
 				</td>
 			</tr>
 			
 			<tr>
 				<td>address2</td>
 				<td>
-					<input id="address2" class="form-control" name="address.address2" type="text">
+					<input id="address2" class="form-control" name="address2" type="text">
 				</td>
 			</tr>
 			
 			<tr>
 				<td>postalCode</td>
 				<td>
-					<input id="postalCode" class="form-control" name="address.postalCode" type="text">
+					<input id="postalCode" class="form-control" name="postalCode" type="text">
 				</td>
 			</tr>
 			
 		</table>
-		<button id="addActorBtn" class="btn btn-default" type="button">추가</button>
+		<button id="addStaffBtn" class="btn btn-default" type="button">추가</button>
 		<input class="btn btn-default" type="reset" value="초기화">
 		<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getStaffList">취소</a>
 	</form>

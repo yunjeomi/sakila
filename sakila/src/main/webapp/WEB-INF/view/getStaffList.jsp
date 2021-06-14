@@ -39,7 +39,7 @@
 			<c:forEach var="s" items="${staffList}">
 				<tr>
 					<td>${s.id}</td>
-					<td>${s.name}</td>
+					<td><a href="${pageContext.request.contextPath}/admin/getStaffOne?staffId=${s.id}">${s.name}</a></td>
 					<td>${s.address}</td>
 					<td>${s.zipCode}</td>
 					<td>${s.phone}</td>

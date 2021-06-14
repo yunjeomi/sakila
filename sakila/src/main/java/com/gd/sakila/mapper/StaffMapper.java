@@ -14,5 +14,7 @@ public interface StaffMapper {
 	
 	//가져올 정보 : view-staff_list
 	List<Map<String, Object>> selectStaffList();
+	Map<String, Object> selectStaffOne(int staffId);
+	
 	int insertStaff(Staff staff);
 }

@@ -13,14 +13,14 @@ import com.gd.sakila.vo.City;
 
 import lombok.extern.slf4j.Slf4j;
 
-@RequestMapping("/admin")
 @Slf4j
 @RestController
 public class StaffRestAPI {
 	@Autowired CityService cityService;
 	
-	@GetMapping("/cityList")
+	@GetMapping("/cityListInStaff")
 	public List<City> addStaff(@RequestParam(value = "countryId") int countryId) {
+		log.debug("@@@@@@@countryId-> "+countryId);
 		List<City> cityList = cityService.getCity(countryId);
 		log.debug("@@@@@@@cityList-> "+cityList);
 		return cityService.getCity(countryId);
