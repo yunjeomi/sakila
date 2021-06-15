@@ -20,6 +20,7 @@
 $(document).ready(function(){
 	let customerId, title, rentalId, rentalDate, rentalDuration, paymentFee;
 	let ckBtn = false;
+	let ckList = false;
 	let paymentTotal = 0;
 	let arr = [];
 	
@@ -39,42 +40,90 @@ $(document).ready(function(){
 	//phone 중복확인 시
 	$('#ckBtn').click(function(){
 		console.log('ckBtn click!');
-		if($('#storeId').val() == 0){
-			alert('storeId를 선택하세요');
-			return;
-		} 
 		
 		$.ajax({
-			url: '/paymentListByStoreIdInPayment',
+			url: '/paymentListInPayment',
 			type: 'get',
-			data: { phone : $('#phone').val(),
-					storeId : $('#storeId').val() },
+			data: { phone : $('#phone').val()},
 			dataType: 'json',
 			contentType: 'application/json',
 			success: function(jsonData){
 				$('#title').empty();
 				console.log('phone ajax 성공');
-				//console.log('jsonData->'+jsonData);
 				if(jsonData == null){
 					$('#phoneCk').text('등록된 고객이 아닙니다.');
 					return;
 				}
 				
 				ckBtn = true;	//고객 확인 되었을 경우 ckBtn을 true로 활성화하여 유효성 검사한다.
-				$('#title').append(
-					'<option value="0">==선택==</option>'		
-				)
+				
 				$(jsonData).each(function(index, item){
 					name = item.name;
 					console.log('name->'+name);
 					$('#phoneCk').text(''+item.name+'님 반갑습니다.');
+					return false;	//하나의 값만 얻고 바로 종료하도록,,!
+				});
+			}
+		});
+		
+	});
+	
+	$('#storeId').change(function(){
+		console.log('storeId change!');
+		$.ajax({
+			type: 'get',
+			url: '/paymentListByStoreIdInPayment',
+			data: {phone : $('#phone').val(),
+				   storeId : $('#storeId').val()},
+			success: function(jsonData){
+				console.log('title 가져오기 ajax 성공');
+				//console.log('jsonData->'+jsonData);
+				
+				$('#title').empty();
+				
+				//대여내역 없을 때
+				if(jsonData == ''){
+					$('#title').append(
+							'<option value="0">대여리스트가 없습니다.</option>'		
+					)
+					return;
+				}
+				
+				//대여내역 있을 때
+				ckList = true;
+				$('#title').append(
+						'<option value="0">==선택==</option>'		
+				)
+				$(jsonData).each(function(index, item){
 					$('#title').append(
 						'<option value="'+item.title+'">'+item.title+'</option>'		
 					)
 				});
 			}
 		});
+	});
+	
+	//store 먼저 클릭했을 때 -> phone 검색 하도록
+	$('#storeId').click(function(){
+		if(ckBtn == false){
+			alert('회원 검색을 먼저 해주세요.');
+			return;
+		}
+	});
+	
+	//title 먼저 클릭했을 때 -> phone 검색 -> storeId 선택 하도록
+	$('#title').click(function(){
+		if(ckBtn == false){
+			alert('회원 검색을 먼저 해주세요.');
+			$('#phone').focus();
+			return;
+		}
 		
+		if($('#storeId').val() == 0){
+			alert('storeId를 선택하세요');
+			$('#storeId').focus();
+			return;
+		} 
 	});
 	
 	//title select-option으로 선택했을 시
@@ -116,6 +165,11 @@ $(document).ready(function(){
 		console.log('plusBtn click!');
 		if(ckBtn == false){
 			alert('정보 입력 후 사용 가능합니다.');
+			return;
+		}
+		
+		if(ckList == false){
+			alert('대여리스트가 없습니다.');
 			return;
 		}
 		
@@ -163,16 +217,6 @@ $(document).ready(function(){
 	<h1>addPayment</h1>
 	<table class="table table-hover">
 		<tr>
-			<td>storeId</td>
-			<td>
-				<select id="storeId" class="form-control" name="storeId">
-					<option value="0">==store==</option>
-					<option value="1">1</option>
-					<option value="2">2</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
 			<td>customerPhone</td>
 			<td>
 				<div>
@@ -182,6 +226,16 @@ $(document).ready(function(){
 					<button id="ckBtn" class="btn btn-default" type="button">확인</button>
 					<span id="phoneCk"></span>
 				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>storeId</td>
+			<td>
+				<select id="storeId" class="form-control" name="storeId">
+					<option value="0">==store==</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+				</select>
 			</td>
 		</tr>
 		<tr>

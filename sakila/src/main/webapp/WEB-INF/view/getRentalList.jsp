@@ -65,6 +65,18 @@ $(document).ready(function(){
 		<button id="searchBtn" class="btn btn-default" type="button">검색</button>
 	</form>
 	
+	<div>
+		<c:if test="${storeId != null}">
+			[store${storeId}]
+		</c:if>	
+		<c:if test="${searchWord != null}">
+			"${searchWord}"
+		</c:if>
+		<c:if test="${storeId != null || searchWord != null}">
+			검색결과 (${totalRow})
+		</c:if>	
+	</div>
+	
 	<table class="table table-striped">
 		<thead>
 			<tr>

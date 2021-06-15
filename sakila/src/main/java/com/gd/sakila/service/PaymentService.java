@@ -33,7 +33,17 @@ public class PaymentService {
 		return paymentMapper.selectSalesListByStore();
 	}
 	
-	public List<Map<String, Object>> getPaymentInfoListByStoreId(String phone, int storeId){
+	public List<Map<String, Object>> getPaymentInfoListInPayment(String phone){
+		Map<String, Object> map = new HashMap<>();
+		map.put("phone", phone);
+		log.debug("▶@▶@▶@▶map-> "+map);
+		List<Map<String, Object>> list = new ArrayList<>();
+		list = paymentMapper.selectPaymentInfoList(map);
+		log.debug("▶@▶@▶@▶list-> "+list);
+		return paymentMapper.selectPaymentInfoList(map);
+	}
+	
+	public List<Map<String, Object>> getPaymentInfoListByStoreIdInPayment(String phone, int storeId){
 		Map<String, Object> map = new HashMap<>();
 		map.put("phone", phone);
 		map.put("storeId", storeId);

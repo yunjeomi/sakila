@@ -34,12 +34,18 @@ public class RentalAndPaymentRestAPI {
 		return customerService.getPhone(phone);
 	}
 	
+	@GetMapping("/paymentListInPayment")
+	public List<Map<String, Object>> addPayment(@RequestParam(value = "phone", required = true) String phone){
+		log.debug("▶@▶@▶@▶phone-> "+phone);
+		return paymentService.getPaymentInfoListInPayment(phone);
+	}
+	
 	@GetMapping("/paymentListByStoreIdInPayment")
 	public List<Map<String, Object>> addPayment(@RequestParam(value = "phone", required = true) String phone,
 												@RequestParam(value = "storeId", required = true) int storeId){
 		log.debug("▶@▶@▶@▶storeId-> "+storeId);
 		log.debug("▶@▶@▶@▶phone-> "+phone);
-		return paymentService.getPaymentInfoListByStoreId(phone, storeId);
+		return paymentService.getPaymentInfoListByStoreIdInPayment(phone, storeId);
 	}
 	
 	@GetMapping("/paymentListByTitleInPayment")

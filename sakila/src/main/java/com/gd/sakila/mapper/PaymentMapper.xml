@@ -52,10 +52,18 @@
 							then f.rental_rate + DATEDIFF(NOW(), r.rental_date) - f.rental_duration
 					ELSE f.rental_rate
 					END paymentFee
-		FROM rental r, inventory i, film f, customer_list cl
+		FROM customer_list cl
+		LEFT JOIN rental r
+		ON cl.ID = r.customer_id
+		LEFT JOIN inventory i
+		ON r.inventory_id = i.inventory_id
+		LEFT JOIN film f
+		ON i.film_id = f.film_id
 		<where> 
-			r.inventory_id = i.inventory_id AND i.film_id = f.film_id AND cl.ID = r.customer_id AND r.return_date IS NULL
-			AND cl.phone = #{phone} AND r.staff_id = #{storeId}
+			cl.phone = #{phone} 
+			<if test="storeId != null">
+				AND r.staff_id = #{storeId} AND r.return_date IS NULL
+			</if>
 			<if test="title != null">
 				AND f.title = #{title}
 			</if>

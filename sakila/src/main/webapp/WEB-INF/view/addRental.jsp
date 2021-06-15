@@ -186,7 +186,7 @@ $(document).ready(function(){
 					<input id="phone_" class="form-control" type="text" name="customerId_" placeholder="phoneNumber 입력">
 				</div>
 				<div>
-					<button id="ckBtn" class="btn btn-default" type="button">check</button>
+					<button id="ckBtn" class="btn btn-default" type="button">확인</button>
 					<span id="phoneCk"></span>
 				</div>
 			</td>
