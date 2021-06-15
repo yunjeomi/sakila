@@ -56,7 +56,7 @@ $(document).ready(function() {
 	//<div id="inputFile">에 input type="file" 추가
 	$('#addFileBtn').click(function(){
 		console.log('addFileBtn click!');
-		$('#inputFile').append('<input type="file" name="boardfile" class="boardfile">');
+		$('#inputFile').append('<input class="boardfile btn btn-default" type="file" name="boardfile">');
 	});
 	
 	//<div id="inputFile">에 input type="file" 삭제 -> children().last().remove(); 자식의 마지막을 삭제
@@ -74,8 +74,8 @@ $(document).ready(function() {
 			enctype="multipart/form-data">
 		<div>
 			<div>
-				<button id="addFileBtn" type="button">파일추가</button>
-				<button id="delFileBtn" type="button">파일삭제</button>
+				<button id="addFileBtn" class="btn btn-default" type="button">파일추가</button>
+				<button id="delFileBtn" class="btn btn-default" type="button">파일삭제</button>
 			</div>
 			<div id="inputFile">
 				

@@ -26,35 +26,42 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<div class="container">
 	<h1>home</h1>
 	
 	<!-- 로그인 전; session 사용 시 == null, != null 로 반드시 바꿀 것 -->
-	<c:if test="${loginStaff != null}">
+	<c:if test="${loginStaff == null}">
 		<form id="loginForm" action="${pageContext.request.contextPath}/login" method="post" >
-			<div>
-				email : 
-				<input type="text" id="email" name="email">
-			</div>
-			<div>
-				password : 
-				<input type="password" id="password" name="password">
-			</div>
-			<button type="button" id="btn">로그인</button>
+			<table class="table table-hover">
+				<tr>
+					<td>email</td>
+					<td>
+						<input id="email" class="form-control" name="email" type="text">
+					</td>
+				</tr>
+				<tr>
+					<td>password</td>
+					<td>
+						<input id="password" class="form-control" name="password" type="password">
+					</td>
+				</tr>
+			</table>
+			<button id="btn" class="btn btn-default" type="button">로그인</button>
 		</form>
 	</c:if>
 	
 	<!-- 로그인 후 --><!-- 개발 중엔 null값도 허용 가능하도록 -->
 	<c:if test="${loginStaff == null}">
-		<a href="${pageContext.request.contextPath}/admin/getBoardList">게시판</a>
-		<a href="${pageContext.request.contextPath}/admin/getStaffList">직원정보</a>
+		<a href="${pageContext.request.contextPath}/admin/getCustomerList">회원관리</a>
+		<a href="${pageContext.request.contextPath}/admin/getRentalList">대여/반납</a>
 		<a href="${pageContext.request.contextPath}/admin/getFilmList">영화정보</a>
 		<a href="${pageContext.request.contextPath}/admin/getActorList">배우정보</a>
-		<a href="${pageContext.request.contextPath}/admin/getCustomerList">고객정보</a>
 		<a href="${pageContext.request.contextPath}/admin/getInventoryList">재고관리</a>
 		<a href="${pageContext.request.contextPath}/admin/getSalesListByStore">매출현황</a>
-		<a href="${pageContext.request.contextPath}/admin/getRentalList">대여/반납</a>
+		<a href="${pageContext.request.contextPath}/admin/getBoardList">게시판</a>
+		<a href="${pageContext.request.contextPath}/admin/getStaffList">직원정보</a>
 		<a href="${pageContext.request.contextPath}/admin/logout">로그아웃</a>
 	</c:if>
-	
+</div>
 </body>
 </html>

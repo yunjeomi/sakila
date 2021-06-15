@@ -71,6 +71,17 @@ $(document).ready(function(){
 		});
 	});
 	
+	$('#city').change(function(){
+		$('#addCity').empty();
+		if($('#city').val() == 0){
+			
+			$('#addCity').append(
+					'<input class="form-control" name="city.city" type="text">'
+			);
+		}
+		
+	});
+	
 	//유효성 검사 진행. -> 공백 없이 넘어가도록
 	$('#addBtn').click(function(){
 		console.log('addBtn click!');
@@ -169,7 +180,7 @@ $(document).ready(function(){
 							<option value="">==city==</option>
 						</select>
 					</div>
-					<div><input class="form-control" name="addCity" type="text" placeholder="직접입력"></div>
+					<div id="addCity"></div>
 				</td>
 			</tr>
 			
@@ -205,7 +216,7 @@ $(document).ready(function(){
 		<div>
 			<button id="addBtn" class="btn btn-default" type="button">추가</button>
 			<input class="btn btn-default" type="reset" value="초기화">
-			<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getCustomerList">고객목록</a>
+			<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getCustomerList">회원목록</a>
 		</div>
 	</form>
 </div>

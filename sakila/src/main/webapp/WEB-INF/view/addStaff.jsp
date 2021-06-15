@@ -56,16 +56,53 @@ $(document).ready(function(){
 	});
 	
 	$('#city').change(function(){
+		$('#addCity').empty();
 		if($('#city').val() == 0){
 			$('#addCity').append(
-					'<input class="form-control" name="addCity" type="text">'
+					'<input class="form-control" name="city" type="text">'
 			);
 		}
 	});
 	
+	$('#phone').keyup(function(){
+		let phone = $('#phone').val();
+		if(!$.isNumeric(phone)) {
+            alert('숫자만 입력가능합니다.');
+            $('#phone').val('');
+            //$('#phone').focus();
+            return;
+        }
+	});
+	
 	$('#addStaffBtn').click(function(){
 		console.log('addStaffBtn click!');
-		$('#addStaffForm').submit();
+		if($('#storeId').val() == 0){				//storeId 선택
+			alert('store를 선택하세요.');
+		} else if($('#firstName').val() == ''){		//firstName 입력
+			alert('firstName을 입력하세요.');
+		} else if($('#lastName').val() == ''){		//lastName 입력
+			alert('lastName을 입력하세요.');
+		} else if($('#password').val() == ''){			//phone 입력
+			alert('password를 입력하세요.');
+		} else if(pwCK == false){					//phone 중복체크
+			alert('password가 일치하지 않습니다.');
+		} else if($('#phone').val() == ''){			//phone 입력
+			alert('phone 번호를 입력하세요.');
+		} else if($('#country').val() == ''){		//country 선택
+			alert('country를 선택하세요.');
+		} else if($('#city').val() == ''){			//city선택 -> 1이상 : 선택, 0 & addCity : 직접입력, "" : 선택 안 된 것
+			alert('city를 선택하세요.');
+		} else if($('#district').val() == ''){
+			alert('district을 입력하세요.');
+		} else if($('#address').val() == ''){
+			alert('address을 입력하세요.');
+		} else if($('#address2').val() == ''){
+			alert('address2을 입력하세요.');
+		} else if($('#postalCode').val() == ''){
+			alert('postalCode을 입력하세요.');
+		} else{
+			$('#addStaffForm').submit();
+		}
 	});
 	
 	
@@ -117,7 +154,7 @@ $(document).ready(function(){
 						<input id="passwordCK" class="form-control" name="passwordCK" type="password">
 					</div>
 					<div>
-						<span id="pwCK"></span>
+						<div id="pwCK"></div>
 					</div>
 				</td>
 			</tr>
@@ -154,7 +191,7 @@ $(document).ready(function(){
 					<select id="city" class="form-control" name="cityId">
 						<option value="">==city==</option>
 					</select>
-					<span id="addCity"></span>
+					<div id="addCity"></div>
 				</td>
 			</tr>
 			

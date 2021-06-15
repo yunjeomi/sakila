@@ -96,7 +96,7 @@ $(document).ready(function(){
 	</ul>
 	
 	<br>
-	<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/addCustomer">고객추가</a>
+	<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/addCustomer">회원추가</a>
 	<hr>
 	<div>vip : 대여횟수 30회 이상, 구매금액 150달러 이상, not black</div>
 	<div>black : 연체횟수 15번 이상</div>

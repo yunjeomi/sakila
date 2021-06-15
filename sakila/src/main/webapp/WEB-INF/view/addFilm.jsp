@@ -162,9 +162,9 @@ $(document).ready(function(){
 			</td>
 		</tr>
 		</table>
-			<input class="btn btn-default" id="addFilmBtn" type="button" value="글입력">
+			<input class="btn btn-default" id="addFilmBtn" type="button" value="추가">
 			<input class="btn btn-default" type="reset" value="초기화">
-			<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getFilmList">글목록</a>
+			<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getFilmList">목록</a>
 	</form>	
 	
 </div>

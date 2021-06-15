@@ -60,12 +60,13 @@ public class StaffService {
 		
 		//cityId가 0일때는 새로 추가하는 것
 		if(city.getCityId() == 0) {
+			String cityName = city.getCity().substring(0, 1).toUpperCase()+city.getCity().substring(1).toLowerCase();
 			City setCity = new City();
-			setCity.setCity(city.getCity());
+			setCity.setCity(cityName);
 			setCity.setCountryId(city.getCountryId());
 			log.debug("●●●●▶추가할 city정보-> "+setCity);
 			
-			//city 추가
+			//city 추가 메소드 실행
 			int cityCnt = cityMapper.insertCity(setCity);
 			log.debug("●●●●▶city추가 성공1, 실패0-> "+cityCnt);
 			
@@ -77,15 +78,16 @@ public class StaffService {
 		}
 		
 		//얻은 cityId를 address에 넣어준다.
+		String district = address.getDistrict().substring(0, 1).toUpperCase()+address.getDistrict().substring(1).toLowerCase();
 		Address setAddress = new Address();
 		setAddress.setAddress(address.getAddress());
 		setAddress.setAddress2(address.getAddress2());
 		setAddress.setCityId(cityId);		//city추가 시, 추가된 cityId가 들어온다.
-		setAddress.setDistrict(address.getDistrict());
+		setAddress.setDistrict(district);
 		setAddress.setPhone(address.getPhone());
-		setAddress.setPostalCode(address.getPhone());
+		setAddress.setPostalCode(address.getPostalCode());
 		
-		//address추가
+		//address 추가 메소드 실행
 		int addressCnt = addressMapper.insertAddress(setAddress);
 		log.debug("●●●●▶address추가 성공1, 실패0-> "+addressCnt);
 		
@@ -112,7 +114,7 @@ public class StaffService {
 		
 		//picture설정
 		
-		//staff추가
+		//staff 추가 메소드 실행
 		int staffCnt = staffMapper.insertStaff(setStaff);
 		log.debug("●●●●▶staff추가 성공1, 실패0-> "+staffCnt);
 		

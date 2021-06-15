@@ -99,11 +99,12 @@ public class CustomerService {
 		log.debug("●●●●▶ customerForm-> "+customerForm);
 		//customerForm 에서 -> customer, country, city, address 꺼내 vo에 넣어준다.
 		
-		//address
+		//address -> district 앞에만 대문자로 수정한다.
+		String district = customerForm.getAddress().getDistrict().substring(0, 1).toUpperCase()+customerForm.getAddress().getDistrict().substring(1).toLowerCase();
 		Address address = new Address();
 		address.setAddress(customerForm.getAddress().getAddress());
 		address.setAddress2(customerForm.getAddress().getAddress2());
-		address.setDistrict(customerForm.getAddress().getDistrict());
+		address.setDistrict(district);
 		address.setCityId(customerForm.getCity().getCityId());
 		address.setPostalCode(customerForm.getAddress().getPostalCode());
 		address.setPhone(customerForm.getAddress().getPhone());
@@ -126,7 +127,7 @@ public class CustomerService {
 		//city.cityId == 0일 때 city 추가 메소드 실행. city명은 앞 문자만 대문자, 그외 소문자로 한다.
 		if(customerForm.getCity().getCityId() == 0) {
 			City city = new City();
-			String cityName = customerForm.getAddCity().substring(0, 1).toUpperCase()+customerForm.getAddCity().substring(1).toLowerCase();
+			String cityName = customerForm.getCity().getCity().substring(0, 1).toUpperCase()+customerForm.getCity().getCity().substring(1).toLowerCase();
 			city.setCity(cityName);
 			city.setCountryId(customerForm.getCountry().getCountryId());
 			log.debug("●●●●▶ city-> "+city);
