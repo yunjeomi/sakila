@@ -16,6 +16,11 @@ public class SalesController {
 		return "getSalesListByCategory";
 	}
 	
+	@GetMapping("/getSalesListByPeriod")
+	public String getSalesListByPeriod() {
+		return "getSalesListByPeriod";
+	}
+	
 	@GetMapping("/getBestSellerList")
 	public String getBestSellerList() {
 		return "getBestSellerList";

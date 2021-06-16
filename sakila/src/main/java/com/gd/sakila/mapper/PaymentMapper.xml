@@ -79,6 +79,28 @@
 			 AND r.rental_id = #{rentalId}
 	</select>
 	
+	<select id="selectYear" resultType="int">
+		SELECT 
+			year(payment_date) `year` 
+		FROM payment p
+		GROUP BY `year`
+	</select>
+	
+	<select id="selectSalesListByPeriod" parameterType="int" resultType="java.util.Map">
+		SELECT
+			MONTH(p.payment_date) `month`,
+			SUM(p.amount) `totalAmount`
+		FROM payment p
+		LEFT JOIN rental r ON p.rental_id=r.rental_id
+		<where>
+			YEAR(p.payment_date) = #{year}
+			<if test="storeId != null">
+				AND r.staff_id=#{storeId}
+			</if>
+		</where>
+		GROUP BY YEAR(p.payment_date), `month`
+	</select>
+	
 	<insert id="insertPayment" parameterType="com.gd.sakila.vo.Payment">
 		INSERT INTO payment(
 			customer_id,

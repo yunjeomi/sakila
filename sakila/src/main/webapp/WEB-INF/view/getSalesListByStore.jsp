@@ -83,6 +83,7 @@ $(document).ready(function(){
 	<h1>getSalesListByStore</h1>
 	
 	<a href="${pageContext.request.contextPath}/admin/getSalesListByStore">매장별</a>&nbsp;
+	<a href="${pageContext.request.contextPath}/admin/getSalesListByPeriod">기간별</a>&nbsp;
 	<a href="${pageContext.request.contextPath}/admin/getSalesListByCategory">카테고리별</a>&nbsp;
 	<a href="${pageContext.request.contextPath}/admin/getBestSellerList">베스트셀러</a>&nbsp;
 	

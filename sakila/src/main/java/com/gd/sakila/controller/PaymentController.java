@@ -30,4 +30,5 @@ public class PaymentController {
 		log.debug("▶@▶@▶@▶총 수정 내역-> "+modifyCnt);
 		return "redirect:/admin/getRentalList";
 	}
+	
 }

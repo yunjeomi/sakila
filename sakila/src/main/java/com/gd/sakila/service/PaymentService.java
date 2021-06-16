@@ -63,6 +63,24 @@ public class PaymentService {
 		return paymentMapper.selectPaymentInfoList(map);
 	}
 	
+	public List<Integer> getYear(){
+		return paymentMapper.selectYear();
+	}
+	
+	public List<Map<String, Object>> getSalesListByPeriod(Integer storeIdInt, int year){
+		log.debug("▶@▶@▶@▶storeIdInt-> "+storeIdInt);
+		log.debug("▶@▶@▶@▶year-> "+year);
+		
+		Integer storeId = storeIdInt;
+		
+		//storeId = 0일 때 null로 바꿔준다.
+		if(storeIdInt == 0) {
+			storeId = null;
+		}
+		
+		return paymentMapper.selectSalesListByPeriod(storeId, year);
+	}
+	
 	public int modifyRentalAndPayment(String[] rentalIdStr, String[] amountStr) {
 		int rentalCnt = 0;
 		int paymentCnt = 0;

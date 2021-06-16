@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gd.sakila.service.PaymentService;
@@ -19,6 +20,18 @@ public class SalesRestAPI {
 	@GetMapping("/getSalesListByCategory")
 	public List<Map<String, Object>> getSalesListByCategory(){
 		return paymentService.getSalesListByCategory();
+	}
+	
+	@GetMapping("/getYear")
+	public List<Integer> getYear(){
+		return paymentService.getYear();
+	}
+	
+	@GetMapping("/getSalesListByPeriod")
+	public List<Map<String, Object>> getSalesListByPeriod(Integer storeId, int year){
+		log.debug("@@@@@@@storeId-> "+storeId);
+		log.debug("@@@@@@@year-> "+year);
+		return paymentService.getSalesListByPeriod(storeId, year);
 	}
 	
 	@GetMapping("/getBestSellerList")
