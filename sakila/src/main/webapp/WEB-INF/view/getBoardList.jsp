@@ -21,6 +21,18 @@
 <body>
 <div class="container">
     <h1>getBoardList</h1>
+    
+    <br>
+    <!-- 검색어 입력창 -->
+    <form action="${pageContext.request.contextPath}/admin/getBoardList" method="get">
+        <input name="searchWord" type="text" placeholder="boardTitle을 입력하세요">
+        <button class="btn btn-default" type="submit">검색</button>
+    </form>
+    <br>
+    <c:if test="${searchWord != null}">
+    	<div>"${searchWord}" 검색결과 (${totalRow})</div>
+    </c:if>
+    
     <table class="table table-striped">
         <thead>
             <tr>
@@ -39,13 +51,6 @@
             </c:forEach>
         </tbody>
     </table>
-    
-    <!-- 검색어 입력창 -->
-    <form action="${pageContext.request.contextPath}/admin/getBoardList" method="get">
-        <label for="searchWord">검색어(제목) :</label> 
-        <input name="searchWord" type="text">
-        <button class="btn btn-default" type="submit">검색</button>
-    </form>
     
     <ul class="pager">
         <c:if test="${currentPage > 1}">

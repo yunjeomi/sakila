@@ -149,16 +149,18 @@ $(document).ready(function(){
 	</form>
 	
 	<br>
-	<c:if test="${searchWord == null}">
+	
+	<!-- 검색결과 -->
+	<c:if test="${categoryName != null || price != null || duration != null || rating != null}">
 		<div>검색결과 ${totalRow}개</div>
 	</c:if>	
-	<c:if test="${selectSearch.equals('titleOrActors')}">
+	<c:if test="${selectSearch == 'titleOrActors'}">
 		<div>[제목+배우] "${searchWord}" (검색결과 ${totalRow}개)</div>
 	</c:if>
-	<c:if test="${selectSearch.equals('title')}">
+	<c:if test="${selectSearch == 'title'}">
 		<div>[제목] "${searchWord}" (검색결과 ${totalRow}개)</div>
 	</c:if>
-	<c:if test="${selectSearch.equals('actors')}">
+	<c:if test="${selectSearch == 'actors'}">
 		<div>[배우] "${searchWord}" (검색결과 ${totalRow}개)</div>
 	</c:if>
 	

@@ -34,17 +34,20 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-	<h1>파일 추가</h1>
+<div class="container">
+	<h1>addBoardfile</h1>
 	
 	<form id="addBoardfile" action="${pageContext.request.contextPath}/admin/addBoardfile" method="post" enctype="multipart/form-data">
 		<div>
 			<input id="boardId" type="hidden" name="boardId" value="${boardId}">
-			<input id="multipartFile" type="file" name="multipartFile">
+			<input id="multipartFile" class="btn btn-default" type="file" name="multipartFile">
 		</div>
 		<br>
 		<div>
-			<button id="btn" type="button">파일추가</button>
+			<button id="btn" class="btn btn-default" type="button">파일추가</button>
+			<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getBoardOne?boardId=${boardId}">취소</a>
 		</div>
 	</form>
+</div>
 </body>
 </html>

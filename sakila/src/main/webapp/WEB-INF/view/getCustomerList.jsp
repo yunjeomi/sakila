@@ -64,10 +64,10 @@ $(document).ready(function(){
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<td>customerName</td>
-				<td>phone</td>
-				<td>storeId</td>
-				<td>black&vip</td>
+				<th>customerName</th>
+				<th>phone</th>
+				<th>storeId</th>
+				<th>black&vip</th>
 			</tr>
 		</thead>
 		<tbody>

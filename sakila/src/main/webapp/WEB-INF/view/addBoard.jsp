@@ -36,18 +36,15 @@ $(document).ready(function() {
 		//ck가 true일 경우 우선순위로 둔다.
 		if(ck){
 			alert('첨부되지 않은 파일이 있습니다!');
-		} else if ($('#boardPw').val().length < 4) {
-			alert('boardPw는 4자이상 이어야 합니다');
-			$('#boardPw').focus();
 		} else if ($('#boardTitle').val() == '') {
 			alert('boardTitle을 입력하세요');
 			$('#boardTitle').focus();
 		} else if ($('#boardContent').val() == '') {
 			alert('boardContent을 입력하세요');
 			$('#boardContent').focus();
-		} else if ($('#boardUser').val() == '') {
-			alert('boardUser을 입력하세요');
-			$('#boardUser').focus();
+		} else if ($('#boardPw').val().length < 4) {
+			alert('boardPw는 4자이상 이어야 합니다');
+			$('#boardPw').focus();
 		} else {
 			$('#addForm').submit();
 		}
@@ -78,14 +75,9 @@ $(document).ready(function() {
 				<button id="delFileBtn" class="btn btn-default" type="button">파일삭제</button>
 			</div>
 			<div id="inputFile">
-				
 			</div>
 		</div>
-		
-		<div class="form-group">
-			<label for="boardPw">boardPw</label>
-			<input id="boardPw" class="form-control" name="board.boardPw" type="password">
-		</div>
+		<br>
 		<div class="form-group">
 			<label for="boardTitle">boardTitle</label>
 			<input id="boardTitle" class="form-control" name="board.boardTitle" type="text">
@@ -95,8 +87,13 @@ $(document).ready(function() {
 			<textarea id="boardContent" class="form-control" name="board.boardContent" rows="5" cols="50"></textarea>
 		</div>
 		<div class="form-group">
-			<label for="staffId">staffId</label>
-			<input id="staffId" class="form-control" name="board.staffId" type="text">
+			<label for="staffId">name</label>
+			<input id="name" class="form-control" name="board.username" type="text" value="${loginStaff.username}" readonly>
+			<input class="form-control" name="board.staffId" type="hidden" value="${loginStaff.staffId}">
+		</div>
+		<div class="form-group">
+			<label for="boardPw">boardPw</label>
+			<input id="boardPw" class="form-control" name="board.boardPw" type="password">
 		</div>
 		<div>
 			<input id="addButton" class="btn btn-default" type="button" value="글입력">

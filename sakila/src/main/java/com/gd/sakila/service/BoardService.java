@@ -176,6 +176,7 @@ public class BoardService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("boardList", boardList);
 		map.put("lastPage", lastPage);
+		map.put("totalRow", totalRow);
 		
 		return map;
 	}

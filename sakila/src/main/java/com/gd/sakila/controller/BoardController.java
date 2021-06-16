@@ -2,6 +2,8 @@ package com.gd.sakila.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gd.sakila.service.BoardService;
 import com.gd.sakila.vo.Board;
 import com.gd.sakila.vo.BoardForm;
+import com.gd.sakila.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,7 +42,7 @@ public class BoardController {
 		int cnt = boardService.modifyBoard(board);
 		log.debug("▷▶▷▶▷입력성공1, 실패0-> "+cnt);
 		if(cnt == 0) {
-			return "redirect:/modifyBoard?boardId="+board.getBoardId();
+			return "redirect:/admin/modifyBoard?boardId="+board.getBoardId();
 		}
 		return "redirect:/admin/getBoardOne?boardId="+board.getBoardId();
 	}
@@ -59,13 +62,16 @@ public class BoardController {
 		int cnt = boardService.removeBoard(board);
 		log.debug("▷▶▷▶▷입력성공1, 실패0-> "+cnt);
 		if(cnt == 0) {
-			return "redirect:/removeBoard?boardId="+board.getBoardId();
+			return "redirect:/admin/removeBoard?boardId="+board.getBoardId();
 		}
 		return "redirect:/admin/getBoardList";
 	}
 	
 	@GetMapping("/addBoard")	//one에서 추가 클릭했을 때
-	public String addBoard() {
+	public String addBoard(Model model, HttpSession session) {
+		log.debug("▷▶▷▶▷로그인 정보->"+session);
+		Staff loginStaff = (Staff)session.getAttribute("loginStaff");
+		model.addAttribute("loginStaff", loginStaff);
 		return "addBoard";
 	}
 	
@@ -83,7 +89,11 @@ public class BoardController {
 	
 	
 	@GetMapping("/getBoardOne")
-	public String getBoardOne(Model model, @RequestParam(value = "boardId", required = true) int boardId) {
+	public String getBoardOne(Model model, @RequestParam(value = "boardId", required = true) int boardId,
+								HttpSession session) {
+		log.debug("▷▶▷▶▷로그인 정보->"+session);
+		Staff loginStaff = (Staff)session.getAttribute("loginStaff");
+		
 		Map<String, Object> map = boardService.getBoardOne(boardId);
 		log.debug("▷▶▷▶▷map-boardOne"+map.get("boardOne"));
 		log.debug("▷▶▷▶▷map-boardfileList"+map.get("boardfileList"));
@@ -93,6 +103,7 @@ public class BoardController {
 		model.addAttribute("boardOne", map.get("boardOne"));
 		model.addAttribute("boardfileList", map.get("boardfileList"));
 		model.addAttribute("commentList", map.get("commentList"));
+		model.addAttribute("loginStaff", loginStaff);	//로그인 정보도 함께 보내준다.
 		return "getBoardOne";
 	}
 	
@@ -104,7 +115,13 @@ public class BoardController {
 								@RequestParam(value = "searchWord", required = false) String searchWord) {
 		
 		//System.out.println("searchWord-> "+searchWord);
-		log.debug("▷▶▷▶▷searchWord ->"+searchWord);
+		log.debug("▷▶▷▶▷이슈 설정 전 searchWord ->"+searchWord);
+		
+		//searchWord ''값 이슈 설정
+		if(searchWord != null && searchWord.equals("")) {
+			searchWord = null;
+		}
+		log.debug("▷▶▷▶▷이슈 설정 후 searchWord ->"+searchWord);
 		
 		//서비스 호출 후 포워딩
 		Map<String, Object> map = boardService.getBoardList(currentPage, rowPerPage, searchWord);
@@ -113,6 +130,7 @@ public class BoardController {
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("totalRow", map.get("totalRow"));
 		
 		
 		return "getBoardList";

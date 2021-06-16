@@ -49,9 +49,7 @@ $(document).ready(function(){
 			<button id="btn" class="btn btn-default" type="button">로그인</button>
 		</form>
 	</c:if>
-	
-	<!-- 로그인 후 --><!-- 개발 중엔 null값도 허용 가능하도록 -->
-	<c:if test="${loginStaff == null}">
+	<c:if test="${loginStaff == null}"> 
 		<a href="${pageContext.request.contextPath}/admin/getCustomerList">회원관리</a>
 		<a href="${pageContext.request.contextPath}/admin/getRentalList">대여/반납</a>
 		<a href="${pageContext.request.contextPath}/admin/getFilmList">영화정보</a>
@@ -61,7 +59,20 @@ $(document).ready(function(){
 		<a href="${pageContext.request.contextPath}/admin/getBoardList">게시판</a>
 		<a href="${pageContext.request.contextPath}/admin/getStaffList">직원정보</a>
 		<a href="${pageContext.request.contextPath}/admin/logout">로그아웃</a>
-	</c:if>
+	</c:if> 
+	
+	<c:if test="${loginStaff != null}"> 
+		<a href="${pageContext.request.contextPath}/admin/getCustomerList">회원관리</a>
+		<a href="${pageContext.request.contextPath}/admin/getRentalList">대여/반납</a>
+		<a href="${pageContext.request.contextPath}/admin/getFilmList">영화정보</a>
+		<a href="${pageContext.request.contextPath}/admin/getActorList">배우정보</a>
+		<a href="${pageContext.request.contextPath}/admin/getInventoryList">재고관리</a>
+		<a href="${pageContext.request.contextPath}/admin/getSalesListByStore">매출현황</a>
+		<a href="${pageContext.request.contextPath}/admin/getBoardList">게시판</a>
+		<a href="${pageContext.request.contextPath}/admin/getStaffList">직원정보</a>
+		<a href="${pageContext.request.contextPath}/admin/logout">로그아웃</a>
+	</c:if> 
+	
 </div>
 </body>
 </html>
