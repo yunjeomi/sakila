@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getStaffOne</title>
+<title>modifyStaff</title>
 <!-- bootstrap을 사용하기 위한 CDN주소 -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -16,60 +16,22 @@
 <script>
 $(document).ready(function(){
 	
+	$('#modifyBtn').click(function(){
+		console.log('modify btn click!');
+		
+		$('#modifyForm').submit();
+	});
 	
 });
 </script>
 </head>
 <body>
 <div class="container">
-	<h1>getStaffOne</h1>
+	<h1>modifyStaff</h1>
 	
-	<table class="table table-hover">
-		<tr>
-			<td>name</td>
-			<td>
-				${staffOne.name}
-			</td>
-		</tr>
-		
-		<tr>
-			<td>phone</td>
-			<td>
-				${staffOne.phone}
-			</td>
-		</tr>
-		
-		<tr>
-			<td>picture</td>
-			<td>
-				${staffOne.picture}
-			</td>
-		</tr>
-		<tr>
-			<td>country</td>
-			<td>
-				${staffOne.country}
-			</td>
-		</tr>
-		<tr>
-			<td>city</td>
-			<td>
-				${staffOne.city}
-			</td>
-		</tr>
-		<tr>
-			<td>address</td>
-			<td>
-				${staffOne.address}
-			</td>
-		</tr>
-	</table>
+	<form id="modifyForm" class="" action="${pageContext.request.contextPath}/admin/modifyStaff" method="post">
 	
-	<!-- 본인정보만 수정할 수 있도록 한다. -->
-	<c:if test="${loginStaff.staffId == staffOne.staffId}">
-		<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/modifyStaff?staffId=${staffOne.staffId}">수정</a>
-	</c:if>
-	<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getStaffList">직원목록</a>
+	</form>
 </div>
 </body>
 </html>

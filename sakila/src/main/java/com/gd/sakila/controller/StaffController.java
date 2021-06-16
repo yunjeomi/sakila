@@ -3,12 +3,15 @@ package com.gd.sakila.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.sakila.mapper.CountryMapper;
 import com.gd.sakila.service.StaffService;
@@ -34,6 +37,16 @@ public class StaffController {
 		return "getStaffList";
 	}
 	
+	@GetMapping("/getStaffOne")
+	public String getStaffOne(Model model, HttpSession session, @RequestParam(value = "staffId") int staffId) {
+		log.debug("●●●●▶staffId-> "+staffId);
+		Staff loginStaff = (Staff)session.getAttribute("loginStaff");
+		Map<String, Object> staffOne = staffService.getStaffOne(staffId);
+		model.addAttribute("staffOne", staffOne);
+		model.addAttribute("loginStaff", loginStaff);
+		return "getStaffOne";
+	}
+	
 	@GetMapping("/addStaff")
 	public String addStaff(Model model) {
 		List<Country> countryList = countryMapper.selectCountryList();
@@ -52,4 +65,15 @@ public class StaffController {
 		
 		return "redirect:/admin/getStaffList";
 	}
+	
+	@GetMapping("/modifyStaff")
+	public String modifyStaff() {
+		return "modifyStaff";
+	}
+	
+	@PostMapping("/modifyStaff")
+	public String modifyStaff(Staff staff) {
+		return "modifyStaff";
+	}
+	
 }

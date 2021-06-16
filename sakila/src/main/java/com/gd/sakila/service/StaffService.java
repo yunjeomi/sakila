@@ -50,6 +50,11 @@ public class StaffService {
 		return staffMapper.selectStaffByLogin(staff);
 	}
 	
+	//staff 상세보기
+	public Map<String, Object> getStaffOne(int staffId) {
+		return staffMapper.selectStaffOne(staffId);
+	}
+	
 	//staff 추가
 	public int addStaff(City city, Address address, Staff staff) {
 		log.debug("●●●●▶city-> "+city);

@@ -26,8 +26,7 @@
 	<select id="selectStaffOne" parameterType="int" resultType="java.util.Map">
 		SELECT
 			s.staff_id staffId,
-			s.first_name firstName,
-			s.last_name lastName,
+			sl.name name,
 			s.picture picture,
 			sl.phone phone,
 			sl.country country,
