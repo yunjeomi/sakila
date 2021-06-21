@@ -20,7 +20,7 @@ $(document).ready(function(){
 	$('#btn').click(function(){
 		console.log('btn click');
 		$('#loginForm').submit();
-	});
+	}
 });
 
 </script>
@@ -36,13 +36,13 @@ $(document).ready(function(){
 				<tr>
 					<td>email</td>
 					<td>
-						<input id="email" class="form-control" name="email" type="text">
+						<input id="email" class="form-control" name="email" type="text" value="Mike.Hillyer@sakilastaff.com">
 					</td>
 				</tr>
 				<tr>
 					<td>password</td>
 					<td>
-						<input id="password" class="form-control" name="password" type="password">
+						<input id="password" class="form-control" name="password" type="password" value="1234">
 					</td>
 				</tr>
 			</table>

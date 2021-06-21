@@ -169,6 +169,7 @@ $(document).ready(function(){
 			alert('대여리스트 추가 후 대여 가능합니다.');
 		} else{
 			$('#addForm').submit();
+			alert('대여 완료.');
 		}
 	})
 });

@@ -113,7 +113,7 @@ $(document).ready(function(){
 <div class="container">
 	<h1>addStaff</h1>
 	
-	<form id="addStaffForm" action="${pageContext.request.contextPath}/admin/addStaff" method="post">
+	<form id="addStaffForm" action="${pageContext.request.contextPath}/admin/addStaff" method="post" enctype="multipart/form-data">
 		<table class="table table-hover">
 			<tr>
 				<td>storeId</td>
@@ -169,7 +169,8 @@ $(document).ready(function(){
 			<tr>
 				<td>picture</td>
 				<td>
-					<input id="picture" class="form-control" name="picture" type="file">
+					<input id="picture" class="form-control" name="multipartFile" type="file">
+					<div>최대 100MB까지 가능합니다.</div>
 				</td>
 			</tr>
 			

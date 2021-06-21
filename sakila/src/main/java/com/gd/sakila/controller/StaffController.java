@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gd.sakila.mapper.CountryMapper;
 import com.gd.sakila.service.StaffService;
@@ -55,12 +56,13 @@ public class StaffController {
 	}
 	
 	@PostMapping("/addStaff")
-	public String addStaff(City city, Address address, Staff staff) {
+	public String addStaff(City city, Address address, Staff staff, MultipartFile multipartFile) {
 		log.debug("●●●●▶city-> "+city.toString());
 		log.debug("●●●●▶address-> "+address.toString());
 		log.debug("●●●●▶staff-> "+staff.toString());
+		log.debug("●●●●▶multipartfile-> "+multipartFile);
 		
-		int cnt = staffService.addStaff(city, address, staff);
+		int cnt = staffService.addStaff(city, address, staff, multipartFile);
 		log.debug("●●●●▶staff 추가 완료1. 실패0-> "+cnt);
 		
 		return "redirect:/admin/getStaffList";

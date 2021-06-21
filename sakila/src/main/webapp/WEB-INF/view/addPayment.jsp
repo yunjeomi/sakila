@@ -207,6 +207,7 @@ $(document).ready(function(){
 			alert('결제리스트 추가 후 결제&반납 가능합니다.');
 		} else{
 			$('#paymentForm').submit();
+			alert('결제/반납 완료.');
 		}
 	});
 })

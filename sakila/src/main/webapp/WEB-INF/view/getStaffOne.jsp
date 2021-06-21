@@ -42,7 +42,7 @@ $(document).ready(function(){
 		<tr>
 			<td>picture</td>
 			<td>
-				${staffOne.picture}
+				<img src="${pageContext.request.contextPath}/resource/staff/${staffOne.picture}">
 			</td>
 		</tr>
 		<tr>

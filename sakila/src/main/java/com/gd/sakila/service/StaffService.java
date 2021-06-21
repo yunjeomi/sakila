@@ -1,12 +1,15 @@
 package com.gd.sakila.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gd.sakila.mapper.AddressMapper;
 import com.gd.sakila.mapper.CityMapper;
@@ -56,10 +59,11 @@ public class StaffService {
 	}
 	
 	//staff 추가
-	public int addStaff(City city, Address address, Staff staff) {
+	public int addStaff(City city, Address address, Staff staff, MultipartFile multipartFile) {
 		log.debug("●●●●▶city-> "+city);
 		log.debug("●●●●▶address-> "+address);
 		log.debug("●●●●▶staff-> "+staff);
+		log.debug("●●●●▶multipartfile-> "+multipartFile);
 		
 		int cityId = 0;
 		
@@ -112,16 +116,43 @@ public class StaffService {
 		setStaff.setFirstName(firstName);
 		setStaff.setLastName(lastName);
 		setStaff.setEmail(email);
-		setStaff.setPicture(staff.getPicture());
 		setStaff.setAddressId(addressId);
 		setStaff.setPassword(staff.getPassword());
 		setStaff.setStoreId(staff.getStoreId());
 		
 		//picture설정
+		//원래이름 구하기, UUID이름 구하기
+		String originName = multipartFile.getOriginalFilename();
+		String preName = UUID.randomUUID().toString().replace("-", "");
+		
+		//확장자 구하기
+		int lastDot = originName.lastIndexOf(".");
+		String ext = originName.substring(lastDot);
+		
+		//picture에 UUID+ext
+		setStaff.setPicture(preName+ext);
 		
 		//staff 추가 메소드 실행
 		int staffCnt = staffMapper.insertStaff(setStaff);
 		log.debug("●●●●▶staff추가 성공1, 실패0-> "+staffCnt);
+		
+		//staff 추가 메소드 실행 완료 하면, 기존 파일 & uuid 파일을 나눠서 저장한다. 
+		if(staffCnt == 1) {
+			//파일 설정
+			File temp = new File("");
+			String path = temp.getAbsolutePath();
+			File UUIDFile = new File(path+"\\src\\main\\webapp\\resource\\staff\\"+preName+ext);
+			File originFile = new File(path+"\\src\\main\\webapp\\resource\\staff\\"+originName+ext);
+			log.debug("●●●●▶UUIDFile 위치 정보 -> "+UUIDFile);
+			log.debug("●●●●▶originFile 위치 정보 -> "+originFile);
+			try {
+				multipartFile.transferTo(UUIDFile);
+				multipartFile.transferTo(originFile);
+			} catch (Exception e) {
+				throw new RuntimeException();	//try절에 문제 생기면 RuntimeException 발생시켜줘
+			}
+		}
+				
 		
 		return staffCnt;
 	}
