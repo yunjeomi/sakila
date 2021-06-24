@@ -104,8 +104,10 @@ public class FilmController {
 	
 	@GetMapping("/modifyActorInFilmOne")
 	public String modifyActorInFilmOne(Model model, 
-									@RequestParam(value = "filmId", required = true) int filmId) {
+									@RequestParam(value = "filmId", required = true) int filmId,
+									@RequestParam(value = "title", required = true) String title) {
 		log.debug("●●●●▶filmId-> "+filmId);
+		log.debug("●●●●▶title-> "+title);
 		
 		Map<String, Object> actorList = filmService.addActorInFilmOne(filmId);
 		log.debug("●●●●▶actorList-> "+actorList);
@@ -113,6 +115,7 @@ public class FilmController {
 		model.addAttribute("actorListInFilm", actorList.get("actorListInFilm"));
 		model.addAttribute("actorListNotInFilm", actorList.get("actorListNotInFilm"));
 		model.addAttribute("filmId", filmId);
+		model.addAttribute("title", title);
 		return "modifyActorInFilmOne";
 	}
 	

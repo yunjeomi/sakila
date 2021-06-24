@@ -5,18 +5,18 @@
 <head>
 <meta charset="UTF-8">
 <title>removeBoard</title>
-
-<!-- bootstrap을 사용하기 위한 CDN주소 -->
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<!-- jquery를 사용하기위한 CDN주소 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- bootstrap javascript소스를 사용하기 위한 CDN주소 -->
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
+<!-- VENDOR CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/linearicons/style.css">
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css">
+<!-- GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 <script>
 $(document).ready(function(){
 	$('#btn').click(function(){
@@ -36,20 +36,68 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<div class="container">
-	<h1>removeBoard</h1>
+<div id="wrapper">
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="brand">
+			<a href="${pageContext.request.contextPath}/index"><img src="${pageContext.request.contextPath}/assets/img/sakila.png" class="img-responsive logo"></a>
+		</div>
+		<div class="container-fluid">
+			<div class="navbar-btn">
+				<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+			</div>
+			
+			<div class="navbar-btn navbar-btn-right">
+				<i class="fa fa-rocket"></i> <span>${loginStaff.email}</span>
+			</div>
+		</div>
+	</nav>
 	
-	<form id="removeForm" action="${pageContext.request.contextPath}/admin/removeBoard" method="post" >
-		<input type="hidden" name="boardId" value="${boardId}">
-		<table class="table">
-			<tr>
-				<td><label>boardPw</label></td> 
-				<td><input type="password" id="boardPw" name="boardPw"></td>
-			</tr>
-		</table>
-		<button type="button" id="btn" class="btn btn-default">삭제</button>
-		<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getBoardOne?boardId=${boardId}">이전</a>
-	</form>
+	<!-- LEFT SIDEBAR -->
+	<div id="sidebar-nav" class="sidebar">
+		<div class="sidebar-scroll">
+			<nav>
+				<ul class="nav">
+					<li><jsp:include page="/WEB-INF/view/inc/mainMenu.jsp"></jsp:include></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+	
+	<!-- MAIN -->
+	<div class="main">
+		<!-- MAIN CONTENT -->
+		<div class="main-content">
+			<div class="container-fluid">
+				<!-- OVERVIEW -->
+				<div class="panel panel-headline">
+					<div class="panel-heading">
+						<h3 class="panel-title">게시글 삭제</h3>
+					</div>
+					<div class="panel-body">
+						<div class="container">
+							<form id="removeForm" action="${pageContext.request.contextPath}/admin/removeBoard" method="post" >
+								<input type="hidden" name="boardId" value="${boardId}">
+								<table class="table">
+									<tr>
+										<td><label>boardPw</label></td> 
+										<td><input type="password" id="boardPw" name="boardPw"></td>
+									</tr>
+								</table>
+								<button type="button" id="btn" class="btn btn-default">삭제</button>
+								<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getBoardOne?boardId=${boardId}">이전</a>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+<!-- Javascript -->
+<script src="${pageContext.request.contextPath}/assets/vendor/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/klorofil-common.js"></script>
 </body>
 </html>

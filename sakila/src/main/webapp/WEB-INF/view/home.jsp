@@ -1,20 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>home</title>
-<!-- jquery를 사용하기위한 CDN주소 -->
+<title>Home</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- bootstrap javascript소스를 사용하기 위한 CDN주소 -->
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- VENDOR CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/linearicons/style.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/chartist/css/chartist-custom.css">
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css">
 <!-- GOOGLE FONTS -->
@@ -26,14 +24,11 @@ $(document).ready(function(){
 		$('#loginForm').submit();
 	});
 });
-
 </script>
 </head>
 <body>
-<div>
-<!-- 로그인 전; session 사용 시 == null, != null 로 반드시 바꿀 것 -->
+<!-- 로그인 전 -->
 <c:if test="${loginStaff == null}">
-	
 	<div id="wrapper">
 		<div class="vertical-align-wrap">
 			<div class="vertical-align-middle">
@@ -69,11 +64,126 @@ $(document).ready(function(){
 		</div>
 	</div>
 </c:if>
-	
+
+<!-- 로그인 후 -->
 <c:if test="${loginStaff != null}"> 
-	<jsp:include page="/WEB-INF/view/inc/mainMenu.jsp"></jsp:include>
-</c:if> 
-	
-</div>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="brand">
+				<a href="${pageContext.request.contextPath}/index"><img src="${pageContext.request.contextPath}/assets/img/sakila.png" class="img-responsive logo"></a>
+			</div>
+			<div class="container-fluid">
+				<div class="navbar-btn">
+					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+				</div>
+				
+				<div class="navbar-btn navbar-btn-right">
+					<i class="fa fa-rocket"></i> <span>${loginStaff.email}</span>
+				</div>
+			</div>
+		</nav>
+		
+		<!-- LEFT SIDEBAR -->
+		<div id="sidebar-nav" class="sidebar">
+			<div class="sidebar-scroll">
+				<nav>
+					<ul class="nav">
+						<li><jsp:include page="/WEB-INF/view/inc/mainMenu.jsp"></jsp:include></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<!-- 1행 -->
+					<div class="row">
+						<!-- 1-1 -->
+						<div class="col-md-6">
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">1-1</h3>
+									<div class="right">
+										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
+									</div>
+								</div>
+								<div class="panel-body">
+									<div>padding check@</div>
+								</div>
+							</div>
+						</div>
+						
+						<!-- 1-2 -->
+						<div class="col-md-6">
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">1-2</h3>
+									<div class="right">
+										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
+									</div>
+								</div>
+								<div class="panel-body">
+									<div>padding check@</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- 2행 -->
+					<div class="row">
+						<!-- 2-1 -->
+						<div class="col-md-6">
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">2-1</h3>
+									<div class="right">
+										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
+									</div>
+								</div>
+								<div class="panel-body">
+									<div>padding check@</div>
+								</div>
+							</div>
+						</div>
+						
+						<!-- 2-2 -->
+						<div class="col-md-6">
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">2-2</h3>
+									<div class="right">
+										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
+									</div>
+								</div>
+								<div class="panel-body">
+									<div>padding check@</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">Copyright © yunjeong All Rights Reserved. Shared by <i class="fa fa-love"></i><a href="https://bootstrapthemes.co">BootstrapThemes</a></p>
+			</div>
+		</footer>
+	</div>
+</c:if>
+
+<!-- Javascript -->
+<script src="${pageContext.request.contextPath}/assets/vendor/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/klorofil-common.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

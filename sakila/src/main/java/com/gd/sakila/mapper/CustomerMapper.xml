@@ -21,14 +21,14 @@
                            GROUP BY c.Id, overdue 
                            HAVING overdue 
                            IS NOT NULL AND COUNT(*) > 15) 
-                             then 'black'
+                             then 'BLACK'
                 when ID IN (SELECT
                               customer_id
                               FROM payment
                               GROUP BY customer_id
                             HAVING COUNT(customer_id) > 30 
                             AND SUM(amount) > 150)
-                           then 'vip'
+                           then 'VIP'
          	 END 'blackAndVip'
 		FROM customer_list
 		<where>

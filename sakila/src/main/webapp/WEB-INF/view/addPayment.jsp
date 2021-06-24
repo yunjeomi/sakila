@@ -5,16 +5,19 @@
 <head>
 <meta charset="UTF-8">
 <title>addPayment</title>
-<!-- bootstrap을 사용하기 위한 CDN주소 -->
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<!-- jquery를 사용하기위한 CDN주소 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- bootstrap javascript소스를 사용하기 위한 CDN주소 -->
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- VENDOR CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/linearicons/style.css">
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css">
+<!-- GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+<!-- java script 날짜변환 -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script>
 $(document).ready(function(){
@@ -214,87 +217,136 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<div class="container">
-	<h1>addPayment</h1>
-	<table class="table table-hover">
-		<tr>
-			<td>customerPhone</td>
-			<td>
-				<div>
-					<input id="phone" class="form-control" type="text" name="customerId" placeholder="phoneNumber 입력">
-				</div>
-				<div>
-					<button id="ckBtn" class="btn btn-default" type="button">확인</button>
-					<span id="phoneCk"></span>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>storeId</td>
-			<td>
-				<select id="storeId" class="form-control" name="storeId">
-					<option value="0">==store==</option>
-					<option value="1">1</option>
-					<option value="2">2</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>title</td>
-			<td>
-				<div>
-					<select id="title" class="form-control" name="title">
-						<option value="0">==선택==</option>
-					</select>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>대여일</td>
-			<td>
-				<input id="rentalDate" class="form-control" type="text" name="rentalDate" readonly>
-			</td>
-		</tr>
-		<tr>
-			<td>대여기간</td>
-			<td>
-				<input id="rentalDuration" class="form-control" type="text" name="rentalDuration" readonly>
-			</td>
-		</tr>
-		<tr>
-			<td>결제금액</td>
-			<td>
-				<input id="paymentFee" class="form-control" type="text" name="paymentFee" readonly>
-			</td>
-		</tr>
-	</table>
-	<div>
-		<button id="plusBtn" class="btn btn-default" type="button">+</button>
+<div id="wrapper">
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="brand">
+			<a href="${pageContext.request.contextPath}/index"><img src="${pageContext.request.contextPath}/assets/img/sakila.png" class="img-responsive logo"></a>
+		</div>
+		<div class="container-fluid">
+			<div class="navbar-btn">
+				<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+			</div>
+			
+			<div class="navbar-btn navbar-btn-right">
+				<i class="fa fa-rocket"></i> <span>${loginStaff.email}</span>
+			</div>
+		</div>
+	</nav>
+	
+	<!-- LEFT SIDEBAR -->
+	<div id="sidebar-nav" class="sidebar">
+		<div class="sidebar-scroll">
+			<nav>
+				<ul class="nav">
+					<li><jsp:include page="/WEB-INF/view/inc/mainMenu.jsp"></jsp:include></li>
+				</ul>
+			</nav>
+		</div>
 	</div>
 	
-	<hr>
-	<h3>결제리스트</h3>
-	<form id="paymentForm" action="${pageContext.request.contextPath}/admin/addPayment" method="post">
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>customerId</th>
-					<th>title</th>
-					<th>rentalDate</th>	<!-- realRentalDuration -->
-					<th>realRentalDuration</th>
-					<th>paymentFee</th>
-				</tr>
-			</thead>
-			<tbody id="addTr">
-			</tbody>
-		</table>
-		<div><span id="paymentTotal"></span></div>
-		<br>
-		<div>
-			<button id="paymentBtn" class="btn btn-default" type="button">결제&반납</button>
-			<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getRentalList">취소</a>
+	<!-- MAIN -->
+	<div class="main">
+		<!-- MAIN CONTENT -->
+		<div class="main-content">
+			<div class="container-fluid">
+				<!-- OVERVIEW -->
+				<h3 class="page-title">반납</h3>
+				<div class="panel panel-headline">
+					<div class="panel-body">
+						<table class="table">
+							<tr>
+								<td width="20%">customerPhone</td>
+								<td>
+									<div>
+										<input id="phone" class="form-control" type="text" name="customerId" placeholder="phoneNumber 입력">
+									</div>
+									<div>
+										<button id="ckBtn" class="btn btn-default" type="button">확인</button>
+										<span id="phoneCk"></span>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>storeId</td>
+								<td>
+									<select id="storeId" class="form-control" name="storeId">
+										<option value="0">==store==</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>title</td>
+								<td>
+									<div>
+										<select id="title" class="form-control" name="title">
+											<option value="0">==선택==</option>
+										</select>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>대여일</td>
+								<td>
+									<input id="rentalDate" class="form-control" type="text" name="rentalDate" readonly>
+								</td>
+							</tr>
+							<tr>
+								<td>대여기간</td>
+								<td>
+									<input id="rentalDuration" class="form-control" type="text" name="rentalDuration" readonly>
+								</td>
+							</tr>
+							<tr>
+								<td>결제금액</td>
+								<td>
+									<input id="paymentFee" class="form-control" type="text" name="paymentFee" readonly>
+								</td>
+							</tr>
+						</table>
+						<div>
+							<button id="plusBtn" class="btn btn-default" type="button">+</button>
+						</div>
+					</div>
+				</div>
+				<hr>
+				
+				<h3 class="page-title">결제리스트</h3>
+				<div class="panel panel-headline">
+					<div class="panel-body">
+						<form id="paymentForm" action="${pageContext.request.contextPath}/admin/addPayment" method="post">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th width="10%">customerId</th>
+										<th width="25%">title</th>
+										<th width="%">rentalDate</th>	<!-- realRentalDuration -->
+										<th width="%">realRentalDuration</th>
+										<th width="%">paymentFee</th>
+									</tr>
+								</thead>
+								<tbody id="addTr">
+								</tbody>
+							</table>
+							<div><span id="paymentTotal"></span></div>
+							<br>
+							<div>
+								<button id="paymentBtn" class="btn btn-default" type="button">결제&반납</button>
+								<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getRentalList">취소</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
-	</form>
+	</div>
 </div>
+<!-- Javascript -->
+<script src="${pageContext.request.contextPath}/assets/vendor/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/klorofil-common.js"></script>
 </body>
 </html>

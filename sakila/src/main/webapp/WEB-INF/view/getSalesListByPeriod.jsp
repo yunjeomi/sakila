@@ -5,17 +5,18 @@
 <head>
 <meta charset="UTF-8">
 <title>getSalesListByPeriod</title>
-<!-- bootstrap을 사용하기 위한 CDN주소 -->
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<!-- jquery를 사용하기위한 CDN주소 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- bootstrap javascript소스를 사용하기 위한 CDN주소 -->
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
+<!-- VENDOR CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/linearicons/style.css">
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css">
+<!-- GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 $(document).ready(function(){
@@ -133,31 +134,71 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<div class="container">
-	<h1>getSalesListByPeriod</h1>
+<div id="wrapper">
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="brand">
+			<a href="${pageContext.request.contextPath}/index"><img src="${pageContext.request.contextPath}/assets/img/sakila.png" class="img-responsive logo"></a>
+		</div>
+		<div class="container-fluid">
+			<div class="navbar-btn">
+				<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+			</div>
+			
+			<div class="navbar-btn navbar-btn-right">
+				<i class="fa fa-rocket"></i> <span>${loginStaff.email}</span>
+			</div>
+		</div>
+	</nav>
 	
-	<a href="${pageContext.request.contextPath}/admin/getSalesListByStore">매장별</a>&nbsp;
-	<a href="${pageContext.request.contextPath}/admin/getSalesListByPeriod">기간별</a>&nbsp;
-	<a href="${pageContext.request.contextPath}/admin/getSalesListByCategory">카테고리별</a>&nbsp;
-	<a href="${pageContext.request.contextPath}/admin/getBestSellerList">베스트셀러</a>&nbsp;
-
-	<form id="searchBtn" action="${pageContext.request.contextPath}/admin/getSalesListByPeriod" method="get">
-		<select id="storeId">
-			<option value="">==매장선택==</option>
-			<option value="0">전체</option>
-			<option value="1">store1</option>
-			<option value="2">store2</option>
-		</select>
-		
-		<select id="year">
-		</select>
-		
-		<button id="salesBtn" class="btn btn-default" type="button">조회</button>
-	</form>
-
-	<div>
-		<canvas id="myChart"></canvas>
+	<!-- LEFT SIDEBAR -->
+	<div id="sidebar-nav" class="sidebar">
+		<div class="sidebar-scroll">
+			<nav>
+				<ul class="nav">
+					<li><jsp:include page="/WEB-INF/view/inc/mainMenu.jsp"></jsp:include></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+	
+	<!-- MAIN -->
+	<div class="main">
+		<!-- MAIN CONTENT -->
+		<div class="main-content">
+			<div class="container-fluid">
+				<!-- OVERVIEW -->
+				<h3 class="page-title">기간별 판매량</h3>
+				<div class="panel panel-headline">
+					<div class="panel-body">
+						<form id="searchBtn" action="${pageContext.request.contextPath}/admin/getSalesListByPeriod" method="get">
+							<select id="storeId" class="form-control" style="width:150px;">
+								<option value="">==매장선택==</option>
+								<option value="0">전체</option>
+								<option value="1">store1</option>
+								<option value="2">store2</option>
+							</select>
+							
+							<select id="year" class="form-control" style="width:150px;">
+							</select>
+							
+							<button id="salesBtn" class="btn btn-default" type="button">조회</button>
+							<a class="btn btn-default" href="${pageContext.request.contextPath}/admin/getSalesListByPeriod"><i class="fa fa-refresh"></i></a>
+						</form>
+						
+						<div>
+							<canvas id="myChart"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
+<!-- Javascript -->
+<script src="${pageContext.request.contextPath}/assets/vendor/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/klorofil-common.js"></script>
 </body>
 </html>
