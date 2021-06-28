@@ -52,13 +52,6 @@ $(document).ready(function(){
 							</form>
 						</div>
 					</div>
-					<div class="right">
-						<div class="overlay"></div>
-						<div class="content text">
-							<h1 class="heading">Free Bootstrap dashboard template</h1>
-							<p>by The Develovers</p>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -107,7 +100,7 @@ $(document).ready(function(){
 						<div class="col-md-6">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">1-1</h3>
+									<h3 class="panel-title">최근 대여 정보</h3>
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
 									</div>
