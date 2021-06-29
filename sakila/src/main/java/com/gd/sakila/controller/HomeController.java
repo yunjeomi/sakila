@@ -1,5 +1,8 @@
 package com.gd.sakila.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.gd.sakila.service.FilmService;
+import com.gd.sakila.service.RentalService;
 import com.gd.sakila.service.StaffService;
 import com.gd.sakila.vo.Staff;
 
@@ -17,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller	//서블릿을 사용하기 위해
 public class HomeController {
 	@Autowired StaffService staffService;	//의존객체 주입
+	@Autowired RentalService rentalService;
+	@Autowired FilmService filmService;
 	
 	//Logger log = LoggerFactory.getLogger(this.getClass());	//(Homecontroller.class);
 	
@@ -25,9 +32,18 @@ public class HomeController {
 	public String home(HttpSession session, Model model) {
 		//System.out.println("home...; 이 출력되고 404에러가 떴다? -> 컨트롤러까지 들어왔지만 view를 찾지 못했다.");	//최소한의 디버깅 코드는 2개를 출력하자.
 		log.debug("●●●●▶home...");
+		
 		Staff loginStaff = (Staff)session.getAttribute("loginStaff");
 		log.debug("●●●●▶loginStaff->"+loginStaff);
+		
+		//대여리스트 출력
+		List<Map<String, Object>> rentalList = rentalService.getRentalListLast();
+		log.debug("●●●●▶rentalList->"+rentalList);
+		
+		
 		model.addAttribute("loginStaff", loginStaff);
+		model.addAttribute("rentalList", rentalList);
+		
 		return "home";
 	}
 	

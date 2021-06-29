@@ -62,6 +62,10 @@ public class RentalService {
 		return map;
 	}
 	
+	public List<Map<String, Object>> getRentalListLast(){
+		return rentalMapper.selectRentalListLast();
+	}
+	
 	public List<Map<String, Object>> addRentalByFilmTitleList(int storeId, String keyWord){
 		log.debug("▶@▶@▶@▶storeId-> "+storeId);
 		log.debug("▶@▶@▶@▶keyWord-> "+keyWord);

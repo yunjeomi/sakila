@@ -23,7 +23,7 @@
 		WHERE r.rental_id = p.rental_id AND i.film_id = f.film_id AND r.inventory_id = i.inventory_id
 		GROUP BY i.film_id
 		HAVING COUNT(i.film_id) > 30
-		ORDER BY COUNT(i.film_id) DESC, r.rental_id DESC
+		ORDER BY COUNT(i.film_id) DESC, f.rental_rate DESC
 	</select>
 	
 	<select id="selectSalesListByStore" resultType="java.util.Map">

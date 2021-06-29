@@ -23,6 +23,220 @@ $(document).ready(function(){
 		console.log('btn click');
 		$('#loginForm').submit();
 	});
+	
+	//매장별 판매현황
+	let storeId = [];
+	let payment = [];
+	$.ajax({
+		url: '/getSalesListByStore',
+		type: 'get',
+		success: function(jsonData){
+			console.log('jsonData 얻어오기');
+			$(jsonData).each(function(index, item){
+				storeId.push(item.storeId);
+				payment.push(item.totalSales);
+			});
+			console.log('storeId-> '+storeId);
+			console.log('payment-> '+payment);
+			
+			let data = {
+			  labels: storeId,
+			  datasets: [{
+			    label: 'Sales by store',
+			    data: payment,
+			    backgroundColor: [
+			      'rgba(255, 99, 132, 0.2)',
+			      'rgba(255, 159, 64, 0.2)',
+			      'rgba(255, 205, 86, 0.2)',
+			      'rgba(75, 192, 192, 0.2)',
+			      'rgba(54, 162, 235, 0.2)',
+			      'rgba(153, 102, 255, 0.2)',
+			      'rgba(201, 203, 207, 0.2)'
+			    ],
+			    borderColor: [
+			      'rgb(255, 99, 132)',
+			      'rgb(255, 159, 64)',
+			      'rgb(255, 205, 86)',
+			      'rgb(75, 192, 192)',
+			      'rgb(54, 162, 235)',
+			      'rgb(153, 102, 255)',
+			      'rgb(201, 203, 207)'
+			    ],
+			    borderWidth: 1
+			  }]
+			};
+			
+			let config = {
+					  type: 'bar',
+					  data: data,
+					  options: {
+					    scales: {
+					      y: {
+					        beginAtZero: true
+					      }
+					    }
+					  },
+			};
+			
+			var myChart = new Chart(document.getElementById('myChart'), config);
+		}
+	});
+	
+	//카테고리별 판매현황
+	let labels = [];
+	let datas = [];
+	$.ajax({
+		url: '/getSalesListByCategory',
+		type: 'get',
+		success: function(jsonData){
+			console.log('json가져오기 성공');
+			$(jsonData).each(function(index, item){
+				labels.push(item.category);
+				datas.push(item.totalSales);
+			});
+			//잘 담겼나 확인
+			console.log('labels-> '+labels);
+			console.log('datas-> '+datas);
+			
+			//const labels = Utils.months({count: 7});
+			let data = {
+						  labels: labels,
+						  datasets: [{
+								    axis: 'y',
+								    //label: 'sales by category',
+								    data: datas,
+								    fill: false,
+								    backgroundColor: [
+								      'rgba(255, 99, 132, 0.2)',
+								      'rgba(255, 159, 64, 0.2)',
+								      'rgba(255, 205, 86, 0.2)',
+								      'rgba(75, 192, 192, 0.2)',
+								      'rgba(54, 162, 235, 0.2)',
+								      'rgba(153, 102, 255, 0.2)',
+								      'rgba(201, 203, 207, 0.2)',
+								      'rgba(255, 99, 132, 0.2)',
+								      'rgba(255, 159, 64, 0.2)',
+								      'rgba(255, 205, 86, 0.2)',
+								      'rgba(75, 192, 192, 0.2)',
+								      'rgba(54, 162, 235, 0.2)',
+								      'rgba(153, 102, 255, 0.2)',
+								      'rgba(201, 203, 207, 0.2)',
+								      'rgba(255, 159, 64, 0.2)'
+								    ],
+								    borderColor: [
+								      'rgb(255, 99, 132)',
+								      'rgb(255, 159, 64)',
+								      'rgb(255, 205, 86)',
+								      'rgb(75, 192, 192)',
+								      'rgb(54, 162, 235)',
+								      'rgb(153, 102, 255)',
+								      'rgb(201, 203, 207)',
+								      'rgb(255, 99, 132)',
+								      'rgb(255, 159, 64)',
+								      'rgb(255, 205, 86)',
+								      'rgb(75, 192, 192)',
+								      'rgb(54, 162, 235)',
+								      'rgb(153, 102, 255)',
+								      'rgb(201, 203, 207)',
+								      'rgb(255, 159, 64)'
+								    ],
+								    borderWidth: 1
+						  }]
+			};
+			
+			const config = {
+						  type: 'bar',
+						  data: data,
+						  options: {
+								    indexAxis: 'y',
+								    // Elements options apply to all of the options unless overridden in a dataset
+								    // In this case, we are setting the border of each horizontal bar to be 2px wide
+								    elements: {
+										      bar: {
+										        	borderWidth: 2,
+										      }
+								    },
+								    responsive: true,
+								    plugins: {
+										      legend: {
+										        position: 'right',
+										      },
+										      title: {
+										        display: true,
+										        text: 'sales by category'
+										      }
+								    }
+						  },
+			};
+			
+			var myChart1 = new Chart(document.getElementById('myChart1'), config);
+		}
+	});
+	
+	//베스트셀러 판매현황	
+	let title = [];	//책이름
+	let data1 = [];		//대여횟수
+	let data2 = [];		//판매 금액
+	$.ajax({
+		url: '/getBestSellerList',
+		type: 'get',
+		success: function(jsonData){
+			console.log('jsonData 얻어오기 성공');
+			$(jsonData).each(function(index, item){
+				title.push(item.title);
+				data1.push(item.rentalTotal);
+				data2.push(item.paymentTotal);
+			});
+			console.log('title-> '+title);
+			console.log('data1-> '+data1);
+			console.log('data2-> '+data2);
+			
+			//const DATA_COUNT = 7;
+			//const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
+		
+			let data = {
+			  labels: title,
+			  datasets: [
+			    {
+			      label: 'paymentTotal',
+			      data: data2,
+			      borderColor: 'rgb(255, 99, 132)',
+			      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+			      order: 1
+			    },
+			    {
+			      label: 'rentalTotal',
+			      data: data1,
+			      borderColor: 'rgb(54, 162, 235)',
+			      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+			      type: 'line',
+			      order: 0
+			    }
+			  ]
+			};
+			
+			let config = {
+			  type: 'bar',
+			  data: data,
+			  options: {
+			    responsive: true,
+			    plugins: {
+			      legend: {
+			        position: 'top',
+			      },
+			      title: {
+			        display: true,
+			        text: 'Best Seller Chart'
+			      }
+			    }
+			  },
+			};
+			
+			var myChart2 = new Chart(document.getElementById('myChart2'), config);
+		}
+	});
+	
+	
 });
 </script>
 </head>
@@ -106,7 +320,22 @@ $(document).ready(function(){
 									</div>
 								</div>
 								<div class="panel-body">
-									<div>padding check@</div>
+									<div>
+										<table class="table table-striped">
+											<tr>
+												<th>name</th>
+												<th>title</th>
+												<th>rental_date</th>
+											</tr>
+											<c:forEach var="r" items="${rentalList}">
+												<tr>
+													<td>${r.name}</td>
+													<td>${r.title}</td>
+													<td>${r.rentalDate}</td>
+												</tr>
+											</c:forEach>
+										</table>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -115,13 +344,15 @@ $(document).ready(function(){
 						<div class="col-md-6">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">1-2</h3>
+									<h3 class="panel-title">매장별 판매현황</h3>
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
 									</div>
 								</div>
 								<div class="panel-body">
-									<div>padding check@</div>
+									<div>
+										<canvas id="myChart"></canvas>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -133,13 +364,15 @@ $(document).ready(function(){
 						<div class="col-md-6">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">2-1</h3>
+									<h3 class="panel-title">카테고리별 판매현황</h3>
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
 									</div>
 								</div>
 								<div class="panel-body">
-									<div>padding check@</div>
+									<div>
+										<canvas id="myChart1"></canvas>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -148,13 +381,15 @@ $(document).ready(function(){
 						<div class="col-md-6">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">2-2</h3>
+									<h3 class="panel-title">베스트셀러 판매현황</h3>
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
 									</div>
 								</div>
 								<div class="panel-body">
-									<div>padding check@</div>
+									<div>
+										<canvas id="myChart2"></canvas>
+									</div>
 								</div>
 							</div>
 						</div>
