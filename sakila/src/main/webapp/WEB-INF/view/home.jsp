@@ -28,10 +28,10 @@ $(document).ready(function(){
 	let storeId = [];
 	let payment = [];
 	$.ajax({
-		url: '/getSalesListByStore',
+		url: '${pageContext.request.contextPath}/getSalesListByStore',
 		type: 'get',
 		success: function(jsonData){
-			console.log('jsonData 얻어오기');
+			console.log('매장별 판매현황 jsonData 얻어오기');
 			$(jsonData).each(function(index, item){
 				storeId.push(item.storeId);
 				payment.push(item.totalSales);
@@ -86,10 +86,10 @@ $(document).ready(function(){
 	let labels = [];
 	let datas = [];
 	$.ajax({
-		url: '/getSalesListByCategory',
+		url: '${pageContext.request.contextPath}/getSalesListByCategory',
 		type: 'get',
 		success: function(jsonData){
-			console.log('json가져오기 성공');
+			console.log('카테고리 판매현황 json가져오기');
 			$(jsonData).each(function(index, item){
 				labels.push(item.category);
 				datas.push(item.totalSales);
@@ -178,10 +178,10 @@ $(document).ready(function(){
 	let data1 = [];		//대여횟수
 	let data2 = [];		//판매 금액
 	$.ajax({
-		url: '/getBestSellerList',
+		url: '${pageContext.request.contextPath}/getBestSellerList',
 		type: 'get',
 		success: function(jsonData){
-			console.log('jsonData 얻어오기 성공');
+			console.log('베스트셀러 jsonData 얻어오기');
 			$(jsonData).each(function(index, item){
 				title.push(item.title);
 				data1.push(item.rentalTotal);
@@ -312,7 +312,7 @@ $(document).ready(function(){
 					<div class="row">
 						<!-- 1-1 -->
 						<div class="col-md-6">
-							<div class="panel">
+							<div class="panel ch-option">
 								<div class="panel-heading">
 									<h3 class="panel-title">최근 대여 정보</h3>
 									<div class="right">
@@ -342,7 +342,7 @@ $(document).ready(function(){
 						
 						<!-- 1-2 -->
 						<div class="col-md-6">
-							<div class="panel">
+							<div class="panel ch-option">
 								<div class="panel-heading">
 									<h3 class="panel-title">매장별 판매현황</h3>
 									<div class="right">

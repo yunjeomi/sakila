@@ -26,7 +26,7 @@ $(document).ready(function(){
 	
 	//db상 모든 year를 가져온다.
 	$.ajax({
-		url:'/getYear',
+		url:'${pageContext.request.contextPath}/getYear',
 		type:'get',
 		success:function(jsonData){
 			//console.log('jsonData 가져오기 성공');
@@ -61,7 +61,7 @@ $(document).ready(function(){
 		}
 		
 		$.ajax({
-			url:'/getSalesListByPeriod',
+			url:'${pageContext.request.contextPath}/getSalesListByPeriod',
 			type:'get',
 			data:{ storeId : $('#storeId').val(),
 					year : $('#year').val()},

@@ -34,7 +34,7 @@ $(document).ready(function(){
 
 		$.ajax({
 			type:'get',
-			url:'/phoneNumList',
+			url:'${pageContext.request.contextPath}/phoneNumList',
 			data: {phone : $('#phone').val()},
 			success: function(JsonData) {
 				console.log('얻은data->'+JsonData);
@@ -54,7 +54,7 @@ $(document).ready(function(){
 	$('#country').change(function(){
 		$.ajax({
 			type: 'get',
-			url: '/cityList',
+			url: '${pageContext.request.contextPath}/cityList',
 			data: {countryId : $('#country').val()},
 			success: function(cityData){
 				$('#city').empty();

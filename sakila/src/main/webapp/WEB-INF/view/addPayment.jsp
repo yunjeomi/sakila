@@ -45,7 +45,7 @@ $(document).ready(function(){
 		console.log('ckBtn click!');
 		
 		$.ajax({
-			url: '/paymentListInPayment',
+			url: '${pageContext.request.contextPath}/paymentListInPayment',
 			type: 'get',
 			data: { phone : $('#phone').val()},
 			dataType: 'json',
@@ -73,9 +73,17 @@ $(document).ready(function(){
 	
 	$('#storeId').change(function(){
 		console.log('storeId change!');
+		
+		// storeID가 바뀔 경우 기존 등록했던 내역은 지우도록 한다.
+		$("#addTr").empty();
+		arr = [];
+		paymentTotal = 0;	//총 결제금액
+		console.log('총결제금액-> '+paymentTotal);
+		$('#paymentTotal').text('');
+		
 		$.ajax({
 			type: 'get',
-			url: '/paymentListByStoreIdInPayment',
+			url: '${pageContext.request.contextPath}/paymentListByStoreIdInPayment',
 			data: {phone : $('#phone').val(),
 				   storeId : $('#storeId').val()},
 			success: function(jsonData){
@@ -87,7 +95,7 @@ $(document).ready(function(){
 				//대여내역 없을 때
 				if(jsonData == ''){
 					$('#title').append(
-							'<option value="0">대여리스트가 없습니다.</option>'		
+							'<option value="">대여리스트가 없습니다.</option>'		
 					)
 					return;
 				}
@@ -133,7 +141,7 @@ $(document).ready(function(){
 	$('#title').change(function(){
 		console.log('title change!');
 		$.ajax({
-			url: '/paymentListByTitleInPayment',
+			url: '${pageContext.request.contextPath}/paymentListByTitleInPayment',
 			type: 'get',
 			data: {phone : $('#phone').val(),
 					storeId : $('#storeId').val(),
@@ -166,6 +174,7 @@ $(document).ready(function(){
 	//[+]버튼 클릭했을 때
 	$('#plusBtn').click(function(){
 		console.log('plusBtn click!');
+		console.log('arr->'+arr);
 		if(ckBtn == false){
 			alert('정보 입력 후 사용 가능합니다.');
 			return;
@@ -173,6 +182,16 @@ $(document).ready(function(){
 		
 		if(ckList == false){
 			alert('대여리스트가 없습니다.');
+			return;
+		}
+		
+		if($('#title').val() == 0){
+			alert('대여리스트 선택 후 추가해주세요.');
+			return;
+		}
+		
+		if($('#title').val() == ''){
+			alert('추가할 내역이 없습니다.');
 			return;
 		}
 		
@@ -259,7 +278,7 @@ $(document).ready(function(){
 								<td width="20%">customerPhone</td>
 								<td>
 									<div>
-										<input id="phone" class="form-control" type="text" name="customerId" placeholder="phoneNumber 입력">
+										<input id="phone" class="form-control" type="text" name="customerId" placeholder="phoneNumber 입력" value="886649065861">
 									</div>
 									<div>
 										<button id="ckBtn" class="btn btn-default" type="button">확인</button>

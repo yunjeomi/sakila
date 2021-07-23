@@ -29,7 +29,7 @@ $(document).ready(function(){
 		source : function(request, response) {
 			 $.ajax({
 				type: 'get',
-				url: '/filmTitleListByStoreId',
+				url: '${pageContext.request.contextPath}/filmTitleListByStoreId',
 				data: {keyWord : $('#textInput').val(), 	//검색 키워드
 						storeId : $('#storeId').val()},	//선택한 storeId
 				success: function(jsonData){

@@ -41,7 +41,7 @@ $(document).ready(function(){
 
 		$.ajax({
 			type:'get',
-			url:'/phoneNumListInRental',
+			url:'${pageContext.request.contextPath}/phoneNumListInRental',
 			data: {phone : $('#phone_').val()},
 			success: function(jsonData) {
 				//console.log('얻은data->'+jsonData);
@@ -65,7 +65,7 @@ $(document).ready(function(){
 		source : function(request, response) {
 			 $.ajax({
 				type: 'get',
-				url: '/filmTitleListByStoreIdInRental',
+				url: '${pageContext.request.contextPath}/filmTitleListByStoreIdInRental',
 				data: {keyWord : $('#textInput_').val(), 	//검색 키워드
 						storeId : $('#storeId_').val()},	//선택한 storeId
 				success: function(jsonData){
@@ -220,7 +220,7 @@ $(document).ready(function(){
 								<td width="20%">customerPhone</td>
 								<td>
 									<div>
-										<input id="phone_" class="form-control" type="text" name="customerId_" placeholder="phoneNumber 입력">
+										<input id="phone_" class="form-control" type="text" name="customerId_" placeholder="phoneNumber 입력" value="107137400143">
 									</div>
 									<div>
 										<button id="ckBtn" class="btn btn-default" type="button">확인</button>

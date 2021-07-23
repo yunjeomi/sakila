@@ -692,6 +692,11 @@ fieldset[disabled] .btn {
   .panel .table > tfoot > tr > th:last-child {
     padding-left: 25px; }
 
+/*추가*/
+.ch-option{
+	height: 520px;
+}
+
 .panel-footer {
   background-color: #fafafa; }
 

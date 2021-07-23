@@ -29,7 +29,7 @@ $(document).ready(function(){
 		source : function(request, response) {
 			 $.ajax({
 				type: 'get',
-				url: '/filmTitleList',
+				url: '${pageContext.request.contextPath}/filmTitleList',
 				data: {keyWord : $('#textInput').val()},	//검색 키워드
 				success: function(jsonData){
 					//console.log(jsonData)

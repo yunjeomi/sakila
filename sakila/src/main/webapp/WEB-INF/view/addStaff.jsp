@@ -37,7 +37,7 @@ $(document).ready(function(){
 	//도시list가져오기
 	$('#country').change(function(){
 		$.ajax({
-			url: '/cityListInStaff',
+			url: '${pageContext.request.contextPath}/cityListInStaff',
 			type: 'get',
 			data: {countryId : $('#country').val()},
 			success: function(cityData){
